@@ -229,8 +229,12 @@ abstract class InternalFactoryAbstract {
 		// Attempt to create a new instance of input class, via a ReflectionClass
 		$this->set($instance, call_user_func_array(array(new \ReflectionClass($class_name), $class_method), $parameters));
 		
-		// Log memory usage of initialized class
-		\Jarvis\Memory::log($this->get($instance), stripslashes(str_ireplace(__NAMESPACE__, '', __METHOD__)), get_class($this->get($instance)), __FILE__, __LINE__);
+		// Log memory usage of initialized class (except PDO)
+		if(is_a($this->get($instance), 'PDO') === false) {
+		
+			\Jarvis\Memory::log($this->get($instance), stripslashes(str_ireplace(__NAMESPACE__, '', __METHOD__)), get_class($this->get($instance)), __FILE__, __LINE__);
+		
+		}
 		
 		// Throw exception if function call_user_func_array failed
 		if($this->get($instance) === false) {

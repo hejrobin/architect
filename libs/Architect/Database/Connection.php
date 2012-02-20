@@ -11,8 +11,8 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace Exceptions */
-namespace Architect\Database\Exceptions;
+/* @namespace Database */
+namespace Architect\Database;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
@@ -44,7 +44,7 @@ class Connection extends \PDO {
 
 		'mysql' => 'host=%s;port=%d;dbname=%s;',
 		
-		'firebird' => 'DataSource=%s;Port=%d;Database=%s;'
+		'firebird' => 'DataSource=%s;Port=%d;Database=%s;',
 		
 		'dblib' => 'host=%s:%d;dbname=%s;'
 	
@@ -113,7 +113,7 @@ class Connection extends \PDO {
 		// Create DSN without port
 		if($port === false) {
 		
-			$dsn = preg_replace('/(port)\=\%\d([;| ])/i', '', $dsn);
+			$dsn = preg_replace('/(port=%d[;| ])/i', '', $dsn);
 			
 			$this->dsn = "{$driver}:" . sprintf($dsn, $host, $database);
 			
