@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arch:config xmlns:arch="http://architect.kodlabbet.net/xmlns">
+
+	<!-- Application Meta -->
+	<arch:application>
+		<arch:name>Application</arch:name>
+		<arch:description>
+			<![CDATA[Application description.]]>
+		</arch:description>
+		<arch:keywords>
+			<![CDATA[application,architect,framework]]>
+		</arch:keywords>
+	</arch:application>
+
+	<!-- Configuration Variables -->
+	<arch:vars>
+		<arch:lang iso="en-US">en</arch:lang>
+		<arch:charset>UTF-8</arch:charset>
+	</arch:vars>
+
+	<!-- Constants -->
+	<arch:constants>
+	
+		<!-- Environment Constant - DEVELOPMENT, INTEGRATION or PRODUCTION -->
+		<arch:constant name="environment">DEVELOPMENT</arch:constant>
+	
+		<!-- Debug Constants -->
+		<arch:constant name="debug_mode" type="bool">true</arch:constant>
+		<arch:constant name="debug_error_level" type="const">E_ALL</arch:constant>
+	
+		<!-- General Settings -->
+		<arch:constant name="use_mod_rewrite" type="bool">false</arch:constant>
+		<arch:constant name="router_protocol">HTTP</arch:constant>
+		
+		<!-- Cache Constants - Cache path accepts attribute value "setting" and value of "session.save_path" -->
+		<arch:constant name="cache_active" type="bool">true</arch:constant>
+		<arch:constant name="cache_save_path" type="path">cache/</arch:constant>
+		<arch:constant name="cache_driver">File</arch:constant>
+	
+		<!-- File Extensions -->
+		<arch:constant name="file_extension">.php</arch:constant>
+		<arch:constant name="cache_file_extension">.cache</arch:constant>
+
+		<!-- Library Paths -->
+		<arch:constant name="library_path" type="path">libs/</arch:constant>
+		<arch:constant name="framework_path" type="path">libs/Architect/</arch:constant>
+		
+		<!-- Application Paths -->
+		<arch:constant name="controllers_path" type="path">app/Controllers/</arch:constant>
+		<arch:constant name="models_path" type="path">app/Models/</arch:constant>
+		<arch:constant name="views_path" type="path">app/Views/</arch:constant>
+		<arch:constant name="actions_path" type="path">app/Actions/</arch:constant>
+		<arch:constant name="components_path" type="path">app/Components/</arch:constant>
+		<arch:constant name="internal_path" type="path">app/Internal/</arch:constant>
+		
+		<!-- Public Paths -->
+		<arch:constant name="public_path" type="path">public/</arch:constant>
+		<arch:constant name="assets_path" type="path">public/assets/</arch:constant>
+		<arch:constant name="uploads_path" type="path">public/uploads/</arch:constant>
+		
+	</arch:constants>
+
+	<!-- Route Maps -->
+	<arch:router>
+		<!-- Router Settings -->
+		<arch:settings>
+			<!-- Default Controller -->
+			<arch:defaultController>Teapot</arch:defaultController>
+			
+			<!-- Optional Node -->
+			<arch:ssl mode="allow" />
+		</arch:settings>
+		
+		<!-- Custom Routes -->
+		<arch:routes>
+		
+			
+		
+		</arch:routes>
+	</arch:router>
+
+</arch:config>

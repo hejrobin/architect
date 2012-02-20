@@ -1,0 +1,173 @@
+/**
+ *	Google Fonts
+ */
+
+@import url("http://fonts.googleapis.com/css?family=Rokkitt:400,700");
+
+
+/**
+ *	General
+ */
+
+body {
+	background: #fff url("../img/af-bg.jpg") repeat-x;}
+
+div#wrapper {
+	width: 960px;}
+
+section {
+	margin: 0 50px;}
+
+
+
+/**
+ *	Header
+ */
+
+header {
+	padding: 50px;
+	position: relative;}
+
+header h1, h3 {
+	font: bold 46px "Rokkitt", helvetica, arial, sans-serif;
+	text-shadow: #fff 1px 1px 0;
+	color: #252f4e;}
+
+header h3 {
+	margin: 0 0 -10px 1px;
+	font-weight: normal;
+	font-size: 22px;
+	color: #0d3c61;}
+
+body.exception h1 {
+	color: #610d0f;}
+
+body.exception h3 {
+	color: #4e2525;}
+
+body.error h1,
+body.status h1 {
+	color: #8e430b;}
+
+body.error h3,
+body.status h3 {
+	color: #5d1e0b;}
+
+
+
+/**
+ *	Section: Meta
+ */
+
+section.meta {
+	margin-bottom: 50px;}
+
+section.meta p {
+	font: 18px helvetica, arial, sans-serif;
+	text-shadow: #fff 1px 1px 0;
+	line-height: 140%;
+	color: #555;}
+
+section.meta mark {
+	background: #fffdd5;}
+
+section.meta p code {
+	font: 16px monaco, "courier new", serif;
+	color: #278e7e;}
+
+
+/**
+ *	Section: Overview
+ */
+
+section.overview {
+	padding: 5px;
+	background: rgba(0, 0, 0, .05);
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;}
+
+section.overview table {
+	background: #fff;
+	width: 100%!important;
+	display: inline-table;
+	border-collapse: collapse;
+	box-shadow: rgba(0, 0, 0, .07) 0 1px 3px;
+	-moz-box-shadow: rgba(0, 0, 0, .07) 0 1px 3px;
+	-webkit-box-shadow: rgba(0, 0, 0, .07) 0 1px 3px;}
+
+section.overview table caption {
+	padding: 5px 10px;
+	font: 26px "Rokkitt", helvetica, arial, sans-serif;
+	text-shadow: #fff 1px 1px 0;
+	color: #666;}
+
+section.overview table thead th,
+section.overview table tbody td {
+	border: rgba(0, 0, 0, .1) 1px solid;}
+
+section.overview table thead th {
+	padding: 10px 12px;
+	background: -moz-linear-gradient(center top, #fcfcfc 20%, #ebebeb 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(.2, #fcfcfc), color-stop(1, #ebebeb));
+	font: bold 14px "Lucida Grande", helvetica, arial, sans-serif;
+	text-shadow: #fff 1px 1px 0;
+	color: #666;
+	box-shadow: inset rgba(255, 255, 255, .8) 0 1px 0;
+	-moz-box-shadow: inset rgba(255, 255, 255, .8) 0 1px 0;
+	-webkit-box-shadow: inset rgba(255, 255, 255, .8) 0 1px 0;}
+
+section.overview table tbody td {
+	padding: 12px;
+	padding-bottom: 10px;
+	font: 14px helvetica, arial, sans-serif;
+	color: #666;}
+
+section.overview table tbody td:first-child {
+	width: 20%;
+	font-weight: bold;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #999;}
+
+section.overview table tbody tr:nth-child(2n+2) td {
+	background: #fafafa;}
+
+section.overview table tbody tr:hover td {
+	background: #e6f8ff;}
+
+
+
+/**
+ *	Section: Backtrace
+ */
+
+section.backtrace {
+	margin: 50px;
+	padding: 5px;
+	background: rgba(0, 0, 0, .05);
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;}
+
+section.backtrace h4 {
+	padding: 5px 10px;
+	font: 26px "Rokkitt", helvetica, arial, sans-serif;
+	text-shadow: #fff 1px 1px 0;
+	color: #666;}
+
+section.backtrace pre {
+	margin: 0!important;
+	margin-top: -4px;
+	padding: 10px;
+	background: #fff;
+	font: 12px monaco, "courier new", serif;
+	color: #666;
+	overflow: auto;
+	border: #efefef 1px solid;
+	border-radius: 3px;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	box-shadow: rgba(0, 0, 0, .07) 0 1px 3px;
+	-moz-box-shadow: rgba(0, 0, 0, .07) 0 1px 3px;
+	-webkit-box-shadow: rgba(0, 0, 0, .07) 0 1px 3px;}

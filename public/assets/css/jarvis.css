@@ -1,0 +1,191 @@
+@font-face {
+	font-family: 'WebSymbolsRegular';
+	src: url('../fonts/websymbols.eot');
+	src: url('../fonts/websymbols.eot?#iefix') format('embedded-opentype'),
+		url('../fonts/websymbols.woff') format('woff'),
+		url('../fonts/websymbols.ttf') format('truetype'),
+		url('../fonts/websymbols.svg#WebSymbolsRegular') format('svg');
+	font-weight: normal;
+	font-style: normal;}
+
+div#jarvis {
+	background: #222;
+	width: 100%;
+	height: 335px;
+	position: fixed;
+	bottom: 0;}
+
+div#jarvis[data-collapsed] {
+	margin-top: 35px;
+	bottom: -300px;}
+
+div#jarvis div.header li.right a[href="#jarvis-toggle"] i.up,
+div#jarvis[data-collapsed] div.header li.right a[href="#jarvis-toggle"] i.down {
+	display: none;}
+
+div#jarvis[data-collapsed] div.header li.right a[href="#jarvis-toggle"] i.up {
+	display: block!important;}
+
+div#jarvis div.header {
+	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .5) 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, .5)));
+	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .5) 100%);
+	background-color: #444;
+	border-top: rgba(255, 255, 255, .1) 1px solid;
+	border-bottom: rgba(0, 0, 0, .6) 1px solid;
+	box-shadow: rgba(0, 0, 0, .3) 0 1px 5px;
+	-moz-box-shadow: rgba(0, 0, 0, .3) 0 1px 5px;
+	-webkit-box-shadow: rgba(0, 0, 0, .3) 0 1px 5px;
+	height: 35px;}
+
+div#jarvis div.header ul li {
+	margin-top: 7px;
+	float: left;}
+
+div#jarvis div.header ul li a {
+	margin: 0 5px;
+	padding: 4px 10px;
+	font: bold 11px helvetica, arial, sans-serif;
+	text-shadow: rgba(0, 0, 0, .6) 0 1px 1px;
+	text-decoration: none;
+	text-transform: uppercase;
+	color: #ccc;
+	display: block;}
+
+div#jarvis div.header ul li a:hover,
+div#jarvis div.header ul li a:hover i {
+	color: #fff!important;}
+
+div#jarvis div.header ul li a i {
+	margin-right: 4px;
+	font: 12px 'WebSymbolsRegular';
+	text-transform: none;
+	line-height: 11px;}
+
+div#jarvis div.header ul li.right {
+	float: right;}
+
+div#jarvis div.header ul li.right a {
+	margin: 0;
+	margin-right: 5px;
+	padding: 4px 4px;}
+
+div#jarvis div.container ul.tab-header {
+	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .5) 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, .5)));
+	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .5) 100%);
+	background-color: #444;
+	border-top: rgba(255, 255, 255, .1) 1px solid;
+	border-bottom: rgba(0, 0, 0, .6) 1px solid;
+	height: 25px;
+	width: 100%;}
+
+div#jarvis div.container ol {
+	width: 100%;}
+
+div#jarvis div.container ul li,
+div#jarvis div.container ol li {
+	float: left;}
+
+div#jarvis div.container ul li {
+	line-height: 25px;}
+
+div#jarvis div.container ul li span {
+	font: bold 11px helvetica, arial, sans-serif;
+	text-transform: uppercase;
+	text-shadow: rgba(0, 0, 0, .6) 0 1px 1px;
+	color: #ccc;}
+
+div#jarvis div.container ol li {
+	margin: 2px 0;
+	font: 12px monaco, monospace;
+	line-height: 30px;
+	color: #fff;}
+
+div#jarvis div.container ol:nth-child(odd) {
+	background: rgba(0, 0, 0, .15);}
+
+div#jarvis div.container ul li span,
+div#jarvis div.container ol li span {
+	padding: 4px 6px;}
+
+div#jarvis div.container ul li.time,
+div#jarvis div.container ol li.time {
+	width: 7%;
+	color: #999;}
+
+div#jarvis div.container ul li.message,
+div#jarvis div.container ol li.message {
+	width: 53%;}
+
+div#jarvis div.container ol li.message var {
+	color: #e8cdb0;}
+
+div#jarvis div.container ul li.file,
+div#jarvis div.container ol li.file {
+	width: 25%;
+	text-align: right;
+	color: #b3e691;}
+
+div#jarvis div.container ul li.line,
+div#jarvis div.container ol li.line {
+	width: 5%;
+	color: #b0dee7;
+	text-align: center;}
+
+div#jarvis div.container ul li.data,
+div#jarvis div.container ol li.data {
+	width: 10%;
+	text-align: right;
+	color: #e8e6b0;}
+
+div#jarvis div.container ul li.data span,
+div#jarvis div.container ol li.data span {
+	margin-right: 10px;}
+
+div#jarvis div.container div.tab {
+	height: 275px;
+	overflow: auto;}
+
+div#jarvis div.tab {
+	display: none;}
+
+div#jarvis[data-active-tab="overview"] div#jarvis-overview.tab,
+div#jarvis[data-active-tab="console"] div#jarvis-console.tab,
+div#jarvis[data-active-tab="benchmarks"] div#jarvis-benchmarks.tab,
+div#jarvis[data-active-tab="memory"] div#jarvis-memory.tab,
+div#jarvis[data-active-tab="files"] div#jarvis-files.tab {
+	display: block!important;}
+
+div#jarvis[data-active-tab="overview"] div.header ul li a[href="#jarvis-overview"],
+div#jarvis[data-active-tab="console"] div.header ul li a[href="#jarvis-console"],
+div#jarvis[data-active-tab="benchmarks"] div.header ul li a[href="#jarvis-benchmarks"],
+div#jarvis[data-active-tab="memory"] div.header ul li a[href="#jarvis-memory"],
+div#jarvis[data-active-tab="files"] div.header ul li a[href="#jarvis-files"] {
+	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, .6) 0, rgba(0, 0, 0, .3) 100%);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, .6)), color-stop(100%, rgba(0, 0, 0, .3)));
+	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .6) 0, rgba(0, 0, 0, .3) 100%);
+	color: #fff;
+	border-bottom: rgba(255, 255, 255, .15) 1px solid;
+	border-radius: 1000px;
+	-moz-border-radius: 1000px;
+	-webkit-border-radius: 1000px;}
+
+div#jarvis[data-active-tab="overview"] ul.tab-header {
+	display: none;}
+
+div#jarvis div#jarvis-overview div.col {
+	padding: 10px 0;
+	float: left;
+	width: 25%;}
+
+div#jarvis div#jarvis-overview div.col p {
+	padding: 5px 15px;
+	font: 12px monaco, monospace;
+	color: #ccc;}
+
+div#jarvis div#jarvis-overview div.col p strong {
+	color: #b0dee7;}
+
+div#jarvis div#jarvis-overview div.col p var {
+	color: #b3e691;}

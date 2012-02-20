@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arch:package xmlns:arch="http://architect.kodlabbet.net/xmlns">
+
+	<arch:name>Architect Framework</arch:name>
+
+	<arch:license url="http://www.opensource.org/licenses/lgpl-2.1.php">
+		<![CDATA[Lesser GNU General Public License version 2.1]]>
+	</arch:license>
+
+	<arch:version>
+		<arch:major>0.1</arch:major>
+		<arch:minor>0</arch:minor>
+	</arch:version>
+	
+	<arch:release>
+		<arch:build date="Wed, 18 Jan 2012 15:30:26 +0100">
+			<![CDATA[10129796cf7fb69e246a2f4554373ed847acbf64]]>
+		</arch:build>
+		<arch:type>dev</arch:type>
+		<arch:name>Fawkes</arch:name>
+	</arch:release>
+
+	<arch:authors>
+		<arch:author email="robin@kodlabbet.net" url="http://kodlabbet.net/">Robin Grass</arch:author>
+	</arch:authors>
+
+</arch:package>
