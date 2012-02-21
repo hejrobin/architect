@@ -261,6 +261,13 @@ class RouteMapsParser {
 		// Controller callback
 		$callback = $node->getAttribute('callback', true);
 		
+		// Set default callback method
+		if($callback === null) {
+		
+			$callback = 'index';
+		
+		}
+		
 		// Set current route controller
 		$this->parsed_route_maps[$this->current_route_map_pattern]['controller'] = array(
 			'name' => $controller,

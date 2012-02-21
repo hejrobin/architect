@@ -220,7 +220,7 @@ class HTTP extends \Architect\Delegation\Router {
 			}
 		
 			// Log benchmark entry
-			\Jarvis\Benchmark::log('ResolveRouteMaps');
+			\Jarvis\Benchmark::assert('ResolveRouteMaps');
 		
 		}
 	
