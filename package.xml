@@ -9,15 +9,15 @@
 
 	<arch:version>
 		<arch:major>0.1</arch:major>
-		<arch:minor>0</arch:minor>
+		<arch:minor>5</arch:minor>
 	</arch:version>
 	
 	<arch:release>
-		<arch:build date="Wed, 18 Jan 2012 15:30:26 +0100">
-			<![CDATA[10129796cf7fb69e246a2f4554373ed847acbf64]]>
+		<arch:build date="Thu, 8 Mar 2012 17:51:11 +0100">
+			<![CDATA[97edd27fbecb2d502c0d702b53e04ca06812f744]]>
 		</arch:build>
-		<arch:type>dev</arch:type>
-		<arch:name>Fawkes</arch:name>
+		<arch:type>rc1</arch:type>
+		<arch:name>Hedwig</arch:name>
 	</arch:release>
 
 	<arch:authors>
