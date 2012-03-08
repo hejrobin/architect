@@ -140,6 +140,27 @@ $arch->uri->autodiscover();
 // Intitalize HTTP Client
 $arch->initialize('Architect\HTTP\Client', 'http');
 
+// Validate session store
+if(ARCH_ENABLE_SESSION_STORE === true) {
+
+	session_start();
+
+	// Initialize session store
+	$arch->initialize('Architect\Data\Store\Session', 'session');
+
+}
+
+// Validate cache store
+if(ARCH_CACHE_ENABLED === true) {
+
+	// Initialize cache store
+	$arch->initialize('Architect\Data\Cache\Drivers\\' . ARCH_CACHE_DRIVER, 'cache');
+
+}
+
+// Set timezone
+date_default_timezone_set(ARCH_DATE_TIMEZONE);
+
 // Log finished bootstrapping
 \Jarvis\Benchmark::assert('Bootstrap');
 ?>

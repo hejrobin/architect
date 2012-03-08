@@ -1,8 +1,4 @@
 <?php
-// Error debug and reporting
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-
 // Import Jeeves profiling libraries
 require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . str_ireplace('\/', DIRECTORY_SEPARATOR, 'libs/Jarvis/Bootstrap.php'));
 
@@ -20,14 +16,17 @@ try {
 	// Get instance of Architect
 	$arch = Architect::getInstance();
 	
-	$default_controller = 'Teapot';
+	// Parse route maps
+	$route_maps_parser = new \Architect\Core\Config\RouteMapsParser();
+	$parsed_route_maps = $route_maps_parser->getParsedRouteMaps();
 	
-	$parsed_route_maps = array();
+	$default_controller = $parsed_route_maps['default_controller'];
 	
 	// Create new instance of a router based on protocol
 	$arch->initialize('Architect\Delegation\Routers\\' . ARCH_ROUTER_PROTOCOL, 'router', array($default_controller, $parsed_route_maps));
 	
-	
+	// Include custom bootstrap files
+	\Architect\Core\BootstrapLoader::import();
 	
 	// Assert log time of framework initialization
 	\Jarvis\Benchmark::assert('Initialization');

@@ -42,9 +42,17 @@ class Session extends \Architect\Data\Store {
 	 *
 	 *	@return void
 	 */
-	public function __construct($session_id) {
-	
+	public function __construct($session_id = null) {
+		
 		$this->session_id = $session_id;
+		
+		if($this->session_id === null) {
+		
+			$this->session_id = af_randstr('unique');
+		
+		}
+		
+		session_id($this->session_id);
 	
 	}
 
@@ -59,7 +67,15 @@ class Session extends \Architect\Data\Store {
 	 */
 	protected function generateKey($key) {
 	
-		return af_hash($key, $this->fingerprint);
+		$key_hash = af_hash($key, $this->fingerprint);
+		
+		if($this->useCompression() === true) {
+			
+			$key_hash = gzcompress($key_hash);
+			
+		}
+	
+		return $key_hash;
 	
 	}
 
@@ -74,7 +90,7 @@ class Session extends \Architect\Data\Store {
 	 */
 	public function has($key) {
 	
-		if(array_key_exists($this->generateKey($key), $this->data[$this->session_id]) === true) {
+		if(array_key_exists($this->generateKey($key), $_SESSION) === true) {
 		
 			return true;
 		
@@ -99,7 +115,7 @@ class Session extends \Architect\Data\Store {
 		if($this->has($key) === true) {
 
 			// Get entry
-			$entry = $this->data[$this->session_id][$this->generateKey($key)];
+			$entry = $_SESSION[$this->generateKey($key)];
 			
 			// Uncompress entry if compressed
 			if($this->useCompression() === true) {
@@ -148,8 +164,11 @@ class Session extends \Architect\Data\Store {
 	public function write($key, $data) {
 	
 		$entry = (object) array(
+
 			'data' => serialize($data),
+
 			'expires' => time() + $this->lifetime
+
 		);
 		
 		// Serialize entry
@@ -163,7 +182,7 @@ class Session extends \Architect\Data\Store {
 		}
 		
 		// Save entry
-		$this->data[$this->session_id][$this->generateKey($key)] = $entry;
+		$_SESSION[$this->generateKey($key)] = $entry;
 
 	}
 
@@ -201,7 +220,7 @@ class Session extends \Architect\Data\Store {
 	
 		if($this->has($key) === true) {
 		
-			unset($this->data[$this->session_id][$this->generateKey($key)]);
+			unset($_SESSION[$this->generateKey($key)]);
 		
 		}
 	
@@ -216,7 +235,7 @@ class Session extends \Architect\Data\Store {
 	 */
 	public function flush() {
 	
-		foreach($this->data[$this->session_id] as $key => $entry) {
+		foreach($_SESSION as $key => $entry) {
 		
 			// Uncompress entry if compressed
 			if($this->useCompression() === true) {
@@ -229,7 +248,7 @@ class Session extends \Architect\Data\Store {
 			if(time() > $entry->expires) {
 				
 				// Delete entry
-				unset($this->data[$this->session_id][$key]);
+				unset($_SESSION[$key]);
 			
 			}
 		

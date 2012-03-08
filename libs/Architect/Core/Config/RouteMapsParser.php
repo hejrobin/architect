@@ -54,7 +54,10 @@ class RouteMapsParser {
 	 *	@return void
 	 */
 	public function __construct() {
-
+		
+		// Get Architect
+		$arch = \Architect::getInstance();
+		
 		// Get config.xml file path
 		$file_path = ARCH_ROOT_PATH . 'config.xml';
 	
@@ -67,8 +70,32 @@ class RouteMapsParser {
 		// Register XML namespace
 		$this->parser->registerNamespace('arch', 'http://architect.kodlabbet.net/xmlns');
 		
-		// Invoke route maps parsing
-		$this->parseRouteMaps();
+		// Fetch route maps from cache
+		if(ARCH_CACHE_ENABLED === true) {
+		
+			if($arch->cache->has('parsed_route_maps') === true) {
+			
+				$this->parsed_route_maps = $arch->cache->read('parsed_route_maps');
+				
+				\Jarvis\Console::log('Retrieving route maps from cache.', 'RouteMaps', __FILE__, __LINE__);
+			
+			} else {
+			
+				// Invoke route maps parsing
+				$this->parseRouteMaps();
+			
+				$arch->cache->write('parsed_route_maps', $this->parsed_route_maps);
+				
+				\Jarvis\Console::log('Storing route maps to cache.', 'RouteMaps', __FILE__, __LINE__);
+			
+			}
+		
+		} else {
+		
+			// Invoke route maps parsing
+			$this->parseRouteMaps();
+		
+		}
 
 	}
 
@@ -262,7 +289,7 @@ class RouteMapsParser {
 		$callback = $node->getAttribute('callback', true);
 		
 		// Set default callback method
-		if($callback === null) {
+		if($callback === null || $callback === '') {
 		
 			$callback = 'index';
 		

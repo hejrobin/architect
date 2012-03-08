@@ -111,6 +111,68 @@ function af_hash($string, $salt = null) {
 }
 
 /**
+ *	af_uri_rewritable
+ *
+ *	Determines whether URIs/URLs are rewritable or not.
+ *
+ *	@return bool
+ */
+function af_uri_rewritable() {
+
+	if(function_exists('apache_get_modules') === true) {
+	
+		$uri_rewritable = in_array('mod_rewrite', apache_get_modules());
+	
+	} else {
+	
+		if(getenv('HTTP_MOD_REWRITE') === 'On') {
+		
+			$uri_rewritable = true;
+		
+		} else {
+		
+			$uri_rewritable = false;
+		
+		}
+	
+	}
+	
+	return $uri_rewritable;
+
+}
+
+/**
+ *	af_get_uri_route
+ *
+ *	Return a normalized URI route, if URI's are rewriteable and rewrite options are enabled, do not prepend 'index.php'.
+ *
+ *	@param string $uri_route URI route path.
+ *
+ *	@return string
+ */
+function af_get_uri_route($uri_route) {
+
+	$uri_route = trim($uri_route, '/');
+	
+	$uri_rewritable = false;
+	
+	if(af_uri_rewritable() === true && ARCH_ENABLE_URI_REWRITE === true) {
+	
+		$uri_rewritable = true;
+	
+	}
+	
+	if($uri_rewritable === false) {
+	
+		$uri_route = "index.php/{$uri_route}";
+	
+	}
+	
+	return "/{$uri_route}/";
+
+}
+
+/**
  *	af_redirect
  *
  *	Redirects, either by a simple refresh or by changing the location header.
@@ -161,13 +223,13 @@ function af_redirect($uri, $method = 'location', $params = array()) {
  *	Helper function to quickly render views.
  *
  *	@param string $view_file View file name.
- *	@param array $variables View variables.
+ *	@param array $variables Optional parameter, template variables.
  *	@param string $include_path Optional parameter, view file include path.
  *	@param string $renderer Optional parameter, renderer mode.
  *
  *	@return string
  */
-function af_render_view($view_file, $variables, $include_path = null, $renderer = 'PHP') {
+function af_render_view($view_file, $variables = array(), $include_path = null, $renderer = 'PHP') {
 
 	$view = call_user_func_array(array(new \ReflectionClass('\Architect\Views\\' . $renderer . '\\View'), 'newInstance'), array());
 	
@@ -179,7 +241,11 @@ function af_render_view($view_file, $variables, $include_path = null, $renderer 
 	
 	$view->setViewFile($view_file);
 	
-	$view->setVariables($variables);
+	if(is_array($variables) === true && count($variables) > 0) {
+	
+		$view->setVariables($variables);
+	
+	}
 	
 	return $view->render();
 

@@ -23,17 +23,22 @@
 	
 		<!-- Environment Constant - DEVELOPMENT, INTEGRATION or PRODUCTION -->
 		<arch:constant name="environment">DEVELOPMENT</arch:constant>
-	
+
 		<!-- Debug Constants -->
 		<arch:constant name="debug_mode" type="bool">true</arch:constant>
 		<arch:constant name="debug_error_level" type="const">E_ALL</arch:constant>
-	
-		<!-- General Settings -->
-		<arch:constant name="use_mod_rewrite" type="bool">false</arch:constant>
+		
+		<!-- Router Settings -->
 		<arch:constant name="router_protocol">HTTP</arch:constant>
 		
+		<!-- General Settings -->
+		<arch:constant name="date_timezone">Europe/London</arch:constant>
+		<arch:constant name="enable_uri_rewrite" type="bool">false</arch:constant>
+		<arch:constant name="enable_session_store" type="bool">false</arch:constant>
+		<arch:constant name="enable_controller_error_handler" type="bool">false</arch:constant>
+		
 		<!-- Cache Constants - Cache path accepts attribute value "setting" and value of "session.save_path" -->
-		<arch:constant name="cache_active" type="bool">true</arch:constant>
+		<arch:constant name="cache_enabled" type="bool">false</arch:constant>
 		<arch:constant name="cache_save_path" type="path">cache/</arch:constant>
 		<arch:constant name="cache_driver">File</arch:constant>
 	

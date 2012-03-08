@@ -54,11 +54,6 @@ abstract class Router {
 	 *	@var string $default_controller Default request controller.
 	 */
 	protected $default_controller;
-	
-	/**
-	 *	@var bool $use_controller_error_callback Whether to use controller error-method or throw an exception.
-	 */
-	protected $use_controller_error_callback = false;
 
 	/**
 	 *	@var array $wildcards Route map pattern wildcards
@@ -93,19 +88,6 @@ abstract class Router {
 		
 		// Pass protocol to request object
 		$this->request->setProtocol($this->protocol);
-	
-	}
-
-	/**
-	 *	useControllerErrorCallback
-	 *
-	 *	Sets option to use controller error-method instead of throwing an HTTP Exception.
-	 *
-	 *	@return void
-	 */
-	public function useControllerErrorCallback($use_controller_error_callback = null) {
-	
-		$this->use_controller_error_callback = (is_bool($use_controller_error_callback) === true) ? true : false;
 	
 	}
 
@@ -242,7 +224,7 @@ abstract class Router {
 				if($is_optional === false && method_exists($instance, $callback) === false) {
 				
 					// Throw exception if resource callback method does not exist
-					if($this->use_controller_error_callback === false) {
+					if(ARCH_ENABLE_CONTROLLER_ERROR_HANDLER === false) {
 				
 						throw new \Architect\HTTP\Exception(
 							'Could not delegate router request.',
