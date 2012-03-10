@@ -83,10 +83,6 @@ class HTTP extends \Architect\URI\URI {
 	 */
 	public function parse($uri) {
 		
-		echo '<pre>';
-		var_dump($uri);
-		echo '</pre>';
-		
 		// Get parsed URI object
 		$uri = $this->getParser()->parse($uri);
 	

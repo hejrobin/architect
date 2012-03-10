@@ -12,7 +12,7 @@
  */
 
 /* @namespace Client */
-namespace Architect\HTTP;
+namespace Architect\Client;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;

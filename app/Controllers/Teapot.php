@@ -7,7 +7,7 @@ class Teapot implements \Architect\Application\Controller {
 	public function index() {
 	
 		$arch = \Architect::getInstance();
-		
+
 		echo af_render_view('Teapot.php', array(
 		
 			'base' => $arch->uri->getBaseURI()
