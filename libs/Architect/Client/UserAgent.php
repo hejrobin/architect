@@ -22,7 +22,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	Parses and resolves information from a user agent string.
  *
- *	@package HTTP
+ *	@package Client
  *
  *	@version 1.0.0
  *

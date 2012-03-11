@@ -24,7 +24,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@link http://www.geoplugin.com/
  *
- *	@package HTTP
+ *	@package Client
  *
  *	@version 1.0.0
  *

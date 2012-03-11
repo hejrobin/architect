@@ -80,7 +80,7 @@ class HTTP extends \Architect\Delegation\Request {
 	 *
 	 *	@return void
 	 */
-	public function setRequest($properties) {
+	public function setRequest(array $properties) {
 	
 		// Iterate through each element in properties
 		foreach($properties as $property => $value) {

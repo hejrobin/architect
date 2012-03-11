@@ -84,7 +84,6 @@ class Resource {
 	 *	Resolves a path, or namespace and implodes registered namespace, resource type and resource name.
 	 *
 	 *	@param string $separator Path, or namespace separator.
-	 *	@param string $object Input object name.
 	 *	@param string $property Property name, may be 'namespace' or 'path'.
 	 *
 	 *	@return string

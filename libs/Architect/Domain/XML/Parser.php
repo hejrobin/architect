@@ -122,7 +122,7 @@ class Parser {
 	 *	Returns all nodes from XPath query.
 	 *
 	 *	@param string $xpath XPath query.
-	 *	@param DOMElement $context_node Optional parameter, context node for relative XPath query.
+	 *	@param \DOMElement $context_node Optional parameter, context node for relative XPath query.
 	 *	@param bool $allow_empty_result Optional parameter, boolean to specify whether to allow an empty DOMElementList.
 	 *
 	 *	@throws Exceptions\ParserException
@@ -167,7 +167,7 @@ class Parser {
 	 *	Returns first node from XPath query.
 	 *
 	 *	@param string $xpath XPath query.
-	 *	@param DOMElement $context_node Optional parameter, context node for relative XPath query.
+	 *	@param \DOMElement $context_node Optional parameter, context node for relative XPath query.
 	 *	@param bool $allow_empty_result Optional parameter, boolean to specify whether to allow an empty DOMElementList.
 	 *
 	 *	@return self

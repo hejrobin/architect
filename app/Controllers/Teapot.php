@@ -13,7 +13,7 @@ class Teapot implements \Architect\Application\Controller {
 			'base' => $arch->uri->getBaseURI()
 		
 		), ARCH_INTERNAL_PATH . 'Views' . DIRECTORY_SEPARATOR);
-	
+		
 	}
 
 	public function error() {

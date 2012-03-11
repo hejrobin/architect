@@ -34,7 +34,7 @@ define('NAMESPACE_REGEX', '/^[a-z\\\\][a-z0-9\_\\\\]+$/i');
  *
  *	@return void
  */
-$import = function($namespace_segments, $class_name) {
+$import = function(array $namespace_segments, $class_name) {
 
 	// Prepend namespace segments and get class include path
 	$namespace_segments = array_merge(array('libs', 'Architect'), $namespace_segments);

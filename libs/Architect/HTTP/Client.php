@@ -158,6 +158,8 @@ class Client {
 	 *	Sets current HTTP status code.
 	 *
 	 *	@param int $status_code
+	 *
+	 *	@return void
 	 */
 	public function setStatusCode($status_code) {
 
@@ -441,8 +443,10 @@ class Client {
 	 *
 	 *	Sets a HTTP header.
 	 *
-	 *	@param string $header
-	 *	@param string $parameter
+	 *	@param string $header HTTP header.
+	 *	@param string $parameter Header value.
+	 *
+	 *	@return void
 	 */
 	public function setHeader($header, $parameter) {
 
@@ -480,9 +484,11 @@ class Client {
 	 *
 	 *	Sets headers from an associative array.
 	 *
-	 *	@param array $headers
+	 *	@param array $headers Array if HTTP headers
+	 *
+	 *	@return void
 	 */
-	public function setHeaders($headers) {
+	public function setHeaders(array $headers) {
 
 		if(is_array($headers) === true) {
 

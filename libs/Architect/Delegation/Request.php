@@ -122,7 +122,7 @@ abstract class Request {
 	 *
 	 *	@return void
 	 */
-	abstract public function setRequest($properties);
+	abstract public function setRequest(array $properties);
 
 	/**
 	 *	resolveResource

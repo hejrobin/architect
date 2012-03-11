@@ -115,7 +115,7 @@ class Response extends Client {
 	 *
 	 *	@return void
 	 */
-	public function setInfo($response_info) {
+	public function setInfo(array $response_info) {
 
 		$this->info = $response_info;
 

@@ -54,11 +54,13 @@ class View extends \Architect\Views\ViewAbstract {
 	/**
 	 *	setVariables
 	 *
+	 *	Set view variables.
+	 *
 	 *	@param array $variables Associative array with variables to register.
 	 *
 	 *	@return void
 	 */
-	public function setVariables($variables) {
+	public function setVariables(array $variables) {
 
 		// Iterate through each variables and set them
 		foreach($variables as $variable => $data) {

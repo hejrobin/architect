@@ -59,7 +59,7 @@ abstract class InternalFactoryAbstract {
 	 *
 	 *	@return void
 	 */
-	public function __construct($store, $identifier = null, $parent = null) {
+	public function __construct(array $store, $identifier = null, $parent = null) {
 
 		// Throws exception if input parameter $store is not valid
 		if(is_array($store) === false) {

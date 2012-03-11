@@ -42,7 +42,7 @@ class InternalFactoryObject extends InternalFactoryAbstract {
 	 *
 	 *	@return void 
 	 */
-	public function __construct($store, $identifier = null, $parent = null) {
+	public function __construct(array $store, $identifier = null, $parent = null) {
 
 		// Invoke parent constructor
 		parent::__construct($store, $identifier, $parent);
