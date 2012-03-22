@@ -84,10 +84,6 @@ class ConstantParser {
 		
 		// Define constant
 		define($constant_name, $value);
-
-		// Log memory usage constant
-		\Jarvis\Memory::log(constant($constant_name), constant($constant_name), $constant_name, __FILE__, __LINE__);
-
 	}
 	
 	/**
@@ -202,7 +198,6 @@ class ConstantParser {
 		
 		// Define charset constant
 		$this->defineConstant('locale_charset', $charset);
-
 	}
 
 }

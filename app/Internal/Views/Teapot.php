@@ -38,6 +38,8 @@
 		
 		<p style="margin-top:15px;font-size:14px;">&mdash; Architect Framework Development Team</p>
 		
+		<?php \Jarvis\get_logs(); ?>
+		
 	</section>
 	
 </div>

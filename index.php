@@ -31,9 +31,12 @@ try {
 	// Assert log time of framework initialization
 	\Jarvis\Benchmark::assert('Initialization');
 	
-	// Analyze log entries 
+	// Analyze log entries
 	\Jarvis\Benchmark::analyze();
+	\Jarvis\Constant::analyze();
+	\Jarvis\Runtime::analyze();
 	\Jarvis\Console::analyze();
+	\Jarvis\Memory::analyze();
 	\Jarvis\Memory::analyze();
 	\Jarvis\File::analyze();
 

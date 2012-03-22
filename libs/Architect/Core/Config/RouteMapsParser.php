@@ -109,7 +109,7 @@ class RouteMapsParser {
 	private function parseRouteMaps() {
 
 		// Log route map parsing
-		\Jarvis\Benchmark::log('RouteMaps', 'Parsing route maps from XML.', __FILE__, __LINE__);
+		\Jarvis\Benchmark::log('RouteMaps', 'Parsing route maps from XML.', 'RouteMaps', __FILE__, __LINE__);
 		
 		// Get default controller
 		$default_controller = $this->parser->query("//arch:settings/arch:defaultController")->getValue();

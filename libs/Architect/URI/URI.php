@@ -582,6 +582,9 @@ abstract class URI {
 		$uri = $this->getScriptLocation();
 		$uri .= $this->getRequestPath();
 		
+		// Remove script path
+		$uri = str_ireplace($this->getScriptPath(), '', $uri);
+		
 		// Normalize request URI
 		$uri = trim(preg_replace('/[\/]+/i', '/', $uri), '/');
 		$uri = $this->getBaseURI() . "{$uri}/";

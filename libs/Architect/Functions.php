@@ -250,22 +250,4 @@ function af_render_view($view_file, $variables = array(), $include_path = null, 
 	return $view->render();
 
 }
-
-/**
- *	af_debug_console
- *
- *	Outputs Jarvis-console if Jarvis exists and debug mode is enabled.
- *
- *	@return void
- */
-function af_debug_console() {
-
-	$jarvis_console = ARCH_INTERNAL_PATH . 'Views' . DIRECTORY_SEPARATOR . 'Jarvis.php';
-
-	if(ARCH_DEBUG_MODE === true && file_exists($jarvis_console)) {
-	
-		require_once $jarvis_console;
-	
-	}
-}
 ?>

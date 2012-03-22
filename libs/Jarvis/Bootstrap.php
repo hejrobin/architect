@@ -32,8 +32,16 @@ require_once(JARVIS_ROOT_PATH . 'Logs' . DIRECTORY_SEPARATOR . 'Memory.php');
 require_once(JARVIS_ROOT_PATH . 'Logs' . DIRECTORY_SEPARATOR . 'Console.php');
 \Jarvis\Console::register();
 
+require_once(JARVIS_ROOT_PATH . 'Logs' . DIRECTORY_SEPARATOR . 'Constant.php');
+\Jarvis\Constant::register();
+
 require_once(JARVIS_ROOT_PATH . 'Logs' . DIRECTORY_SEPARATOR . 'File.php');
 \Jarvis\File::register();
+
+require_once(JARVIS_ROOT_PATH . 'Logs' . DIRECTORY_SEPARATOR . 'Runtime.php');
+\Jarvis\Runtime::register();
+
+
 
 /**
  *	readable_time
@@ -123,6 +131,23 @@ function readable_bytesize($size, $byte_format = null) {
 	$readable_size = sprintf($byte_format, $size, $byte_size);
 
 	return $readable_size;
+
+}
+
+/**
+ *	get_logs
+ *
+ *	Outputs log data.
+ *
+ *	@return string
+ */
+function get_logs() {
+
+	echo '<pre style="font:13px monaco, monospace;">';
+
+	print_r(Console::getLogs());
+
+	echo '</pre>';
 
 }
 ?>

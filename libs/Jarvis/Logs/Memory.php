@@ -64,6 +64,7 @@ class Memory extends Store {
 		
 		$store_id = stripslashes(str_ireplace(__NAMESPACE__, '', __CLASS__));
 		
+		self::$store[$store_id]['memory_alloc'] = memory_get_usage();
 		self::$store[$store_id]['memory_peak'] = memory_get_peak_usage();
 	
 	}

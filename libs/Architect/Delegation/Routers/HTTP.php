@@ -84,7 +84,7 @@ class HTTP extends \Architect\Delegation\Router {
 		
 		}
 		
-		\Jarvis\Benchmark::log('ResolveRouteMaps', 'Resolving custom route maps.', __FILE__, __LINE__);
+		\Jarvis\Benchmark::log('ResolveRouteMaps', 'Resolving custom route maps.', 'ResolveRouteMaps', __FILE__, __LINE__);
 		
 		// Iterate through each route map until a match is found
 		foreach($this->route_maps as $route_map_pattern => $route_map) {
