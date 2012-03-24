@@ -1,7 +1,6 @@
 <link href="libs/Jarvis/Debugger/public/assets/css/jarvis.css" type="text/css" rel="stylesheet" />
 <?php $logs = \Jarvis\Console::getLogs(); ?>
-<pre><?php print_r($logs['Runtime']); ?></pre>
-<section id="jarvis">
+<section id="jarvis" class="minimized">
 
 	<ul id="jarvis-tabs" class="clearfix">
 		<li data-index="0" class="active"><a href="#jarvis-overview"><i>³</i><span>Overview</span></a></li>

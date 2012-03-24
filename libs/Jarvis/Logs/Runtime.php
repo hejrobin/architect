@@ -90,16 +90,20 @@ class Runtime extends Store {
 		self::assertLog($store_id, array('name' => 'HTTP Host', 'text' => $_SERVER['HTTP_HOST']));
 		
 		// HTTP Accept
-		self::assertLog($store_id, array('name' => 'HTTP Accept', 'text' => $_SERVER['HTTP_ACCEPT']));
+		if(array_key_exists('HTTP_ACCEPT', $_SERVER) === true)
+			self::assertLog($store_id, array('name' => 'HTTP Accept', 'text' => $_SERVER['HTTP_ACCEPT']));
 		
 		// HTTP Accept Encoding
-		self::assertLog($store_id, array('name' => 'HTTP Accept Encoding', 'text' => $_SERVER['HTTP_ACCEPT_ENCODING']));
+		if(array_key_exists('HTTP_ACCEPT_ENCODING', $_SERVER) === true)
+			self::assertLog($store_id, array('name' => 'HTTP Accept Encoding', 'text' => $_SERVER['HTTP_ACCEPT_ENCODING']));
 		
 		// HTTP Accept Language
-		self::assertLog($store_id, array('name' => 'HTTP Accept Language', 'text' => $_SERVER['HTTP_ACCEPT_LANGUAGE']));
+		if(array_key_exists('HTTP_ACCEPT_LANGUAGE', $_SERVER) === true)
+			self::assertLog($store_id, array('name' => 'HTTP Accept Language', 'text' => $_SERVER['HTTP_ACCEPT_LANGUAGE']));
 		
 		// HTTP Accept Charset
-		self::assertLog($store_id, array('name' => 'HTTP Accept Charset', 'text' => $_SERVER['HTTP_ACCEPT_CHARSET']));
+		if(array_key_exists('HTTP_ACCEPT_CHARSET', $_SERVER) === true)
+			self::assertLog($store_id, array('name' => 'HTTP Accept Charset', 'text' => $_SERVER['HTTP_ACCEPT_CHARSET']));
 	
 	}
 
