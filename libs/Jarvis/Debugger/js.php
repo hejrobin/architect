@@ -88,6 +88,13 @@
 	
 	jarvis.bindEvents();
 	
+	setTimeout(function() {
+	
+		jarvis.activate(0);
+		jarvis.toggle();
+	
+	}, 10);
+	
 	document.getElementById('jarvis-toggle').addEventListener('click', function(event) {
 	
 		event.preventDefault();
