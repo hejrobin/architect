@@ -74,6 +74,9 @@ class Runtime extends Store {
 		// Server Document Root
 		self::assertLog($store_id, array('name' => 'Server Document Root', 'text' => $_SERVER['DOCUMENT_ROOT']));
 		
+		// Server Name
+		self::assertLog($store_id, array('name' => 'Server Name', 'text' => $_SERVER['SERVER_NAME']));
+		
 		// Server IP
 		self::assertLog($store_id, array('name' => 'Server IP', 'text' => $_SERVER['SERVER_ADDR']));
 		
@@ -97,9 +100,6 @@ class Runtime extends Store {
 		
 		// HTTP Accept Charset
 		self::assertLog($store_id, array('name' => 'HTTP Accept Charset', 'text' => $_SERVER['HTTP_ACCEPT_CHARSET']));
-		
-		// Server Name
-		self::assertLog($store_id, array('name' => 'HTTP Accept', 'text' => $_SERVER['SERVER_NAME']));
 	
 	}
 

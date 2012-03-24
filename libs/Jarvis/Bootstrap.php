@@ -141,13 +141,9 @@ function readable_bytesize($size, $byte_format = null) {
  *
  *	@return string
  */
-function get_logs() {
+function render_debugger() {
 
-	echo '<pre style="font:13px monaco, monospace;">';
-
-	print_r(Console::getLogs());
-
-	echo '</pre>';
+	require_once(JARVIS_ROOT_PATH . 'Debugger' . DIRECTORY_SEPARATOR . 'index.php');
 
 }
 ?>

@@ -97,5 +97,4 @@
 	<?php endif; ?>
 	
 </div>
-<?php af_debug_console(); ?>
 </body></html>

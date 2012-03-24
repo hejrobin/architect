@@ -70,7 +70,7 @@ class Constant extends Store {
 			self::assertLog($store_id, array(
 				'name' => $constant,
 				'text' => $value,
-				'size' => strlen($value)
+				'size' => strlen(serialize($value))
 			));
 		
 		}
