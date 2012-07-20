@@ -26,60 +26,81 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  */
 function af_randstr($type = 'alnum', $length = 8) {
 
-	switch($type) {
+	// Unique random string
+	$char_pool_unique = sha1(uniqid(mt_rand()));
 
-		case 'alnum' :
+	// Numeric characters
+	$char_pool_numeric = '0123456789';
 
-		case 'numeric' :
+	// Numeric character without zeroes
+	$char_pool_nozero = substr($char_pool_numeric, 1);
 
-		case 'nozero' :
+	// Lowercase alphabetic characters
+	$char_pool_alpha = 'abcdefghijklmnopqrstuvwxyz';
 
-		case 'salt' :
-	
-			switch($type) {
-	
-				case 'alnum' :
+	// Uppercase alphabetic characters
+	$char_pool_alpha_uppercase = strtoupper($char_pool_alpha);
 
-					$char_pool = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+	// Salt characters
+	$char_pool_salt = '!@#$%^&*()_+=-{}][;";/?<>.,';
 
-				break;
 
-				case 'numeric' :
 
-					$char_pool = '0123456789';
+	if($type === 'unique') {
 
-				break;
-			
-				case 'nozero' :
-			
-					$char_pool = '123456789';
-					
-				break;
+		return $char_pool_unique;
 
-				case 'salt' :
+	} else {
+
+		switch ($type) {
 		
-					$char_pool = '!@#$%^&*()_+=-{}][;";/?<>.,';
-	
-				break;
-			}
-	
-			$string = '';
-	
-			for($n = 0; $n < $length; $n++) {
+			case 'alnum' :
 			
-				$string .= substr($char_pool, mt_rand(0, strlen($char_pool) -1), 1);
+				$char_pool = $char_pool_alpha . $char_pool_alpha_uppercase . $char_pool_numeric;
+
+			break;
+
+			case 'alnum.lowercase' :
 			
-			}
-	
-			return $string;
-	
-		break;
+				$char_pool = $char_pool_alpha . $char_pool_numeric;
 
-		case 'unique' :
+			break;
 
-			return sha1(uniqid(mt_rand()));
+			case 'alnum.uppercase' :
+			
+				$char_pool = $char_pool_alpha_uppercase . $char_pool_numeric;
 
-		break;
+			break;
+
+			case 'numeric' :
+
+				$char_pool = $char_pool_numeric;
+
+			break;
+
+			case 'numeric.nozero' :
+
+				$char_pool = $char_pool_nozero;
+
+			break;
+
+			case 'salt' :
+
+				$char_pool = $char_pool_unique. $char_pool_salt;
+
+			break;
+		
+		}
+
+		$random_string = '';
+
+		for($n = 0; $n < $length; $n++) {
+			
+			$random_string .= substr($char_pool, mt_rand(0, strlen($char_pool) -1), 1);
+			
+		}
+
+		return $random_string;
 
 	}
 
