@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -36,19 +36,19 @@ class Connection extends \PDO {
 	private $dsn;
 
 	/**
-	 *	@var array $drivers Array containging DSN strings for varius databases
+	 *	@var array $database_drivers Array containing DSN pattern strings for different database types.
 	 */
-	protected $drivers = array(
-	
-		'pgsql' => 'host=%s port=%d dbname=%s',
-
-		'mysql' => 'host=%s;port=%d;dbname=%s;',
-		
+	protected $database_drivers = array(
+		'dblib' => 'host=%s:%d;dbname=%s',
 		'firebird' => 'DataSource=%s;Port=%d;Database=%s;',
-		
-		'dblib' => 'host=%s:%d;dbname=%s;'
-	
+		'mysql' => 'host=%s;port=%d;dbname=%s;',
+		'pgsql' => 'host=%s port=%d dbname=%s'
 	);
+
+	/**
+	 *	@var array $database_driver_options Additional database driver options.
+	 */
+	protected $database_driver_options = array();
 
 	/**
 	 *	Constructor
@@ -65,40 +65,42 @@ class Connection extends \PDO {
 	 *	@return void
 	 */
 	public function __construct($driver, $database, $host = 'localhost', $port = false) {
-		
+
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
+
 		// Throw exception if database driver does not exist
 		if(array_key_exists(strtolower($driver), $this->drivers) === false) {
-		
+
 			throw new Exceptions\DatabaseException(
 				'Could not establish database connection.',
-				"Database driver '{$driver}' does not exist.",
+				"Database driver \"{$driver}\" does not exist.",
 				__METHOD__, Exceptions\DatabaseException::INVALID_ARGUMENT_EXCEPTION
 			);
-		
+
 		}
-		
+
 		// Throw exception if driver 'dblib' does not have a port specified
 		if(strtolower($driver) === 'dblib' && is_int($port) === false) {
-		
+
 			throw new Exceptions\DatabaseException(
 				'Could not establish database connection.',
-				"Database driver '{$driver}' requires that a port is specified.",
+				"Database driver \"{$driver}\" requires that a port is specified.",
 				__METHOD__, Exceptions\DatabaseException::INVALID_ARGUMENT_EXCEPTION
 			);
-		
+
 		}
-		
+
 		// Set database source name
 		$this->setDatabaseSourceName(strtolower($driver), $database, $host, $port);
-	
+
 	}
 
 	/**
-	 *	setDatabaseSourceName
+	 *	setDataSourceName
 	 *
-	 *	Sets database source name.
+	 *	Sets database source name based on database driver option.
 	 *
-	 *	@param string $driver Database driver.
+	 *	@param string $driver Database driver name.
 	 *	@param string $database Database name.
 	 *	@param string $host Database host name.
 	 *	@param int $port Database port.
@@ -106,26 +108,41 @@ class Connection extends \PDO {
 	 *	@return void
 	 */
 	private function setDatabaseSourceName($driver, $database, $host = 'localhost', $port = false) {
-		
+
 		// Get DSN string
 		$dsn = $this->drivers[$driver];
-		
+
 		// Create DSN without port
 		if($port === false) {
-		
+
 			$dsn = preg_replace('/(port=%d[;| ])/i', '', $dsn);
-			
+
 			$this->dsn = "{$driver}:" . sprintf($dsn, $host, $database);
-			
+
 		} else {
-		
+
 			// Create DSN with port
 			$this->dsn = "{$driver}:" . sprintf($dsn, $host, $port, $database);
-		
+
 		}
-	
+
 	}
-	
+
+	/**
+	 *	setDatabaseDriverOptions
+	 *
+	 *	Sets database driver specific options.
+	 *
+	 *	@param array $database_driver_options Array containing key value pairs of driver specific options.
+	 *
+	 *	@return void
+	 */
+	public function setDatabaseDriverOptions(array $database_driver_options) {
+
+		$this->database_driver_options = $database_driver_options;
+
+	}
+
 	/**
 	 *	connect
 	 *
@@ -134,14 +151,15 @@ class Connection extends \PDO {
 	 *	@param string $username Database username.
 	 *	@param string $password Database password.
 	 *
-	 *	@return void 
+	 *	@return void
 	 */
 	public function connect($username, $password) {
-	
-		parent::__construct($this->dsn, $username, $password);
-	
-		\Jarvis\Console::log('Established a new database connection.', 'Database Connection', __FILE__, __LINE__);
-	
+
+		// Invoke class parent
+		parent::__construct($this->dsn, $username, $password, $this->database_driver_options);
+
+		\Rae\Console::log("Established a new database connection.", __METHOD__, __FILE__, __LINE__);
+
 	}
 
 }

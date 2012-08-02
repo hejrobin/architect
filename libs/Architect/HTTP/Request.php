@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -49,16 +49,18 @@ class Request extends Client {
 	 *	Constructor
 	 */
 	public function __construct() {
-	
+
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
+
 		// Invoke parent constructor
 		parent::__construct();
-	
+
 		// Initialize cURL
 		$this->curl = curl_init();
-		
+
 		// Set default cURL options
 		$this->setOptions(array(
-		
+
 			CURLOPT_VERBOSE => true,
 
 			CURLOPT_NOBODY => false,
@@ -70,11 +72,11 @@ class Request extends Client {
 			CURLOPT_RETURNTRANSFER => true,
 
 			CURLOPT_CONNECTTIMEOUT => 30,
-			
+
 			CURLINFO_HEADER_OUT => true
-		
+
 		));
-		
+
 	}
 
 	/**
@@ -92,7 +94,7 @@ class Request extends Client {
 		$this->curl_options[$option] = $data;
 
 	}
-	
+
 	/**
 	 *	setOptions
 	 *
@@ -105,9 +107,9 @@ class Request extends Client {
 	public function setOptions($options = array()) {
 
 		foreach($options as $option => $value) {
-		
+
 			$this->setOption($option, $value);
-		
+
 		}
 
 	}
@@ -120,9 +122,9 @@ class Request extends Client {
 	 *	@return void
 	 */
 	protected function bindOptions() {
-	
+
 		curl_setopt_array($this->curl, $this->curl_options);
-	
+
 	}
 
 	/**
@@ -135,13 +137,13 @@ class Request extends Client {
 	 *	@return void
 	 */
 	public function setRequestURI(\Architect\URI\URI $uri) {
-	
+
 		$this->uri = $uri;
-		
+
 		$append_query_string = ($this->getMethod() === 'GET') ? true : false;
-		
+
 		$this->setOption(CURLOPT_URL, $uri->getRequestURI($append_query_string));
-	
+
 	}
 
 	/**
@@ -152,11 +154,11 @@ class Request extends Client {
 	 *	@return string
 	 */
 	public function getRequestURI() {
-		
+
 		$append_query_string = ($this->getMethod() === 'GET') ? true : false;
-		
+
 		return $this->uri->getRequestURI($append_query_string);
-	
+
 	}
 
 
@@ -168,50 +170,49 @@ class Request extends Client {
 	 *	@return void
 	 */
 	public function fauxAjax() {
-	
+
 		// This header is used by almost every javascript library
 		// Used to fake an Ajax-request via PHP
 		$this->setHeader('X-Requested-With', 'XMLHttpRequest');
-	
+
 	}
 
 	/**
 	 *	send
 	 *
-	 *	Preforms request and returns a new \Architect\HTTP\Response object.
+	 *	Preforms request and returns a new {@see Response} object.
 	 *
-	 *	@return \Architect\HTTP\Response
+	 *	@return Response
 	 */
 	public function send() {
-		
+
 		$time = time();
-	
-		// Log request time
-		\Jarvis\Benchmark::log("Request_{$time}", 'Preforming URL request.', __FILE__, __LINE__);
-		
+
+		\Rae\Benchmark::log("URL_Request_{$time}", "Custom URL request execution time.", __METHOD__, __FILE__, __LINE__);
+
 		// Get request headers to send
 		$request_headers = array();
-		
+
 		foreach($this->getHeaders() as $header => $value) {
-		
+
 			$request_headers[] = "{$header}: {$value}";
-		
+
 		}
-		
+
 		// Set headers option
 		$this->setOption(CURLOPT_HTTPHEADER, $request_headers);
-		
+
 		// Set additional cURL options depending on request type
 		switch($this->getMethod()) {
-		
+
 			case 'GET' :
-			
+
 				// Do nothing
-			
+
 			break;
-			
+
 			case 'POST' :
-			
+
 				$this->setOptions(array(
 
 					CURLOPT_POST => true,
@@ -219,13 +220,13 @@ class Request extends Client {
 					CURLOPT_POSTFIELDS => $this->getParams($this->getMethod())
 
 				));
-			
+
 			break;
-			
+
 			case 'PUT' :
-			
+
 			case 'DELETE' :
-			
+
 				$this->setOptions(array(
 
 					CURLOPT_CUSTOMREQUEST => $this->getMethod(),
@@ -233,11 +234,11 @@ class Request extends Client {
 					CURLOPT_POSTFIELDS => $this->getParams($this->getMethod())
 
 				));
-			
+
 			break;
-		
+
 		}
-		
+
 		/**
 		 *	@private $send_request
 		 *
@@ -246,70 +247,70 @@ class Request extends Client {
 		 *	@return object
 		 */
 		$send_request = function($curl) {
-	
+
 			// Make cURL request and return it
 		 	return (object) array(
 
 				'data' => curl_exec($curl),
-	
+
 				'info' => (object) curl_getinfo($curl)
-	
+
 			);
-		
+
 		};
-		
+
 		// Make a HEAD request
 		$this->setOptions(array(
-		
+
 			CURLOPT_HEADER => true,
-			
+
 			CURLOPT_NOBODY => true
-		
+
 		));
-		
+
 		// Bind cURL options
 		$this->bindOptions();
-		
+
 		// Get response headers
 		$response_headers = $send_request($this->curl);
 		$response_headers = $response_headers->data;
-		
+
 		// Make original request
 		$this->setOptions(array(
-		
+
 			CURLOPT_HEADER => false,
-			
+
 			CURLOPT_NOBODY => false
-		
+
 		));
-		
+
 		// Bind cURL options
 		$this->bindOptions();
-		
+
 		// Get response headers
 		$response_object = $send_request($this->curl);
 		$response_data = $response_object->data;
-		
+
 		// Create a new Response object
 		$response = new Response();
-		
+
 		// Set response data
 		$response->setData($response_data);
-		
+
 		// Set response info
 		$response->setInfo($response_object->info);
-		
+
 		// Set status code
 		$response->setStatusCode($response_object->info->http_code);
-		
+
 		// Parse response headers
 		$response->parseHeaders($response_headers);
-		
-		\Jarvis\Benchmark::assert("Request_{$time}");
-		
+
+		\Rae\Benchmark::assert("URL_Request_{$time}");
+
 		// Return response object
-		return $response;		
-		
+		return $response;
+
 	}
 
 }

@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -52,9 +52,11 @@ abstract class LocatorService {
 	 */
 	public function __construct($include_path, $file_extension) {
 
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
+
 		// Set include path
 		$this->resolveIncludePath($include_path);
-		
+
 		// Set include file extension
 		$this->setFileExtension($file_extension);
 
@@ -83,7 +85,7 @@ abstract class LocatorService {
 			);
 
 		}
-		
+
 		// Set file extension
 		$this->file_extension = $file_extension;
 
@@ -104,25 +106,25 @@ abstract class LocatorService {
 
 		// Resolve include path
 		$resolved_include_path = str_ireplace('/', DIRECTORY_SEPARATOR, $include_path);
-		
+
 		// Append trailing directory separator if not already present
 		if(substr($resolved_include_path, -1) !== DIRECTORY_SEPARATOR) {
 
 			$resolved_include_path = $resolved_include_path . DIRECTORY_SEPARATOR;
 
 		}
-		
+
 		// Throw exception if include path is invalid
 		if(is_dir($resolved_include_path) === false) {
 
 			throw new Exceptions\LocatorServiceException(
-				'Could not resolve include path.',
+				'Could not resolve include path for current locator.',
 				'Include path is not a valid directory path.',
 				__METHOD__, Exceptions\LocatorServiceException::INVALID_ARGUMENT_EXCEPTION
 			);
 
 		}
-		
+
 		// Set include to resolved include path
 		$this->include_path = $resolved_include_path;
 

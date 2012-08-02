@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -20,13 +20,13 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	ParserException
  *
- *	XML parser exceptions, inherits from {@see \Architect\Exceptions\Exception}.
+ *	Parser exception, inherits from {@see \Architect\Exceptions\Exception}.
  *
  *	@package Domain
  *	@subpackage XML
  *	@subpackage Exceptions
  *
- *	@version 1.0.0
+ *	@version 1.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */

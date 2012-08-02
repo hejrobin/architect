@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -36,12 +36,7 @@ class BootstrapLoader {
 	protected static $store = array();
 
 	/**
-	 *	@staticvar array $package_ignore_list Packages to ignore when autoloading bootstrap files.
-	 */
-	public static $package_ignore_list = array('Architect', 'Jarvis');
-
-	/**
-	 *	assert
+	 *	load
 	 *
 	 *	Asserts a file to file store.
 	 *
@@ -49,37 +44,14 @@ class BootstrapLoader {
 	 *
 	 *	@return void
 	 */
-	public static function assert($file_path) {
-	
-		if(array_key_exists($file_path, self::$store) !== true) {
-		
-			self::$store[] = $file_path;
-		
-		}
-	
-	}
+	public static function load($file_path) {
 
-	/**
-	 *	import
-	 *
-	 *	Imports existing files from file store.
-	 *
-	 *	@return void
-	 */
-	public static function import() {
-		
-		self::autoload();
-		
-		foreach(self::$store as $file_path) {
-		
-			if(file_exists($file_path) === true) {
-			
-				require_once($file_path);
-			
-			}
-		
+		if(array_key_exists($file_path, self::$store) !== true) {
+
+			self::$store[] = $file_path;
+
 		}
-	
+
 	}
 
 	/**
@@ -90,21 +62,49 @@ class BootstrapLoader {
 	 *	@return void
 	 */
 	public static function autoload() {
-	
+
 		$iterator = new \DirectoryIterator(ARCH_LIBRARY_PATH);
-		
+
 		foreach($iterator as $obj) {
-		
+
+			// Get file path
 			$file_path = $obj->getPathname() . DIRECTORY_SEPARATOR . 'Bootstrap.php';
-			
+
+			// Only require file if it exists and is readable
 			if(file_exists($file_path) === true && is_readable($file_path) === true) {
-			
-				self::assert($file_path);
-			
+
+				self::load($file_path);
+
 			}
-		
+
 		}
-	
+
+	}
+
+	/**
+	 *	import
+	 *
+	 *	Imports existing files from file store.
+	 *
+	 *	@return void
+	 */
+	public static function import() {
+
+		// Autoload bootstrap files
+		self::autoload();
+
+		foreach(self::$store as $file_path) {
+
+			if(file_exists($file_path) === true) {
+
+				require_once $file_path;
+
+				\Rae\Console::log("Imported bootstrap file \"{$file_path}\".", __METHOD__, __FILE__, __LINE__);
+
+			}
+
+		}
+
 	}
 
 }

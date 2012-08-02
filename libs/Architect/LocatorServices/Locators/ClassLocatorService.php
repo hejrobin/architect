@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -23,6 +23,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *	Resolves class namespace into a directory path, validates class file name integrity and imports class file.
  *
  *	@package LocatorServices
+ *	@subpackage Locators
  *
  *	@version 1.0.0
  *
@@ -65,21 +66,23 @@ class ClassLocatorService extends \Architect\LocatorServices\LocatorService {
 		
 		// Set class file include path
 		$include_path = $this->include_path . $class_directory_path . $this->file_extension;
-		
+
 		// Verify include path integrity
 		if(!$handle = @fopen($include_path, 'r', true)) {
 
 			// Path integrity seem corrupted, throw exception
-			throw new Exceptions\LocatorServiceException(
-				"Could not resolve class file path for '{$class_directory_path}'.",
+			throw new Exceptions\ClassLocatorServiceException(
+				"Could not resolve class file path for \"{$class_directory_path}\".",
 				"Class file path may be invalid or corrupt.",
-				__METHOD__, Exceptions\LocatorServiceException::UNEXPECTED_RESULT_EXCEPTION
+				__METHOD__, Exceptions\ClassLocatorServiceException::UNEXPECTED_RESULT_EXCEPTION
 			);
 
 		}
 		
 		// Close file handle
 		@fclose($handle);
+
+		// Unset handle variable
 		unset($handle);
 		
 		// Return resolved path

@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -11,7 +11,7 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace File */
+/* @namespace XML */
 namespace Architect\Domain\XML;
 
 /* Deny direct file access */
@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Document
  *
- *	Class to create an XML document, extends {@man DOMDocument}.
+ *	Class to create an XML documents, extends {@man DOMDocument}.
  *
  *	@package Domain
  *	@subpackage XML
@@ -42,7 +42,7 @@ class Document extends \DOMDocument {
 	protected $encoding = 'UTF-8';
 
 	/**
-	 *	@var \Architect\Domain\File\File $file Instance of \Architect\Domain\File\File.
+	 *	@var \Architect\Domain\File\Object $file Instance of {@see \Architect\Domain\File\Object}.
 	 */
 	protected $file;
 
@@ -51,7 +51,7 @@ class Document extends \DOMDocument {
 	 *
 	 *	Creates instance of parent class (DOMDocument) and validates file name.
 	 *
-	 *	@param \Architect\Domain\File\File $file Instance of \Architect\Domain\File\File.
+	 *	@param \Architect\Domain\File\Object $file Instance of {@see \Architect\Domain\File\Object}.
 	 *	@param string $version XML version.
 	 *	@param string $encoding Document encoding.
 	 *
@@ -59,34 +59,32 @@ class Document extends \DOMDocument {
 	 *
 	 *	@return void
 	 */
-	public function __construct(\Architect\Domain\File\File $file, $version = '1.0', $encoding = 'UTF-8') {
-	
+	public function __construct(\Architect\Domain\File\Object $file, $version = '1.0', $encoding = 'UTF-8') {
+
 		// Set file object
 		$this->file = $file;
-		
+
 		// Validate file extension, must be '.xml'
-		if($this->file->getFileExtension() !== 'xml') {
-		
+		if($this->file->getExtension() !== 'xml') {
+
 			throw new Exceptions\DocumentException(
-				'Could not create instance of ' . __CLASS__ . '.',
+				'Could not create instance of "' . __CLASS__ . '".',
 				'Input file for ' . get_class($this->file) . ' is not a valid XML file.',
-				__METHOD__, Exceptions\ParserException::DOMAIN_EXCEPTION 
+				__METHOD__, Exceptions\DocumentException::DOMAIN_EXCEPTION
 			);
-		
+
 		}
-		
+
 		// Invoke parent constructor
 		parent::__construct($version, $encoding);
-		
-		// Load input file, if exists
-		if(file_exists($this->file->getFilename())) {
-		
-			$this->load($this->file->getFilename());
-			
-			\Jarvis\Console::log("Loaded '" . $this->file->getFilename() . "'.", 'XML\\Document', __FILE__, __LINE__);
-		
+
+		// Load input file, if it exists
+		if($this->file->exists() === true) {
+
+			$this->load($this->file->getPath());
+
 		}
-	
+
 	}
 
 }

@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -20,11 +20,10 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Parser
  *
- *	Generic parser for XML documents, utilizes XPath.
+ *	Generic parser for XML documents, utilizes XPath ({@man DOMXPath}).
  *
  *	@package Domain
  *	@subpackage XML
- *	@subpackage Parser
  *
  *	@version 1.0.0
  *
@@ -33,39 +32,39 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 class Parser {
 
 	/**
-	 *	@var \Architect\Domain\XML\Document $document Instance of \Architect\Domain\XML\Document.
+	 *	@var Document $document Instance of {@see \Architect\Domain\Type\File}.
 	 */
 	protected $document;
 
 	/**
-	 *	@var DOMXPath $xpath Instance of {@man DOMXPath}.
+	 *	@var \DOMXPath $xpath Instance of {@man DOMXPath}.
 	 */
 	protected $xpath;
 
 	/**
-	 *	@var DOMElement $current_node Current node 
+	 *	@var \DOMElement $current_node Current node
 	 */
 	protected $current_node;
 
 	/**
 	 *	Constructor
 	 *
-	 *	Creates a new instace of \Architect\Domain\File\File and {@man DOMXPath}.
+	 *	Creates a new instace of \Architect\Domain\File\Object and {@man DOMXPath}.
 	 *
-	 *	@param \Architect\Domain\File\FileInfo $file Instance of \Architect\Domain\File\FileInfo.
+	 *	@param \Architect\Domain\File\Object $file Instance of {@see \Architect\Domain\File\Object}.
 	 *
 	 *	@return void
 	 */
-	public function __construct(\Architect\Domain\File\File $file) {
-	
-		// Pass FileInfo instance to a new Document object
+	public function __construct(\Architect\Domain\File\Object $file) {
+
+		// Pass \Architect\Domain\Type\File instance to a new Document object
 		$this->document = new Document($file);
-		
+
 		// Create instance of XPath
 		$this->xpath = new \DOMXPath($this->document);
-	
+
 	}
-	
+
 	/**
 	 *	registerNamespace
 	 *
@@ -88,7 +87,7 @@ class Parser {
 	 *
 	 *	Returns current node.
 	 *
-	 *	@return 
+	 *	@return
 	 */
 	public function getCurrentNode() {
 
@@ -110,7 +109,7 @@ class Parser {
 
 		// Set current node
 		$this->current_node = $node;
-		
+
 		// Return self
 		return $this;
 
@@ -133,7 +132,7 @@ class Parser {
 
 		// Fetch all query nodes
 		$nodes = $this->xpath->query($xpath, $context_node);
-		
+
 		// Throw exception if XPath query was malformed
 		if($nodes === false) {
 
@@ -144,7 +143,7 @@ class Parser {
 			);
 
 		}
-		
+
 		// Throw exception if DOMElementList is empty
 		if($nodes->length === 0 && $allow_empty_result === false) {
 
@@ -155,7 +154,7 @@ class Parser {
 			);
 
 		}
-		
+
 		// Return DOMElementList
 		return $nodes;
 
@@ -182,22 +181,22 @@ class Parser {
 
 			// Set current node
 			$this->current_node = $nodes->item(0);
-			
+
 			// Return current node
 			return $this;
 
 		} else {
-		
+
 			// Reset current node
 			$this->current_node = null;
-		
+
 		}
-		
+
 		// Return self
 		return $this;
 
 	}
-	
+
 	/**
 	 *	getNodeAttribute
 	 *
@@ -211,34 +210,34 @@ class Parser {
 	 *	@return null|string
 	 */
 	protected function getNodeAttribute($attribute, $is_optional = false) {
-		
+
 		// Return null if current node is not set
 		if($this->current_node === null) {
 
 			return null;
 
 		}
-		
+
 		// Get current node
 		$node = $this->current_node;
-		
-		// Validate if node attribute 
+
+		// Validate if node attribute
 		$has_attribute = $node->hasAttribute($attribute);
-		
+
 		// Throw exception if node attribute does not exist and is required
 		if($has_attribute === false && $is_optional === false) {
-		
+
 			throw new Exceptions\ParserException(
 				"Could not return node attribute value.",
 				"Node attribute '{$attribute}' does not exist.",
 				__METHOD__, Exceptions\ParserException::UNEXPECTED_RESULT_EXCEPTION
 			);
-		
+
 		}
-		
+
 		// Return attribute value
 		return $node->getAttribute($attribute);
-	
+
 	}
 
 	/**
@@ -253,34 +252,34 @@ class Parser {
 	 *	@return null|string
 	 */
 	protected function getNodeValue($is_optional = false) {
-		
+
 		// Return null if current node is not set
 		if($this->current_node === null) {
 
 			return null;
 
 		}
-		
+
 		// Get current node
 		$node = $this->current_node;
-		
+
 		// Get node value
 		$value = $node->nodeValue;
-		
+
 		// Throw exception if node value is empty and required
 		if($value === '' && $is_optional === false) {
-		
+
 			throw new Exceptions\ParserException(
 				"Could not return node value.",
 				"Node value is empty, and required.",
 				__METHOD__, Exceptions\ParserException::UNEXPECTED_RESULT_EXCEPTION
 			);
-		
+
 		}
-		
+
 		// Return node value
 		return $value;
-	
+
 	}
 
 	/**
@@ -297,31 +296,31 @@ class Parser {
 	 *	@return mixed
 	 */
 	public function getAttribute($attribute, $is_optional = false, $regex = null) {
-	
+
 		// Return null if current node is not set
 		if($this->current_node === null) {
 
 			return null;
 
 		}
-		
+
 		// Get attribute value
 		$data = $this->getNodeAttribute($attribute, $is_optional);
-		
+
 		// Throw exception if attribute value did not pass regex test
 		if($is_optional === false && is_string($regex) === true && preg_match($regex, $data) === 0) {
-		
+
 			throw new Exceptions\ParserException(
 				"Could not return node attribute value.",
 				"Node attribute value did not pass RegExp test.",
 				__METHOD__, Exceptions\ParserException::EMPTY_RESULT_EXCEPTION
 			);
-		
+
 		}
-		
+
 		// Return attribute
 		return $data;
-	
+
 	}
 
 	/**
@@ -337,31 +336,31 @@ class Parser {
 	 *	@return mixed
 	 */
 	public function getValue($is_optional = false, $regex = null) {
-	
+
 		// Return null if current node is not set
 		if($this->current_node === null) {
 
 			return null;
 
 		}
-		
+
 		// Get attribute value
 		$data = $this->getNodeValue($is_optional);
-		
+
 		// Throw exception if attribute value did not pass regex test
 		if($is_optional === false && is_string($regex) === true && preg_match($regex, $data) === 0) {
-		
+
 			throw new Exceptions\ParserException(
 				"Could not return node value.",
 				"Node value did not pass RegExp test.",
 				__METHOD__, Exceptions\ParserException::EMPTY_RESULT_EXCEPTION
 			);
-		
+
 		}
-		
+
 		// Return attribute
 		return $data;
-	
+
 	}
 
 }

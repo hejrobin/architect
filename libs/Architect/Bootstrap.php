@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -78,11 +78,9 @@ $error_handler = function($code, $message, $file, $line) {
 // Set custom error handler
 set_error_handler($error_handler);
 
-// Log point in time
-\Jarvis\Benchmark::log('Bootstrap', 'Initialized framework and begun bootstrapping.', null, __FILE__, __LINE__);
-
 // Import core functions
 include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Functions.php');
+include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Helpers.php');
 
 // Import required exceptions
 $import(array('Exceptions'), 'ExceptionAbstract');
@@ -103,15 +101,24 @@ $import(array('LocatorServices', 'Exceptions'), 'AutoloaderServiceException');
 $import(array('LocatorServices', 'Locators'), 'ClassLocatorService');
 
 /**
- *	getInstance
+ *	Architect
  *
- *	Returns singleton instance of \Architect\Core\Architect.
- *	Wrapped in a static class for easy access.
+ *	Global static class used for easy access of {@see Architect\Core\Architect::getInstance()}.
  *
- *	@return \Architect\Core\Architect
+ *	@version 1.0.0
+ *
+ *	@author Robin Grass <robin@kodlabbet.net>
  */
 class Architect {
 
+	/**
+	 *	getInstance
+	 *
+	 *	Returns singleton instance of \Architect\Core\Architect.
+	 *	Wrapped in a static class for easy access.
+	 *
+	 *	@return \Architect\Core\Architect
+	 */
 	public static function getInstance() {
 	
 		return Architect\Core\Architect::getInstance();
@@ -133,6 +140,9 @@ $arch->autoloader->registerNamespaceLocator('Architect', new Architect\LocatorSe
 // Define constants from config.xml
 new \Architect\Core\Config\ConstantParser();
 
+// Define constants from package.xml
+new \Architect\Core\Config\PackageConstantParser();
+
 // Initialize URI object for HTTP
 $arch->initialize('Architect\URI\Schemes\HTTP', 'uri');
 $arch->uri->autodiscover();
@@ -140,27 +150,6 @@ $arch->uri->autodiscover();
 // Intitalize HTTP Client
 $arch->initialize('Architect\HTTP\Client', 'http');
 
-// Validate session store
-if(ARCH_ENABLE_SESSION_STORE === true) {
-
-	session_start();
-
-	// Initialize session store
-	$arch->initialize('Architect\Data\Store\Session', 'session');
-
-}
-
-// Validate cache store
-if(ARCH_CACHE_ENABLED === true) {
-
-	// Initialize cache store
-	$arch->initialize('Architect\Data\Cache\Drivers\\' . ARCH_CACHE_DRIVER, 'cache');
-
-}
-
 // Set timezone
 date_default_timezone_set(ARCH_DATE_TIMEZONE);
-
-// Log finished bootstrapping
-\Jarvis\Benchmark::assert('Bootstrap');
 ?>

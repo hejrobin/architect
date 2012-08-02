@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -53,7 +53,7 @@ class AutoloaderService {
 		if(preg_match(NAMESPACE_REGEX, $namespace) === 0) {
 
 			throw new Exceptions\AutoloaderServiceException(
-				sprintf("Could not register namespace locator '%s' to namespace '%s'.", get_class($locator), $namespace),
+				sprintf("Could not register namespace locator \"%s\" to namespace \"%s\".", get_class($locator), $namespace),
 				'Namespace contains illegal characters, must be alphanumeric and may contain underscores and namespace separator.',
 				__METHOD__, Exceptions\AutoloaderServiceException::INVALID_ARGUMENT_EXCEPTION
 			);
@@ -64,8 +64,8 @@ class AutoloaderService {
 		if(array_key_exists($namespace, $this->namespace_locators) === true) {
 
 			throw new Exceptions\AutoloaderServiceException(
-				sprintf("Could not register namespace locator '%s' to namespace '%s'.", get_class($locator), $namespace),
-				'Namespace is already has a locator registered to it.',
+				sprintf("Could not register namespace locator \"%s\" to namespace \"%s\".", get_class($locator), $namespace),
+				'Namespace already has a locator registered to it.',
 				__METHOD__, Exceptions\AutoloaderServiceException::BOUNDS_EXCEPTION
 			);
 
@@ -73,9 +73,6 @@ class AutoloaderService {
 		
 		// Register namespace locator
 		$this->namespace_locators[$namespace] = $locator;
-		
-		// Log service locator
-		\Jarvis\Console::log("Successfully registered '" . get_class($locator) . "' to '{$namespace}'.", 'AutoloaderService', __FILE__, __LINE__);
 
 	}
 
@@ -93,9 +90,6 @@ class AutoloaderService {
 		// Unregister only if namespace exists
 		if(array_key_exists($namespace, $this->namespace_locators) === true) {
 
-			// Log service locator
-			\Jarvis\Console::log("Unregistered '" . get_class($this->namespace_locators[$namespace]) . "' from '{$namespace}'.", 'AutoloaderService', __FILE__, __LINE__);
-			
 			// Remove namespace locator
 			unset($this->namespace_locators[$namespace]);
 
@@ -133,6 +127,7 @@ class AutoloaderService {
 		
 		// Return locator
 		return $namespace_locator;
+
 	}
 
 	/**
@@ -164,11 +159,9 @@ class AutoloaderService {
 	/**
 	 *	load
 	 *
-	 *	Fetches namespace locator and invokes it's 'import' method.
+	 *	Fetches namespace locator and invokes it's "import" method.
 	 *
 	 *	@param string $class_name Class name including namespace.
-	 *
-	 *	@throws Exceptions\AutoloderServiceException
 	 *
 	 *	@return bool
 	 */
@@ -186,10 +179,7 @@ class AutoloaderService {
 		
 		// Use namespace locator to import class
 		$locator->import($class_name);
-		
-		// Log successful autoloading of class
-		\Jarvis\Console::log("Successfully loaded '{$class_name}'.", 'AutoloaderService', __FILE__, __LINE__);
-		
+
 		// Return boolean if class exists
 		return class_exists($class_name);
 

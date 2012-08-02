@@ -8,16 +8,16 @@
 	</arch:license>
 
 	<arch:version>
-		<arch:major>0.1</arch:major>
-		<arch:minor>5</arch:minor>
+		<arch:major>1.1</arch:major>
+		<arch:minor>0</arch:minor>
 	</arch:version>
 	
 	<arch:release>
-		<arch:build date="Thu, 8 Mar 2012 17:51:11 +0100">
+		<arch:build date="Mon, Jul 30 2012 19:58:33 +0100">
 			<![CDATA[97edd27fbecb2d502c0d702b53e04ca06812f744]]>
 		</arch:build>
-		<arch:type>rc1</arch:type>
-		<arch:name>Hedwig</arch:name>
+		<arch:type>dev</arch:type>
+		<arch:name>Munin</arch:name>
 	</arch:release>
 
 	<arch:authors>

@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -212,6 +212,7 @@ class UserAgent {
 	
 		$this->platform = 'Unknown';
 		
+		// Parse Unix platform
 		if(preg_match(self::REGEX_PLATFORM_UNIX, $this->getUserAgent(), $matches) === 1) {
 		
 			$this->platform = 'Unix';
@@ -244,6 +245,7 @@ class UserAgent {
 		
 		}
 		
+		// Parse Linux platform
 		if(preg_match(self::REGEX_PLATFORM_LINUX, $this->getUserAgent(), $matches) === 1) {
 		
 			$this->platform = 'Linux';
@@ -282,6 +284,7 @@ class UserAgent {
 		
 		}
 		
+		// Parse Macintosh platform
 		if(preg_match(self::REGEX_PLATFORM_MAC, $this->getUserAgent(), $matches) === 1) {
 		
 			$this->platform = 'Mac';
@@ -300,6 +303,7 @@ class UserAgent {
 		
 		}
 		
+		// Parse Windows platform
 		if(preg_match(self::REGEX_PLATFORM_WINDOWS, $this->getUserAgent(), $matches) === 1) {
 		
 			$this->platform = 'Microsoft';
@@ -332,6 +336,7 @@ class UserAgent {
 		
 		}
 	
+		// Parse device
 		if(preg_match(self::REGEX_PLATFORM_DEVICE, $this->getUserAgent(), $matches) === 1) {
 		
 			$this->is_device = true;
@@ -360,6 +365,7 @@ class UserAgent {
 			
 			}
 			
+			// Parse WebOS
 			if(preg_match('#webos\/([0-9\.]+)#i', $this->getUserAgent(), $matches) === 1) {
 				
 				$this->platform = 'Linux';

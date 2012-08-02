@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -44,14 +44,14 @@ function af_randstr($type = 'alnum', $length = 8) {
 	// Salt characters
 	$char_pool_salt = '!@#$%^&*()_+=-{}][;";/?<>.,';
 
-
-
+	// Create unique string
 	if($type === 'unique') {
 
 		return $char_pool_unique;
 
 	} else {
 
+		// Handle character pools
 		switch ($type) {
 		
 			case 'alnum' :
@@ -94,6 +94,7 @@ function af_randstr($type = 'alnum', $length = 8) {
 
 		$random_string = '';
 
+		// Generate random string based on char pool
 		for($n = 0; $n < $length; $n++) {
 			
 			$random_string .= substr($char_pool, mt_rand(0, strlen($char_pool) -1), 1);
@@ -140,12 +141,14 @@ function af_hash($string, $salt = null) {
  */
 function af_uri_rewritable() {
 
+	// Look for Apache rewrite module
 	if(function_exists('apache_get_modules') === true) {
 	
 		$uri_rewritable = in_array('mod_rewrite', apache_get_modules());
 	
 	} else {
 	
+		// Check for other rewrite modules
 		if(getenv('HTTP_MOD_REWRITE') === 'On') {
 		
 			$uri_rewritable = true;
@@ -157,7 +160,7 @@ function af_uri_rewritable() {
 		}
 	
 	}
-	
+
 	return $uri_rewritable;
 
 }
@@ -173,22 +176,26 @@ function af_uri_rewritable() {
  */
 function af_get_uri_route($uri_route) {
 
-	$uri_route = trim($uri_route, '/');
+	// Normalize route
+	$uri_route = trim(stripslashes($uri_route), '/');
 	
 	$uri_rewritable = false;
 	
+	// Validate rewrite modules
 	if(af_uri_rewritable() === true && ARCH_ENABLE_URI_REWRITE === true) {
 	
 		$uri_rewritable = true;
 	
 	}
 	
+	// Append index.php if rewrite modules exist
 	if($uri_rewritable === false) {
 	
 		$uri_route = "index.php/{$uri_route}";
 	
 	}
 	
+	// Return URI route
 	return "/{$uri_route}/";
 
 }
@@ -215,7 +222,6 @@ function af_redirect($uri, $method = 'location', $params = array()) {
 			header("Refresh: {$delay}; URL={$uri}");
 
 		break;
-
 		case 'location' :
 
 			$status_code = (array_key_exists('http_status_code', $params) && isset($params['http_status_code'])) ? $params['http_status_code'] : 302;
@@ -225,7 +231,6 @@ function af_redirect($uri, $method = 'location', $params = array()) {
 			exit();
 
 		break;
-
 		case 'javascript' :
 
 			$delay = $delay = (array_key_exists('delay', $params) && isset($params['delay'])) ? intval($params['delay']) * 1000 : 0;
@@ -235,40 +240,6 @@ function af_redirect($uri, $method = 'location', $params = array()) {
 		break;
 
 	}
-
-}
-
-/**
- *	af_render_view
- *
- *	Helper function to quickly render views.
- *
- *	@param string $view_file View file name.
- *	@param array $variables Optional parameter, template variables.
- *	@param string $include_path Optional parameter, view file include path.
- *	@param string $renderer Optional parameter, renderer mode.
- *
- *	@return string
- */
-function af_render_view($view_file, $variables = array(), $include_path = null, $renderer = 'PHP') {
-
-	$view = call_user_func_array(array(new \ReflectionClass('\Architect\Views\\' . $renderer . '\\View'), 'newInstance'), array());
-	
-	if(is_string($include_path) === true && is_dir($include_path) === true) {
-	
-		$view->setIncludePath($include_path);
-	
-	}
-	
-	$view->setViewFile($view_file);
-	
-	if(is_array($variables) === true && count($variables) > 0) {
-	
-		$view->setVariables($variables);
-	
-	}
-	
-	return $view->render();
 
 }
 ?>

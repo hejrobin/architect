@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -47,6 +47,11 @@ abstract class InternalFactoryAbstract {
 	protected $parent = null;
 
 	/**
+	 *	@var array $ignore_package_list Array containing classes not to be serialized by Rae.
+	 */
+	private $ignore_package_list = array('PDO');
+
+	/**
 	 *	Constructor
 	 *
 	 *	Validates input parameters, throws exception if any of them are invalid and sets class members.
@@ -60,6 +65,8 @@ abstract class InternalFactoryAbstract {
 	 *	@return void
 	 */
 	public function __construct(array $store, $identifier = null, $parent = null) {
+
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
 
 		// Throws exception if input parameter $store is not valid
 		if(is_array($store) === false) {
@@ -169,8 +176,11 @@ abstract class InternalFactoryAbstract {
 			$store = $this->store[$key];
 
 			// Return new instance of InternalFactoryObject
-			if(is_array($store) === true)
+			if(is_array($store) === true) {
+
 				return new InternalFactoryObject($store, $key, $this);
+
+			}
 
 			// Store is not an array, most likely already an instance of InternalFactoryObject
 			return $store;
@@ -228,14 +238,18 @@ abstract class InternalFactoryAbstract {
 
 		// Attempt to create a new instance of input class, via a ReflectionClass
 		$this->set($instance, call_user_func_array(array(new \ReflectionClass($class_name), $class_method), $parameters));
-		
-		// Log memory usage of initialized class (except PDO)
-		if(is_a($this->get($instance), 'PDO') === false) {
-		
-			\Jarvis\Memory::log($this->get($instance), stripslashes(str_ireplace(__NAMESPACE__, '', __METHOD__)), get_class($this->get($instance)), __FILE__, __LINE__);
-		
+
+		// Only log memory usage of classes not in ignore list
+		foreach($this->ignore_package_list as $package) {
+
+			if(is_a($this->get($instance), $package) === false) {
+
+				\Rae\Memory::log($this->get($instance), stripslashes(str_ireplace(__NAMESPACE__, '', __METHOD__)), get_class($this->get($instance)), __FILE__, __LINE__);
+
+			}
+
 		}
-		
+
 		// Throw exception if function call_user_func_array failed
 		if($this->get($instance) === false) {
 
@@ -243,7 +257,7 @@ abstract class InternalFactoryAbstract {
 
 			throw new Exceptions\InternalFactoryException(
 				'Could not register class to factory store.',
-				"Could not create a new instance of '{$class}'.",
+				"Could not create a new instance of \"{$class}\".",
 				__METHOD__, Exceptions\InternalFactoryException::UNEXPECTED_RESULT_EXCEPTION
 			);
 
@@ -252,4 +266,3 @@ abstract class InternalFactoryAbstract {
 	}
 
 }
-?>

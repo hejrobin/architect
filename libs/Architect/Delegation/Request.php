@@ -23,23 +23,42 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *	Request object to pass to {@see \Architect\Delegation\Router}.
  *
  *	@package Delegation
- *	@subpackage Request
  *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-abstract class Request {
+class Request {
 
 	/**
-	 *	@var string $controller Default request controller.
+	 *	@var string $default_resource Default resource.
 	 */
-	public $default_controller = null;
+	public $default_resource;
+
+	/**
+	 *	@var string $default_resource_callback Default resource callback.
+	 */
+	public $default_resource_callback;
 
 	/**
 	 *	@var string $component Request component.
 	 */
 	public $component = null;
+
+	/**
+	 *	@var string $triger Request trigger callback.
+	 */
+	public $trigger = null;
+
+	/**
+	 *	@var string $trigger_callback Request trigger callback name.
+	 */
+	public $trigger_callback = null;
+
+	/**
+	 *	@var array $trigger_callback_parameters Array containing parameters to pass through to the Controller and Action resources.
+	 */
+	public $trigger_callback_parameters = array();
 
 	/**
 	 *	@var string $controller Request controller.
@@ -72,147 +91,156 @@ abstract class Request {
 	public $action_callback_parameters = array();
 
 	/**
-	 *	@var \Architect\URI\URI $protocol URI protocol.
-	 */
-	protected $protocol;
-
-	/**
-	 *	setProtocol
-	 *
-	 *	Sets URI protocol.
-	 *
-	 *	@param \Architect\URI\URI $protocol Instance of \Architect\URI\URI.
-	 *
-	 *	@return void
-	 */
-	public function setProtocol(\Architect\URI\URI $protocol) {
-	
-		$this->protocol = $protocol;
-	
-	}
-
-	/**
 	 *	setProperty
 	 *
-	 *	Sets request property.
+	 *	Validates request property and stores it.
 	 *
 	 *	@param string $property Property name.
 	 *	@param bool|int|string $value Property value.
-	 *	@param string $type Optional parameter, value type.
 	 *
 	 *	@return void
 	 */
-	public function setProperty($property, $value, $type = 'string') {
-	
-		// Set property if value is of correct type
-		if(call_user_func("is_{$type}", $value) === true) {
-		
-			$this->$property = $value;
-		
-		}
-	
+	public function setProperty($property, $value) {
+
+		// Set property if value
+		$this->$property = $value;
+
 	}
-	
+
 	/**
-	 *	setRequest
+	 *	getProperty
 	 *
-	 *	Should set request properties, should use {@see setProperty}.
+	 *	Returns request property.
 	 *
-	 *	@param array $properties Array containging property value pairs.
+	 *	@param string $property Property name.
+	 *
+	 *	@return mixed
+	 */
+	public function getProperty($property) {
+
+		if(isset($this->$property) === true) {
+
+			return $this->$property;
+
+		}
+
+		return null;
+
+	}
+
+	/**
+	 *	setTriggers
+	 *
+	 *	Sets request triggers.
+	 *
+	 *	@param string $trigger Trigger name.
+	 *	@param string $callback Trigger callback name.
+	 *	@param array $parameters Trigger callback parameters.
 	 *
 	 *	@return void
 	 */
-	abstract public function setRequest(array $properties);
+	protected function setTriggers($trigger, $callback = null, $parameters = array()) {
+
+		// Set trigger
+		$this->setProperty('trigger', $trigger);
+
+		// Set trigger callback
+		$this->setProperty('trigger_callback', $callback);
+
+		// Set trigger callback parameter
+		$this->setProperty('trigger_callback_parameters', $parameters);
+
+	}
 
 	/**
 	 *	resolveResource
 	 *
-	 *	Returns resource (controller and action) based on first URI segment.
+	 *	Resolves resource name falls back to default trigger.
 	 *
-	 *	@param string $default_resource Default resource name.
-	 *
-	 *	@return null|string
+	 *	@return string
 	 */
-	protected function resolveResource($default_resource = null) {
-	
-		// Get resource based on segment
-		$resource = ($this->protocol->getSegment(1) !== '') ? ucfirst($this->protocol->getSegment(1)) : $default_resource;
-		
+	protected function resolveResource() {
+
+		// Store default resource
+		$resource = $this->default_resource;
+
+		// Set resource to trigger
+		if(empty($this->trigger) === false) {
+
+			$resource = $this->trigger;
+
+		}
+
 		// Return resource
 		return $resource;
-	
+
 	}
 
 	/**
 	 *	resolveCallback
 	 *
-	 *	Normalizes and returns callback based on URI segment, returns null if second URI segment does not exist.
+	 *	Normalizes and returns resource callback.
 	 *
-	 *	@param string $default_callback Default callback name.
-	 *
-	 *	@return null|string
+	 *	@return string
 	 */
-	protected function resolveCallback($default_callback = null) {
-	
-		// Remove multiple occurances of dash sign
-		$callback = preg_replace('/(\-+)/', '-', trim($this->protocol->getSegment(2), '-'));
-		
-		// Remove multiple occurances of underscore
+	protected function resolveCallback() {
+
+		// Store default resource callback
+		$callback = $this->default_resource_callback;
+
+		// Set callback to trigger callback
+		if(empty($this->trigger_callback) === false) {
+
+			$callback = $this->trigger_callback;
+
+		}
+
+		// Remove multiple occurances of dashes
+		$callback = preg_replace('/(\-+)/', '-', trim($callback, '-'));
+
+		// Remove multiple occurances of underscores
 		$callback = preg_replace('/(\_+)/', '_', trim($callback, '_'));
-	
+
 		// Replace dash sign with underscore, and dot with "_dot_"
 		$callback = str_ireplace(array('-', '.'), array('_', '_dot_'), $callback);
-		
-		// Remove multiple occurances of underscore (again, just to be sure)
-		$callback = preg_replace('/(\_+)/', '_', trim($callback, '_'));
-		
-		// Get normalized callback if second URI segment exist
-		$callback = (is_string($this->protocol->getSegment(2)) === true) ? $callback : $default_callback;
-	
+
 		// Return normalized callback
 		return $callback;
-		
+
 	}
 
 	/**
 	 *	resolveCallbackParameters
 	 *
-	 *	Returns an array of additional URI segments if exists.
+	 *	Returns an array of callback parameters from trigger properties.
 	 *
 	 *	@return array
 	 */
 	protected function resolveCallbackParameters() {
 	
-		return array_slice(explode('/', $this->protocol->getRequestPath()), 2);
+		return $this->trigger_callback_parameters;
 	
 	}
 
 	/**
 	 *	resolveRequest
 	 *
-	 *	Resolves controller and action name, callback and callback parameters.
+	 *	Sets default request parameters.
 	 *
 	 *	@return void
 	 */
 	public function resolveRequest() {
-	
-		// Set request properties
-		$this->setRequest(array(
-		
-			'controller' => $this->resolveResource($this->default_controller),
-			
-			'controller_callback' => $this->resolveCallback('index'),
-			
-			'controller_callback_parameters' => $this->resolveCallbackParameters(),
-			
-			'action' => $this->resolveResource($this->default_controller),
-			
-			'action_callback' => $this->resolveCallback('index'),
-			
-			'action_callback_parameters' => $this->resolveCallbackParameters(),
-		
-		));
-	
+
+		// Set request action
+		$this->setProperty('action', $this->resolveResource());
+		$this->setProperty('action_callback', $this->resolveCallback());
+		$this->setProperty('action_callback_parameters', $this->resolveCallbackParameters());
+
+		// Set request controller
+		$this->setProperty('controller', $this->resolveResource());
+		$this->setProperty('controller_callback', $this->resolveCallback());
+		$this->setProperty('controller_callback_parameters', $this->resolveCallbackParameters());
+
 	}
 
 }

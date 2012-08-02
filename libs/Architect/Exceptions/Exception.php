@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -39,9 +39,11 @@ class Exception extends ExceptionAbstract {
 	 */
 	public function getCodeAsString() {
 
-		// There is no native function to get class constants, use a reflection
+		// There is no native function to get class constants, so we use a Reflection instead.
 		// @link http://php.net/manual/en/reflectionclass.getconstants.php
 		$self = new \ReflectionClass(get_parent_class($this));
+
+		// Get class constants
 		$constants = array_combine(array_values($self->getConstants()), array_keys($self->getConstants()));
 
 		// Return constant name

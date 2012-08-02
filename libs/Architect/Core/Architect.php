@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Architect
  *
- *	Base class of the framework, utilizes {@see InternalFactory\InternalFactory}.
+ *	(Singleton) factory class used throughout the framework.
  *
  *	@package Core
  *
@@ -36,14 +36,14 @@ class Architect {
 	protected static $_instance;
 	
 	/**
-	 *	@var InternalFactory\InternalFactor $factory Instance of InternalFactory\InternalFactor
+	 *	@var InternalFactory\InternalFactory $factory Instance of {@see InternalFactory\InternalFactory}.
 	 */
 	protected $factory;
-	
+
 	/**
 	 *	Constructor
 	 *
-	 *	Visibility set to private to deny class initialization, see {@see getInstance} instead.
+	 *	Creates a new instance of InternalFactory\InternalFactory, visibility is set to "private" since this is a singleton class.
 	 *
 	 *	@return void
 	 */
@@ -53,29 +53,46 @@ class Architect {
 		$this->factory = new InternalFactory\InternalFactory(array());
 
 	}
-	
+
 	/**
 	 *	Clone mutator
 	 *
-	 *	Visibility set to private and final to disable object cloning.
+	 *	State is set to "final" and visibility is set to "private" to disable object cloning.
 	 *
 	 *	@return void
 	 */
 	final private function __clone() {}
-	
+
 	/**
 	 *	getInstance
 	 *
-	 *	Returns instance reference to itself.
+	 *	Returns instance of self, if no instance exists, one is created.
 	 *
-	 *	@return object
+	 *	@return self
 	 */
 	public static function getInstance() {
 
-		if(!is_object(self::$_instance))
+		// No instance exists, create one
+		if(is_object(self::$_instance) === false) {
+
 			self::$_instance = new self();
-		
+
+		}
+
 		return self::$_instance;
+
+	}
+
+	/**
+	 *	getFactoryStore
+	 *
+	 *	Calls {@see InternalFactory\InternalFactory::getFactoryStore}.
+	 *
+	 *	@return array
+	 */
+	public function getFactoryStore() {
+
+		return $this->factory->getFactoryStore();
 
 	}
 
@@ -111,19 +128,6 @@ class Architect {
 	}
 	
 	/**
-	 *	getFactoryStore
-	 *
-	 *	Calls {@see InternalFactory\InternalFactory::getFactoryStore}.
-	 *
-	 *	@return array
-	 */
-	public function getFactoryStore() {
-
-		return $this->factory->getFactoryStore();
-
-	}
-	
-	/**
 	 *	hasInstance
 	 *
 	 *	Calls {@see InternalFactory\InternalFactory::hasInstance}.
@@ -137,7 +141,7 @@ class Architect {
 		return $this->factory->hasInstance($name);
 
 	}
-	
+
 	/**
 	 *	initialize
 	 *

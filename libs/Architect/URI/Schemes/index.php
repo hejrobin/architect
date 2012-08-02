@@ -1,1 +1,1 @@
-<?php die(); ?>
+<?php exit; ?>

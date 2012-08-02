@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -234,19 +234,33 @@ class Parser {
 		
 		// Populate segments object
 		switch(count($match)) {
+			
 			case 10 :
+			
 				$result->fragment = $match[9];
+			
 			case 9 :
+			
 				$result->query = $match[8];
+			
 			case 8 :
+			
 				$result->path = $match[7];
+			
 			case 7 :
+			
 				$result->path = $match[6] . $result->path;
+			
 			case 6 :
+			
 				$result->port = $match[5];
+			
 			case 5 :
+			
 				$result->host = ($match[3]) ? "[" . $match[3] . "]" : $match[4];
+			
 			case 4 :
+
 				// For security reasons, this was intentionally commented out.
 				// You may, at your own risk uncomment the lines below.
 				
@@ -256,8 +270,11 @@ class Parser {
 				//	'username' => $credentials[0],
 				//	'password' => (isset($credentials[1]) === true) ? $credentials[1] : null
 				//);
+			
 			case 3 :
+
 				$result->scheme = $match[1];
+		
 		}
 		
 		// Set script name 

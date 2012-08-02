@@ -2,8 +2,8 @@
 /**
  *	Architect Framework
  *
- *	Architect Framework is a object oriented and flexible web applications framework built for PHP 5.3 and later.
- *	Architect is built to scale with application size, ranging from small webapps to enterprise-worthy solutions.
+ *	Architect Framework is a light-weight and scalable object oriented web applications framework built for PHP 5.3 and later.
+ *	Architect focuses on handling common tasks and processes used to quickly develop small, medium and large scale applications.
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  *	@link http://architect.kodlabbet.net/
@@ -88,7 +88,7 @@ class Client {
 		415 => 'Unsupported Media Type',
 		416 => 'Requested Range Not Satisfiable',
 		417 => 'Expectation Failed',
-		418 => 'I\'m a teapot',
+		418 => 'I\'m A Teapot',
 		500 => 'Internal Server Error',
 		501 => 'Not Implemented',
 		502 => 'Bad Gateway',
@@ -257,7 +257,7 @@ class Client {
 	/**
 	 *	setMethod
 	 *
-	 *	This method sets request method, can either be GET, POST, PUT or DELETE.
+	 *	Sets request method, can either be GET, POST, PUT or DELETE.
 	 *
 	 *	@param string $request_method
 	 *
@@ -279,7 +279,7 @@ class Client {
 	/**
 	 *	getMethod
 	 *
-	 *	This method returns the request method used, attempts to set it if not set.
+	 *	Returns the request method used, attempts to set it if not set.
 	 *
 	 *	@return string
 	 */
@@ -371,7 +371,7 @@ class Client {
 	/**
 	 *	isGet
 	 *
-	 *	This method checks if request is GET.
+	 *	Checks if request is GET.
 	 *
 	 *	@return bool
 	 */
@@ -384,7 +384,7 @@ class Client {
 	/**
 	 *	isPost
 	 *
-	 *	This method checks if request is POST.
+	 *	Checks if request is POST.
 	 *
 	 *	@return bool
 	 */
@@ -397,7 +397,7 @@ class Client {
 	/**
 	 *	isPut
 	 *
-	 *	This method checks if request is PUT.
+	 *	Checks if request is PUT.
 	 *
 	 *	@return bool
 	 */
@@ -410,7 +410,7 @@ class Client {
 	/**
 	 *	isDelete
 	 *
-	 *	This method checks if request is DELETE.
+	 *	Checks if request is DELETE.
 	 *
 	 *	@return bool
 	 */
@@ -423,7 +423,7 @@ class Client {
 	/**
 	 *	isAjax
 	 *
-	 *	This method checks whether current request is an Ajax request, this method is not entierly reliable.
+	 *	Checks whether current request is an Ajax request, this method is not entierly reliable.
 	 *
 	 *	@return bool
 	 */
@@ -439,148 +439,36 @@ class Client {
 	}
 
 	/**
-	 *	setHeader
+	 *	isTransfer
 	 *
-	 *	Sets a HTTP header.
+	 *	Checks if current request is a file transfer.
 	 *
-	 *	@param string $header HTTP header.
-	 *	@param string $parameter Header value.
-	 *
-	 *	@return void
+	 *	@return bool
 	 */
-	public function setHeader($header, $parameter) {
+	public function isTransfer() {
 
-		if(preg_match("/^[a-zA-Z0-9-]+$/", $header)) {
-		
-			$this->http_headers[$header] = $parameter;
-		
-		}
+		switch($this->getMethod()) {
 
-	}
+			case 'PUT' :
+			case 'POST' :
 
-	/**
-	 *	getHeader
-	 *
-	 *	Returns a HTTP header (if registered).
-	 *
-	 *	@param string $header
-	 *
-	 *	@return string|bool
-	 */
-	public function getHeader($header) {
-	
-		if(array_key_exists($header, $this->http_headers)) {
-		
-			return $this->http_headers[$header];
-		
-		}
+				if(isset($_FILES) === true && is_array($_FILES) === true) {
 
-		return false;
+					return true;
 
-	}
+				} else {
 
-	/**
-	 *	setHeaders
-	 *
-	 *	Sets headers from an associative array.
-	 *
-	 *	@param array $headers Array if HTTP headers
-	 *
-	 *	@return void
-	 */
-	public function setHeaders(array $headers) {
+					return false;
 
-		if(is_array($headers) === true) {
+				}
 
-			foreach($headers as $header => $parameter) {
+			break;
+			default :
 			
-				$this->setHeader($header, $parameter);
-			
-			}
+				return false;
 
-		}
+			break;
 
-	}
-
-	/**
-	 *	getHeaders
-	 *
-	 *	Returns all registered HTTP headers.
-	 *
-	 *	@param array
-	 */
-	public function getHeaders() {
-
-		return $this->http_headers;
-
-	}
-
-	/**
-	 *	setDefaultHeaders
-	 *
-	 *	This method sets default request headers.
-	 *
-	 *	@return void
-	 */
-	protected function setDefaultHeaders() {
-
-		// Set status code
-		$this->setStatusCode(200);
-
-		// Set headers
-		$this->setHeaders(array(
-
-			'Date' => date('r'),
-
-			'Accept-Language' => ARCH_LOCALE_LANGUAGE_CODE,
-
-			'Accept-Charset' => ARCH_LOCALE_CHARSET,
-
-			'User-Agent' => $_SERVER['HTTP_USER_AGENT']
-
-		));
-
-	}
-
-	/**
-	 *	outputHeaders
-	 *
-	 *	Returns an output of all registered headers, including status code.
-	 *
-	 *	@return string
-	 */
-	public function outputHeaders() {
-
-		// Output HTTP status
-		$output = $this->getStatus() . "\n";
-		
-		// Output HTTP headers
-		foreach($this->getHeaders() as $header => $parameter) {
-		
-			$output .= "{$header}: {$parameter}\n";
-		
-		}
-		
-		// Return headers as string
-		return $output;
-
-	}
-	
-	/**
-	 *	sendHeaders
-	 *
-	 *	Sends registered output headers and status code.
-	 */
-	public function sendHeaders() {
-
-		// Send HTTP status
-		header($this->getStatus());
-		
-		// Send HTTP headers
-		foreach($this->getHeaders() as $header => $parameter) {
-		
-			header("{$header}: {$parameter}");
-		
 		}
 
 	}
@@ -763,6 +651,172 @@ class Client {
 
 		// No parameters exist, returns an empty array
 		return array();
+
+	}
+
+	/**
+	 *	getTransfer
+	 *
+	 *	Returns file transfer array, if current request is valid transfer request.
+	 *
+	 *	@return array|null
+	 */
+	public function getTransfer() {
+
+		if($this->isTransfer() === true) {
+
+			return $_FILES;
+
+		}
+
+		return null;
+
+	}
+
+	/**
+	 *	setHeader
+	 *
+	 *	Sets a HTTP header.
+	 *
+	 *	@param string $header HTTP header.
+	 *	@param string $parameter Header value.
+	 *
+	 *	@return void
+	 */
+	public function setHeader($header, $parameter) {
+
+		if(preg_match("/^[a-zA-Z0-9-]+$/", $header)) {
+		
+			$this->http_headers[$header] = $parameter;
+		
+		}
+
+	}
+
+	/**
+	 *	getHeader
+	 *
+	 *	Returns a HTTP header (if registered).
+	 *
+	 *	@param string $header
+	 *
+	 *	@return string|bool
+	 */
+	public function getHeader($header) {
+	
+		if(array_key_exists($header, $this->http_headers)) {
+		
+			return $this->http_headers[$header];
+		
+		}
+
+		return false;
+
+	}
+
+	/**
+	 *	setHeaders
+	 *
+	 *	Sets headers from an associative array.
+	 *
+	 *	@param array $headers Array if HTTP headers
+	 *
+	 *	@return void
+	 */
+	public function setHeaders(array $headers) {
+
+		if(is_array($headers) === true) {
+
+			foreach($headers as $header => $parameter) {
+			
+				$this->setHeader($header, $parameter);
+			
+			}
+
+		}
+
+	}
+
+	/**
+	 *	getHeaders
+	 *
+	 *	Returns all registered HTTP headers.
+	 *
+	 *	@param array
+	 */
+	public function getHeaders() {
+
+		return $this->http_headers;
+
+	}
+
+	/**
+	 *	setDefaultHeaders
+	 *
+	 *	This method sets default request headers.
+	 *
+	 *	@return void
+	 */
+	protected function setDefaultHeaders() {
+
+		// Set status code
+		$this->setStatusCode(200);
+
+		// Set headers
+		$this->setHeaders(array(
+
+			'Date' => date('r'),
+
+			'Accept-Language' => ARCH_LOCALE_LANGUAGE_CODE,
+
+			'Accept-Charset' => ARCH_LOCALE_CHARSET,
+
+			'User-Agent' => $_SERVER['HTTP_USER_AGENT']
+
+		));
+
+	}
+
+	/**
+	 *	outputHeaders
+	 *
+	 *	Returns an output of all registered headers, including status code.
+	 *
+	 *	@return string
+	 */
+	public function outputHeaders() {
+
+		// Output HTTP status
+		$output = $this->getStatus() . "\n";
+		
+		// Output HTTP headers
+		foreach($this->getHeaders() as $header => $parameter) {
+		
+			$output .= "{$header}: {$parameter}\n";
+		
+		}
+		
+		// Return headers as string
+		return $output;
+
+	}
+	
+	/**
+	 *	sendHeaders
+	 *
+	 *	Sends registered output headers and status code.
+	 */
+	public function sendHeaders() {
+
+		// Send HTTP status
+		header($this->getStatus());
+		
+		// Send HTTP headers
+		foreach($this->getHeaders() as $header => $parameter) {
+		
+			header("{$header}: {$parameter}");
+		
+		}
 
 	}
 
