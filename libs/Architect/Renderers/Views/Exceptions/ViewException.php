@@ -12,7 +12,7 @@
  */
 
 /* @namespace Exceptions */
-namespace Architect\IO\Views\Exceptions;
+namespace Architect\Renderers\Views\Exceptions;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
@@ -22,7 +22,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	View exception, inherits from {@see \Architect\Exceptions\Exception}.
  *
- *	@package IO
+ *	@package Renderers
  *	@subpackage Views
  *	@subpackage Exceptions
  *
