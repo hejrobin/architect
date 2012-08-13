@@ -53,21 +53,21 @@ function af_randstr($type = 'alnum', $length = 8) {
 
 		// Handle character pools
 		switch ($type) {
-		
+
 			case 'alnum' :
-			
+
 				$char_pool = $char_pool_alpha . $char_pool_alpha_uppercase . $char_pool_numeric;
 
 			break;
 
 			case 'alnum.lowercase' :
-			
+
 				$char_pool = $char_pool_alpha . $char_pool_numeric;
 
 			break;
 
 			case 'alnum.uppercase' :
-			
+
 				$char_pool = $char_pool_alpha_uppercase . $char_pool_numeric;
 
 			break;
@@ -89,16 +89,16 @@ function af_randstr($type = 'alnum', $length = 8) {
 				$char_pool = $char_pool_unique. $char_pool_salt;
 
 			break;
-		
+
 		}
 
 		$random_string = '';
 
 		// Generate random string based on char pool
 		for($n = 0; $n < $length; $n++) {
-			
+
 			$random_string .= substr($char_pool, mt_rand(0, strlen($char_pool) -1), 1);
-			
+
 		}
 
 		return $random_string;
@@ -122,11 +122,11 @@ function af_hash($string, $salt = null) {
 
 	// Generate salt
 	if(!isset($salt) && !is_string($salt)) {
-	
+
 		$salt = af_randstr('salt', 16);
-	
+
 	}
-	
+
 	// Return hashed string
 	return hash('sha512', $salt . $string);
 
@@ -143,22 +143,22 @@ function af_uri_rewritable() {
 
 	// Look for Apache rewrite module
 	if(function_exists('apache_get_modules') === true) {
-	
+
 		$uri_rewritable = in_array('mod_rewrite', apache_get_modules());
-	
+
 	} else {
-	
+
 		// Check for other rewrite modules
 		if(getenv('HTTP_MOD_REWRITE') === 'On') {
-		
+
 			$uri_rewritable = true;
-		
+
 		} else {
-		
+
 			$uri_rewritable = false;
-		
+
 		}
-	
+
 	}
 
 	return $uri_rewritable;
@@ -178,23 +178,26 @@ function af_get_uri_route($uri_route) {
 
 	// Normalize route
 	$uri_route = trim(stripslashes($uri_route), '/');
-	
+
 	$uri_rewritable = false;
-	
+
 	// Validate rewrite modules
 	if(af_uri_rewritable() === true && ARCH_ENABLE_URI_REWRITE === true) {
-	
+
 		$uri_rewritable = true;
-	
+
 	}
-	
+
 	// Append index.php if rewrite modules exist
 	if($uri_rewritable === false) {
-	
+
 		$uri_route = "index.php/{$uri_route}";
-	
+
 	}
-	
+
+	// Strip excess slashes
+	$uri_route = trim($uri_route, '/');
+
 	// Return URI route
 	return "/{$uri_route}/";
 
@@ -212,7 +215,7 @@ function af_get_uri_route($uri_route) {
  *	@return void
  */
 function af_redirect($uri, $method = 'location', $params = array()) {
-	
+
 	switch($method) {
 
 		case 'refresh' :
@@ -236,7 +239,7 @@ function af_redirect($uri, $method = 'location', $params = array()) {
 			$delay = $delay = (array_key_exists('delay', $params) && isset($params['delay'])) ? intval($params['delay']) * 1000 : 0;
 
 			echo '<script type="text/javascript">setTimeout(function() { window.location = \'' . $uri . '\'; }, ' . $delay . ');</script>';
-	
+
 		break;
 
 	}
