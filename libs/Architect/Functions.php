@@ -222,16 +222,20 @@ function af_redirect($uri, $method = 'location', $params = array()) {
 
 			$delay = (array_key_exists('delay', $params) && isset($params['delay'])) ? $params['delay'] : 0;
 
+			session_write_close();
+
 			header("Refresh: {$delay}; URL={$uri}");
+			exit;
 
 		break;
 		case 'location' :
 
 			$status_code = (array_key_exists('http_status_code', $params) && isset($params['http_status_code'])) ? $params['http_status_code'] : 302;
 
-			header("Location: {$uri}", true, $status_code);
+			session_write_close();
 
-			exit();
+			header("Location: {$uri}", true, $status_code);
+			exit;
 
 		break;
 		case 'javascript' :

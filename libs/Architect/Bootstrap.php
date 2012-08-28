@@ -42,7 +42,7 @@ $import = function(array $namespace_segments, $class_name) {
 
 	// Get file include path
 	$class_file_path = implode('', array($include_path, "{$class_name}.php"));
-	
+
 	// Require class
 	require_once $class_file_path;
 
@@ -63,20 +63,22 @@ $import = function(array $namespace_segments, $class_name) {
  *	@throws Architect_ErrorException
  */
 $error_handler = function($code, $message, $file, $line) {
-	
+
 	// Create ErrorException
-	$error = new ErrorException($message, 0, $code, $file, $line);
-	
+	$error = new \ErrorException($message, 0, $code, $file, $line);
+
 	// Throw Architect_ErrorException
 	throw new \Architect\Exceptions\ErrorException($message, $message, 'PHP', $code, array(
 		'file' => $error->getFile(),
 		'line' => $error->getLine(),
 		'trace' => $error->getTrace()
 	));
+
 };
 
 // Set custom error handler
-set_error_handler($error_handler);
+error_reporting(E_ALL ^ E_NOTICE);
+set_error_handler($error_handler, E_ALL ^ E_NOTICE);
 
 // Import core functions
 include_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Functions.php');
@@ -120,9 +122,9 @@ class Architect {
 	 *	@return \Architect\Core\Architect
 	 */
 	public static function getInstance() {
-	
+
 		return Architect\Core\Architect::getInstance();
-	
+
 	}
 
 }

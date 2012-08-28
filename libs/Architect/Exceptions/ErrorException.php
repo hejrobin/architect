@@ -70,7 +70,7 @@ class ErrorException extends ExceptionAbstract {
 				return 'UNKNOWN';
 
 			break;
-	
+
 		}
 
 	}

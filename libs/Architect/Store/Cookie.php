@@ -18,9 +18,9 @@ namespace Architect\Store;
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Session
+ *	Cookie
  *
- *	Class used to handle session store.
+ *	Class used to handle cookie store.
  *
  *	@package Store
  *
@@ -28,26 +28,28 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-class Session extends \Architect\Store\Object {
+class Cookie extends \Architect\Store\Object {
 
 	/**
-	 *	@var bool $secure_sockets_layer_transfer Defines whether sessions should be transfered over HTTPS.
+	 *	@var bool $secure_sockets_layer_transfer Defines whether cookies should be transfered over HTTPS.
 	 */
 	protected $secure_sockets_layer_transfer = false;
 
 	/**
-	 *	@var bool $secure_sockets_layer_transfer Defines whether sessions should be transfered over HTTP, not accessable publicly.
+	 *	@var bool $secure_sockets_layer_transfer Defines whether cookies should be transfered over HTTP, not accessable publicly.
 	 */
 	protected $http_transfer = false;
 
 	/**
 	 *	Constructor
 	 *
-	 *	Sets default session storage options.
+	 *	Sets default cookie storage options.
 	 *
 	 *	@return void
 	 */
-	public function __construct($lifetime = 3600, $store_path = '/') {
+	public function __construct($lifetime = 2592000, $store_path = '/') {
+
+		$this->useCompression(false);
 
 		$this->lifetime = $lifetime;
 
@@ -84,30 +86,9 @@ class Session extends \Architect\Store\Object {
 	}
 
 	/**
-	 *	activate
-	 *
-	 *	Activates session store.
-	 *
-	 *	@return void
-	 */
-	public function activate() {
-
-		session_set_cookie_params(
-			$this->lifetime,
-			$this->store_path,
-			$this->domain,
-			$this->secure_sockets_layer_transfer,
-			$this->http_transfer
-		);
-
-		session_start();
-
-	}
-
-	/**
 	 *	generateKey
 	 *
-	 *	Returns hashed string for storage keys.
+	 *	Returns hashed string for storeage keys.
 	 *
 	 *	@param string $key
 	 *
@@ -132,7 +113,7 @@ class Session extends \Architect\Store\Object {
 	 */
 	public function has($key) {
 
-		if(array_key_exists($this->generateKey($key), $_SESSION) === true) {
+		if(array_key_exists($this->generateKey($key), $_COOKIE) === true) {
 
 			return true;
 
@@ -156,36 +137,13 @@ class Session extends \Architect\Store\Object {
 
 		if($this->has($key) === true) {
 
-			// Get entry
-			$entry = $_SESSION[$this->generateKey($key)];
+			$entry = unserialize($_COOKIE[$this->generateKey($key)]);
 
-			// Uncompress entry if compressed
-			if($this->shouldCompress() === true) {
+			if($entry !== false) {
 
-				$entry = gzuncompress($entry);
+				return $entry->data;
 
 			}
-
-			// Unserialize entry
-			$entry = unserialize($entry);
-
-			// Validate entry lifetime
-			if(time() > $entry->expires) {
-
-				// Delete entry
-				$this->delete($key);
-
-				return null;
-
-			}
-
-			if($return_expire_time === true) {
-
-				return $entry->expires;
-
-			}
-
-			return unserialize($entry->data);
 
 		}
 
@@ -196,7 +154,7 @@ class Session extends \Architect\Store\Object {
 	/**
 	 *	write
 	 *
-	 *	Writes a new data entry, and overwrite existing data.
+	 *	Should write a new data entry, and overwrite existing data.
 	 *
 	 *	@param string $key Data entry key.
 	 *	@param mixed $data Data entry.
@@ -216,15 +174,19 @@ class Session extends \Architect\Store\Object {
 		// Serialize entry
 		$entry = serialize($entry);
 
-		// Compress entry if possible
-		if($this->shouldCompress() === true) {
+		if(headers_sent() === false) {
 
-			$entry = gzcompress($entry);
+			setcookie(
+				$this->generateKey($key),
+				$entry,
+				time() + $this->lifetime,
+				$this->store_path,
+				$this->domain,
+				$this->secure_sockets_layer_transfer,
+				$this->http_transfer
+			);
 
 		}
-
-		// Save entry
-		$_SESSION[$this->generateKey($key)] = $entry;
 
 	}
 
@@ -262,8 +224,19 @@ class Session extends \Architect\Store\Object {
 
 		if($this->has($key) === true) {
 
-			unset($_SESSION[$this->generateKey($key)]);
+			if(headers_sent() === false) {
 
+				setcookie(
+					$this->generateKey($key),
+					'',
+					time() - 3600 * 25,
+					$this->store_path,
+					$this->domain,
+					$this->secure_sockets_layer_transfer,
+					$this->http_transfer
+				);
+
+			}
 		}
 
 	}
@@ -277,20 +250,19 @@ class Session extends \Architect\Store\Object {
 	 */
 	public function flush() {
 
-		foreach($_SESSION as $key => $entry) {
+		foreach($_COOKIE as $key => $entry) {
 
-			// Uncompress entry if compressed
-			if($this->shouldCompress() === true) {
+			$entry = unserialize($entry);
 
-				$entry = gzuncompress($entry);
+			if($entry !== false) {
 
-			}
+				// Validate entry lifetime
+				if(time() > $entry->expires) {
 
-			// Validate entry lifetime
-			if(time() > $entry->expires) {
+					// Delete entry
+					$this->delete($key);
 
-				// Delete entry
-				unset($_SESSION[$key]);
+				}
 
 			}
 

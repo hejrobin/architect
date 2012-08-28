@@ -2,9 +2,6 @@
 // Enable garbage collection
 gc_enable();
 
-// Enable session storage
-session_start();
-
 // Anonymous function used to import files
 $import = function($include_path) {
 
@@ -41,6 +38,13 @@ try {
 
 	// Navigator
 	$navigator = new \Architect\Delegation\Navigator('HTTP', $parsed_route_maps);
+
+	// Include root bootstrap file, if exists
+	if(file_exists(ARCH_ROOT_PATH . 'bootstrap.php') === true) {
+
+		\Architect\Core\BootstrapLoader::load(ARCH_ROOT_PATH . 'bootstrap.php');
+
+	}
 
 	// Include custom bootstrap files
 	\Architect\Core\BootstrapLoader::import();
