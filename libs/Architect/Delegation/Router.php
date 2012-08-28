@@ -369,6 +369,21 @@ abstract class Router {
 		// Resolve router resources
 		$this->resolveResources();
 
+		// Dynamic constants for components
+		$arch_component_name = null;
+		$arch_component_path = null;
+
+		if(is_string($this->request->getProperty('component')) === true) {
+
+			$arch_component_name = $this->request->getProperty('component');
+			$arch_component_path = ARCH_COMPONENTS_PATH . $arch_component_name . DIRECTORY_SEPARATOR;
+
+		}
+
+		// Define "dynamic" constants
+		define('ARCH_COMPONENT_NAME', $arch_component_name);
+		define('ARCH_COMPONENT_PATH', $arch_component_path);
+
 		// Iterate through each registered resource
 		foreach($this->resources as $type => $resource) {
 

@@ -69,7 +69,7 @@ class Connection extends \PDO {
 		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
 
 		// Throw exception if database driver does not exist
-		if(array_key_exists(strtolower($driver), $this->drivers) === false) {
+		if(array_key_exists(strtolower($driver), $this->database_drivers) === false) {
 
 			throw new Exceptions\DatabaseException(
 				'Could not establish database connection.',
@@ -110,7 +110,7 @@ class Connection extends \PDO {
 	private function setDatabaseSourceName($driver, $database, $host = 'localhost', $port = false) {
 
 		// Get DSN string
-		$dsn = $this->drivers[$driver];
+		$dsn = $this->database_drivers[$driver];
 
 		// Create DSN without port
 		if($port === false) {

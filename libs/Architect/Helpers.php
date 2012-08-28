@@ -102,4 +102,31 @@ function af_render_view($view_file, $variables = array(), $include_path = null) 
 	return $view->render();
 
 }
+
+/**
+ *	af_load_model
+ *
+ *	Attempts to load in a model based on current controller path.
+ *
+ *	@param string $model_name Name of model, without namespace (\app\Model\) and file extension (.php).
+ *
+ *	@return void
+ */
+function af_load_model($model_name) {
+
+	if(defined('ARCH_COMPONENT_PATH') === true) {
+
+		$include_path = preg_replace('~(.*)' . preg_quote('Controllers', '~') . '~', '$1' . 'Models', ARCH_CONTROLLER_PATH, 1);
+
+		$model_include_path = $include_path . $model_name . ARCH_FILE_EXTENSION;
+
+		if(file_exists($model_include_path) === true) {
+
+			require_once $model_include_path;
+
+		}
+
+	}
+
+}
 ?>

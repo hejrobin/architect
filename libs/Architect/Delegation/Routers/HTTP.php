@@ -51,19 +51,19 @@ class HTTP extends \Architect\Delegation\Router {
 
 		// Get request type
 		$request_type = ($this->request->xml_http_request === true) ? 'ajax' : 'http';
-		
+
 		// Get request method
 		$request_method = $this->request->method;
-		
+
 		// Get request rules
 		$request_rules = $route_map['request_rules'][$request_type];
-		
+
 		// Check if request rule method exists
 		if(array_key_exists($request_method, $request_rules)) {
-		
+
 			// Set controller callback to request rule
 			$_controller_callback = $request_rules[$request_method];
-		
+
 		}
 
 		// Set request action
@@ -92,6 +92,7 @@ class HTTP extends \Architect\Delegation\Router {
 		// Action resource
 		$action = new \Architect\Delegation\Resource('Action', $this->request->action, ARCH_APPLICATION_PATH_NAME, ARCH_APPLICATION_NAMESPACE);
 		$action->setComponentName($this->request->component);
+		$action->resolveResourceConstants();
 
 		// Register action resource
 		$this->setResource('action', $action);
@@ -99,6 +100,7 @@ class HTTP extends \Architect\Delegation\Router {
 		// Controller resource
 		$controller = new \Architect\Delegation\Resource('Controller', $this->request->controller, ARCH_APPLICATION_PATH_NAME, ARCH_APPLICATION_NAMESPACE);
 		$controller->setComponentName($this->request->component);
+		$controller->resolveResourceConstants();
 
 		// Register controller resource
 		$this->setResource('controller', $controller);

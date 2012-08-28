@@ -322,7 +322,7 @@ class Resource {
 	 *	@return string
 	 */
 	protected function resolve($separator, $property) {
-		
+
 		// Throw exception if input parameter is invalid
 		if(in_array($property, array('namespace', 'include_path')) === false) {
 
@@ -358,10 +358,10 @@ class Resource {
 
 		// Implode resource namespace, name and input object
 		$resolved_path = implode($separator, array($this->$property, $resource_type, $this->name));
-		
+
 		// Return resolved path
 		return $resolved_path;
-	
+
 	}
 
 	/**
@@ -372,9 +372,9 @@ class Resource {
 	 *	@return string
 	 */
 	protected function resolveNamespace() {
-	
+
 		return NAMESPACE_SEPARATOR . trim($this->resolve(NAMESPACE_SEPARATOR, 'namespace'), NAMESPACE_SEPARATOR);
-	
+
 	}
 
 	/**
@@ -385,9 +385,33 @@ class Resource {
 	 *	@return string
 	 */
 	protected function resolveIncludePath() {
-	
+
 		return ARCH_ROOT_PATH . $this->resolve(DIRECTORY_SEPARATOR, 'include_path');
-			
+
+	}
+
+	/**
+	 *	resolveResourceConstants
+	 *
+	 *	Resolves and defines resource constants.
+	 *
+	 *	@return void
+	 */
+	public function resolveResourceConstants() {
+
+		$constant_name = strtoupper("arch_{$this->type}_name");
+		$constant_name_value = $this->getName();
+
+		$constant_path = strtoupper("arch_{$this->type}_path");
+		$constant_path_value = $this->resolveIncludePath();
+
+		// Strip resource name from path value
+		$constant_path_value = preg_replace('~(.*)' . preg_quote($constant_name_value, '~') . '~', '$1' . '', $constant_path_value, 1);
+
+		// Define "dynamic" resource constants
+		define($constant_name, $constant_name_value);
+		define($constant_path, $constant_path_value);
+
 	}
 
 	/**
@@ -398,13 +422,13 @@ class Resource {
 	 *	@return bool
 	 */
 	public function canImport() {
-	
+
 		// Get resource path
 		$resource_path = $this->resolveIncludePath() . ARCH_FILE_EXTENSION;
-		
+
 		// Return whether file exists or not
 		return file_exists($resource_path);
-	
+
 	}
 
 	/**
@@ -445,7 +469,7 @@ class Resource {
 	 *	@return object
 	 */
 	public function createInstance() {
-		
+
 		// Create new instance of current resource
 		$instance = call_user_func_array(array(new \ReflectionClass($this->resolveNamespace()), 'newInstance'), array());
 

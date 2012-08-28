@@ -31,7 +31,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 abstract class Object {
 
 	/**
-	 *	@var array $data Data store object. 
+	 *	@var array $data Data store object.
 	 */
 	protected $data = array();
 
@@ -46,22 +46,42 @@ abstract class Object {
 	protected $fingerprint = 'HOcE7oNGAQp4pmWI';
 
 	/**
+	 *	@var bool $use_compression Boolean that specifies if entries should be compressed.
+	 */
+	protected $use_compression = true;
+
+	/**
+	 *	shouldCompress
+	 *
+	 *	Returns boolean whether entry data should, and can be compressed.
+	 *
+	 *	@return bool
+	 */
+	protected function shouldCompress() {
+
+		if($this->use_compression === true  && function_exists('gzcompress') === true && function_exists('gzuncompress') === true) {
+
+			return true;
+
+		}
+
+		return false;
+
+	}
+
+	/**
 	 *	useCompression
 	 *
 	 *	Returns boolean whether entry data can be compressed.
 	 *
+	 *	@param bool $use_compression Boolean that specifies if entries should be compressed.
+	 *
 	 *	@return bool
 	 */
-	protected function useCompression() {
-	
-		if(function_exists('gzcompress') === true && function_exists('gzuncompress') === true) {
-		
-			return true;
-		
-		}
-		
-		return false;
-	
+	protected function useCompression($use_compression) {
+
+		$this->use_compression = $use_compression;
+
 	}
 
 	/**
@@ -85,7 +105,7 @@ abstract class Object {
 	 *	@return bool
 	 */
 	public abstract function has($key);
-	
+
 	/**
 	 *	read
 	 *
@@ -138,5 +158,6 @@ abstract class Object {
 	 *	@return void
 	 */
 	public abstract function flush();
+
 }
 ?>

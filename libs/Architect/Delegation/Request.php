@@ -64,17 +64,17 @@ class Request {
 	 *	@var string $controller Request controller.
 	 */
 	public $controller = null;
-	
+
 	/**
 	 *	@var string $controller_callback Request controller callback.
 	 */
 	public $controller_callback = null;
-	
+
 	/**
 	 *	@var array $controller_callback_parameters Request controller callback parameters.
 	 */
 	public $controller_callback_parameters = array();
-	
+
 	/**
 	 *	@var string $action Request action.
 	 */
@@ -84,7 +84,7 @@ class Request {
 	 *	@var string $action_callback Request action callback.
 	 */
 	public $action_callback = null;
-	
+
 	/**
 	 *	@var array $action_callback_parameters Request action callback parameters.
 	 */
@@ -201,6 +201,9 @@ class Request {
 		// Remove multiple occurances of underscores
 		$callback = preg_replace('/(\_+)/', '_', trim($callback, '_'));
 
+		// Remove multiple occurances of dots
+		$callback = preg_replace('/(\.+)/', '_', trim($callback, '_'));
+
 		// Replace dash sign with underscore, and dot with "_dot_"
 		$callback = str_ireplace(array('-', '.'), array('_', '_dot_'), $callback);
 
@@ -217,9 +220,9 @@ class Request {
 	 *	@return array
 	 */
 	protected function resolveCallbackParameters() {
-	
+
 		return $this->trigger_callback_parameters;
-	
+
 	}
 
 	/**

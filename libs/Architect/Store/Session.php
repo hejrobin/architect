@@ -34,7 +34,7 @@ class Session extends \Architect\Store\Object {
 	 *	@var string $session_id Unique session ID.
 	 */
 	protected $session_id;
-	
+
 	/**
 	 *	Constructor
 	 *
@@ -43,17 +43,17 @@ class Session extends \Architect\Store\Object {
 	 *	@return void
 	 */
 	public function __construct($session_id = null) {
-		
+
 		$this->session_id = $session_id;
-		
+
 		if($this->session_id === null) {
-		
+
 			$this->session_id = af_randstr('unique');
-		
+
 		}
-		
+
 		session_id($this->session_id);
-	
+
 	}
 
 	/**
@@ -66,17 +66,17 @@ class Session extends \Architect\Store\Object {
 	 *	@return string
 	 */
 	protected function generateKey($key) {
-	
+
 		$key_hash = af_hash($key, $this->fingerprint);
-		
-		if($this->useCompression() === true) {
-			
+
+		if($this->shouldCompress() === true) {
+
 			$key_hash = gzcompress($key_hash);
-			
+
 		}
-	
+
 		return $key_hash;
-	
+
 	}
 
 	/**
@@ -89,17 +89,17 @@ class Session extends \Architect\Store\Object {
 	 *	@return bool
 	 */
 	public function has($key) {
-	
+
 		if(array_key_exists($this->generateKey($key), $_SESSION) === true) {
-		
+
 			return true;
-		
+
 		}
-	
+
 		return false;
-	
+
 	}
-	
+
 	/**
 	 *	read
 	 *
@@ -111,44 +111,44 @@ class Session extends \Architect\Store\Object {
 	 *	@return mixed
 	 */
 	public function read($key, $return_expire_time = false) {
-	
+
 		if($this->has($key) === true) {
 
 			// Get entry
 			$entry = $_SESSION[$this->generateKey($key)];
-			
+
 			// Uncompress entry if compressed
-			if($this->useCompression() === true) {
-			
+			if($this->shouldCompress() === true) {
+
 				$entry = gzuncompress($entry);
-			
+
 			}
-		
+
 			// Unserialize entry
 			$entry = unserialize($entry);
-			
+
 			// Validate entry lifetime
 			if(time() > $entry->expires) {
-				
+
 				// Delete entry
 				$this->delete($key);
-				
+
 				return null;
-			
+
 			}
-			
+
 			if($return_expire_time === true) {
-			
+
 				return $entry->expires;
-			
+
 			}
-			
+
 			return unserialize($entry->data);
-		
+
 		}
-		
+
 		return null;
-	
+
 	}
 
 	/**
@@ -162,7 +162,7 @@ class Session extends \Architect\Store\Object {
 	 *	@return void
 	 */
 	public function write($key, $data) {
-	
+
 		$entry = (object) array(
 
 			'data' => serialize($data),
@@ -170,17 +170,17 @@ class Session extends \Architect\Store\Object {
 			'expires' => time() + $this->lifetime
 
 		);
-		
+
 		// Serialize entry
 		$entry = serialize($entry);
-		
+
 		// Compress entry if possible
-		if($this->useCompression() === true) {
-			
+		if($this->shouldCompress() === true) {
+
 			$entry = gzcompress($entry);
-			
+
 		}
-		
+
 		// Save entry
 		$_SESSION[$this->generateKey($key)] = $entry;
 
@@ -194,17 +194,17 @@ class Session extends \Architect\Store\Object {
 	 *	@return void
 	 */
 	public function touch($key) {
-	
+
 		if($this->has($key) === true) {
-		
+
 			// Get entry data
 			$data = $this->read($key);
-			
+
 			// Update expire time to current data
 			$this->write($key, $data);
-		
+
 		}
-	
+
 	}
 
 	/**
@@ -217,13 +217,13 @@ class Session extends \Architect\Store\Object {
 	 *	@return void
 	 */
 	public function delete($key) {
-	
+
 		if($this->has($key) === true) {
-		
+
 			unset($_SESSION[$this->generateKey($key)]);
-		
+
 		}
-	
+
 	}
 
 	/**
@@ -234,26 +234,26 @@ class Session extends \Architect\Store\Object {
 	 *	@return void
 	 */
 	public function flush() {
-	
+
 		foreach($_SESSION as $key => $entry) {
-		
+
 			// Uncompress entry if compressed
-			if($this->useCompression() === true) {
-			
+			if($this->shouldCompress() === true) {
+
 				$entry = gzuncompress($entry);
-			
+
 			}
-			
+
 			// Validate entry lifetime
 			if(time() > $entry->expires) {
-				
+
 				// Delete entry
 				unset($_SESSION[$key]);
-			
+
 			}
-		
+
 		}
-	
+
 	}
 
 }

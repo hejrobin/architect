@@ -21,7 +21,7 @@
 
 	<!-- Framework Constants -->
 	<arch:constants>
-	
+
 		<!-- Environment Constant -->
 		<!-- DEVELOPMENT, INTEGRATION or PRODUCTION. -->
 		<arch:constant name="environment">DEVELOPMENT</arch:constant>
@@ -30,23 +30,23 @@
 		<!-- Error reporting level and whether to display debug errors. -->
 		<arch:constant name="debug_mode" type="bool">true</arch:constant>
 		<arch:constant name="debug_error_level" type="const">E_ALL</arch:constant>
-		
+
 		<!-- Router Settings -->
 		<!-- Defines which router protocol to use, most commonly HTTP. -->
 		<arch:constant name="router_protocol">HTTP</arch:constant>
-		
+
 		<!-- General Settings -->
 		<!-- Date/Time, URI Rewrite and error handling settings. -->
 		<arch:constant name="date_timezone">Europe/Stockholm</arch:constant>
 		<arch:constant name="enable_uri_rewrite" type="bool">false</arch:constant>
 		<arch:constant name="enable_session_store" type="bool">false</arch:constant>
-		
+
 		<!-- Cache Constants -->
 		<!-- Cache path accepts attribute value "setting" and value of "session.save_path". -->
 		<arch:constant name="cache_enabled" type="bool">false</arch:constant>
 		<arch:constant name="cache_save_path" type="path">cache/</arch:constant>
 		<arch:constant name="cache_driver">File</arch:constant>
-	
+
 		<!-- File Extensions -->
 		<arch:constant name="file_extension">.php</arch:constant>
 		<arch:constant name="cache_file_extension">.cache</arch:constant>
@@ -54,7 +54,7 @@
 		<!-- Library Paths -->
 		<arch:constant name="library_path" type="path">libs/</arch:constant>
 		<arch:constant name="framework_path" type="path">libs/Architect/</arch:constant>
-		
+
 		<!-- Application Settings -->
 		<arch:constant name="application_namespace">app</arch:constant>
 		<arch:constant name="application_path_name">app</arch:constant>
@@ -66,12 +66,12 @@
 		<arch:constant name="actions_path" type="path">app/Actions/</arch:constant>
 		<arch:constant name="components_path" type="path">app/Components/</arch:constant>
 		<arch:constant name="internal_path" type="path">app/Components/Internal/</arch:constant>
-		
+
 		<!-- Public Paths -->
 		<arch:constant name="public_path" type="path">public/</arch:constant>
 		<arch:constant name="assets_path" type="path">public/assets/</arch:constant>
 		<arch:constant name="uploads_path" type="path">public/uploads/</arch:constant>
-		
+
 	</arch:constants>
 
 	<!-- Router Settings -->
@@ -83,18 +83,23 @@
 			<!-- Default controller -->
 			<arch:defaultController callback="index">Teapot</arch:defaultController>
 
-			<!-- Default component -->
-			<arch:defaultComponent>Internal</arch:defaultComponent>
-
 			<!-- SSL Settings, accepts "allow", "enforce" or "restrict". -->
 			<arch:ssl mode="allow" />
 
 		</arch:settings>
-		
+
 		<!-- Custom Routes -->
 		<arch:routes>
-		
+
 			<!-- Define your custom routes here. -->
+
+			<arch:route map="lemonade">
+
+				<arch:component>Lemonade</arch:component>
+
+				<arch:controller>Teapot</arch:controller>
+
+			</arch:route>
 
 		</arch:routes>
 

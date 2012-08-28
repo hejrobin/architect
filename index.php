@@ -2,6 +2,9 @@
 // Enable garbage collection
 gc_enable();
 
+// Enable session storage
+session_start();
+
 // Anonymous function used to import files
 $import = function($include_path) {
 
