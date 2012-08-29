@@ -129,21 +129,14 @@ class Cookie extends \Architect\Store\Object {
 	 *	Returns entry data, if exists, otherwise null.
 	 *
 	 *	@param string $key Data entry key.
-	 *	@param bool $return_expire_time Optional parameter, if set to true method returns expire time instead of data.
 	 *
 	 *	@return mixed
 	 */
-	public function read($key, $return_expire_time = false) {
+	public function read($key) {
 
 		if($this->has($key) === true) {
 
-			$entry = unserialize($_COOKIE[$this->generateKey($key)]);
-
-			if($entry !== false) {
-
-				return $entry->data;
-
-			}
+			return $_COOKIE[$this->generateKey($key)];
 
 		}
 
@@ -163,22 +156,11 @@ class Cookie extends \Architect\Store\Object {
 	 */
 	public function write($key, $data) {
 
-		$entry = (object) array(
-
-			'data' => serialize($data),
-
-			'expires' => time() + $this->lifetime
-
-		);
-
-		// Serialize entry
-		$entry = serialize($entry);
-
 		if(headers_sent() === false) {
 
 			setcookie(
 				$this->generateKey($key),
-				$entry,
+				$data,
 				time() + $this->lifetime,
 				$this->store_path,
 				$this->domain,
@@ -248,27 +230,7 @@ class Cookie extends \Architect\Store\Object {
 	 *
 	 *	@return void
 	 */
-	public function flush() {
-
-		foreach($_COOKIE as $key => $entry) {
-
-			$entry = unserialize($entry);
-
-			if($entry !== false) {
-
-				// Validate entry lifetime
-				if(time() > $entry->expires) {
-
-					// Delete entry
-					$this->delete($key);
-
-				}
-
-			}
-
-		}
-
-	}
+	public function flush() {}
 
 }
 ?>
