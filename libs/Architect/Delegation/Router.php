@@ -202,6 +202,34 @@ abstract class Router {
 	public abstract function resolveCurrentRequestRoute($route_map_pattern, $route_map);
 
 	/**
+	 *	normalizeCallbackName
+	 *
+	 *	Returns a normalized callback name.
+	 *
+	 *	@param string $callback Unormalized callback name
+	 *
+	 *	@return string
+	 */
+	protected function normalizeCallbackName($callback) {
+
+		// Remove multiple occurances of dashes
+		$callback = preg_replace('/(\-+)/', '-', trim($callback, '-'));
+
+		// Remove multiple occurances of underscores
+		$callback = preg_replace('/(\_+)/', '_', trim($callback, '_'));
+
+		// Remove multiple occurances of dots
+		$callback = preg_replace('/(\.+)/', '.', trim($callback, '_'));
+
+		// Replace dash sign with underscore, and dot with "_dot_"
+		$callback = str_ireplace(array('-', '.'), array('_', '_dot_'), $callback);
+
+		// Return normalized callback
+		return $callback;
+
+	}
+
+	/**
 	 *	resolveRequestRoute
 	 *
 	 *	Resolves route request based on parsed route maps and request path.
@@ -288,12 +316,12 @@ abstract class Router {
 
 						// Set request action
 						$this->request->setProperty('action', $_action);
-						$this->request->setProperty('action_callback', $_action_callback);
+						$this->request->setProperty('action_callback', $this->normalizeCallbackName($_action_callback));
 						$this->request->setProperty('action_callback_parameters', $_action_callback_parameters);
 
 						// Set request controller
 						$this->request->setProperty('controller', $_controller);
-						$this->request->setProperty('controller_callback', $_controller_callback);
+						$this->request->setProperty('controller_callback', $this->normalizeCallbackName($_controller_callback));
 						$this->request->setProperty('controller_callback_parameters', $_controller_callback_parameters);
 
 						$this->resolveCurrentRequestRoute($route_map_pattern, $route_map);
@@ -325,12 +353,12 @@ abstract class Router {
 
 			// Set request action
 			$this->request->setProperty('action', $_controller);
-			$this->request->setProperty('action_callback', $_controller_callback);
+			$this->request->setProperty('action_callback', $this->normalizeCallbackName($_controller_callback));
 			$this->request->setProperty('action_callback_parameters', $_controller_callback_parameters);
 
 			// Set request controller
 			$this->request->setProperty('controller', $_controller);
-			$this->request->setProperty('controller_callback', $_controller_callback);
+			$this->request->setProperty('controller_callback', $this->normalizeCallbackName($_controller_callback));
 			$this->request->setProperty('controller_callback_parameters', $_controller_callback_parameters);
 
 		}

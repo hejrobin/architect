@@ -195,18 +195,6 @@ class Request {
 
 		}
 
-		// Remove multiple occurances of dashes
-		$callback = preg_replace('/(\-+)/', '-', trim($callback, '-'));
-
-		// Remove multiple occurances of underscores
-		$callback = preg_replace('/(\_+)/', '_', trim($callback, '_'));
-
-		// Remove multiple occurances of dots
-		$callback = preg_replace('/(\.+)/', '_', trim($callback, '_'));
-
-		// Replace dash sign with underscore, and dot with "_dot_"
-		$callback = str_ireplace(array('-', '.'), array('_', '_dot_'), $callback);
-
 		// Return normalized callback
 		return $callback;
 

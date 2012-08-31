@@ -41,7 +41,7 @@ abstract class Fragment {
 	protected $segment;
 
 	/**
-	 *	register
+	 *	registerObjects
 	 *
 	 *	Passes through {@see Collection} and {@see Segment} instances.
 	 *
@@ -50,7 +50,7 @@ abstract class Fragment {
 	 *
 	 *	@return void
 	 */
-	public function register(Collection $collection, Segment $segment) {
+	public function registerObjects(Collection $collection, Segment $segment) {
 
 		$this->collection = $collection;
 

@@ -37,7 +37,7 @@ try {
 	$parsed_route_maps = $route_maps_parser->getParsedRouteMaps();
 
 	// Navigator
-	$navigator = new \Architect\Delegation\Navigator('HTTP', $parsed_route_maps);
+	$arch->initialize('\Architect\Delegation\Navigator', 'navigator', array('HTTP', $parsed_route_maps));
 
 	// Include root bootstrap file, if exists
 	if(file_exists(ARCH_ROOT_PATH . 'bootstrap.php') === true) {
@@ -50,7 +50,7 @@ try {
 	\Architect\Core\BootstrapLoader::import();
 
 	// Set route by URI request path
-	$navigator->route($arch->uri->getRequestPath());
+	$arch->navigator->route($arch->uri->getRequestPath());
 
 	// Analyze and collect data from Rae
 	\Rae\Environment::analyze();
@@ -61,7 +61,7 @@ try {
 	\Rae\File::analyze();
 
 	// Delegate
-	$navigator->delegate();
+	$arch->navigator->delegate();
 
 } catch(Architect\Delegation\Exceptions\DelegationException $exception) {
 
