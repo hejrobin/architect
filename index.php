@@ -111,5 +111,33 @@ try {
 		'trace' => $exception->getTrace()
 	));
 
+} catch(\PDOException $database_exception) {
+
+	$message = $database_exception->getMessage();
+
+	preg_match('/(SQLSTATE\[.*?\])\s+\[\d{1,4}\](.*)(\(\d+\))/', $message, $matches, PREG_OFFSET_CAPTURE);
+
+	if(count($matches) > 0) {
+
+		$message = trim($matches[2][0]);
+
+	}
+
+	$exception = new \Architect\Database\Exceptions\DatabaseException($message, null, 'PDO', $database_exception->getCode());
+
+	echo af_render_internal_view('Exception.php', array(
+		'name' => $exception->getExceptionName(),
+		'type' => 'Framework Exception',
+		'message' => $exception->getMessage(),
+		'reason' => $exception->getReason(),
+		'class' => $exception->getExceptionNamespace(),
+		'context' => $exception->getContext(),
+		'file' => $exception->getFile(),
+		'line' => $exception->getLine(),
+		'code' => $exception->getCode(),
+		'code_string' => $exception->getCode(),
+		'trace' => $exception->getTrace()
+	));
+
 }
 ?>

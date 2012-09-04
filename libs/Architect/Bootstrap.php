@@ -152,6 +152,9 @@ $arch->uri->autodiscover();
 // Intitalize HTTP Client
 $arch->initialize('Architect\HTTP\Client', 'http');
 
+// Initialize FilterFactory
+$arch->initialize('Architect\IO\FilterFactory', 'filter');
+
 // Set timezone
 date_default_timezone_set(ARCH_DATE_TIMEZONE);
 ?>

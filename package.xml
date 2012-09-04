@@ -8,16 +8,16 @@
 	</arch:license>
 
 	<arch:version>
-		<arch:major>1.1</arch:major>
-		<arch:minor>3</arch:minor>
+		<arch:major>1.5</arch:major>
+		<arch:minor>0</arch:minor>
 	</arch:version>
 
 	<arch:release>
-		<arch:build date="Fri, Aug 31 2012 20:37:23 +0100">
+		<arch:build date="Mon, Sep 3 2012 22:37:13 +0100">
 			<![CDATA[97edd27fbecb2d502c0d702b53e04ca06812f744]]>
 		</arch:build>
 		<arch:type>dev</arch:type>
-		<arch:name>Hugin</arch:name>
+		<arch:name>Woodstock</arch:name>
 	</arch:release>
 
 	<arch:authors>

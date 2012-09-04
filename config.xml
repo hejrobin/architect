@@ -29,7 +29,6 @@
 		<!-- Debug Constants -->
 		<!-- Error reporting level and whether to display debug errors. -->
 		<arch:constant name="debug_mode" type="bool">true</arch:constant>
-		<arch:constant name="debug_error_level" type="const">E_ALL</arch:constant>
 
 		<!-- Router Settings -->
 		<!-- Defines which router protocol to use, most commonly HTTP. -->
@@ -92,14 +91,6 @@
 		<arch:routes>
 
 			<!-- Define your custom routes here. -->
-
-			<arch:route map="lemonade">
-
-				<arch:component>Lemonade</arch:component>
-
-				<arch:controller>Teapot</arch:controller>
-
-			</arch:route>
 
 		</arch:routes>
 

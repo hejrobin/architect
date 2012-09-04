@@ -156,9 +156,11 @@ class Connection extends \PDO {
 	public function connect($username, $password) {
 
 		// Invoke class parent
-		parent::__construct($this->dsn, $username, $password, $this->database_driver_options);
+		$is_success = parent::__construct($this->dsn, $username, $password, $this->database_driver_options);
 
 		\Rae\Console::log("Established a new database connection.", __METHOD__, __FILE__, __LINE__);
+
+		return is_object($is_success);
 
 	}
 
