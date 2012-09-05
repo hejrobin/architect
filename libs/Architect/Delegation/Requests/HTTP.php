@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	HTTP
  *
- *	HTTP requests, inherits from {@see \Architect\Delegation\Request}.
+ *	HTTP requests for routing, inherits from {@see \Architect\Delegation\Request}.
  *
  *	@package Delegation
  *	@subpackage Request
@@ -39,7 +39,7 @@ class HTTP extends \Architect\Delegation\Request {
 	 *	@param string $default_resource Default resource.
 	 *	@param string $default_resource_callback Default resource callback.
 	 *
-	 *	@return void 
+	 *	@return void
 	 */
 	public function __construct($default_resource, $default_resource_callback) {
 

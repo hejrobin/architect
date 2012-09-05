@@ -18,9 +18,9 @@ namespace Architect\Renderers\Views\PHP;
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	View
+ *	CachedView
  *
- *	Simple PHP view class.
+ *	Simple PHP view class, with support for cache.
  *
  *	@package Renderers
  *	@subpackage Views
@@ -30,7 +30,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-class View extends \Architect\Renderers\Views\ViewAbstract {
+class CachedView extends \Architect\Renderers\Views\ViewAbstract {
 
 	/**
 	 *	__construct
@@ -44,6 +44,29 @@ class View extends \Architect\Renderers\Views\ViewAbstract {
 		$this->setStreamWrapper('phpview', '\Architect\Renderers\Views\PHP\Stream');
 
 		$this->setIncludePath(ARCH_VIEWS_PATH);
+
+		$this->setLifetime();
+
+	}
+
+	/**
+	 *	setLifetime
+	 *
+	 *	Sets cache lifetime for this view.
+	 *
+	 *	@param int $lifetime Cache lifetime.
+	 *
+	 *	@return void
+	 */
+	public function setLifetime($lifetime = null) {
+
+		if(is_int($lifetime) === false || is_null($lifetime) === true) {
+
+			$this->lifetime = 3600 * 24 * 30;
+
+		}
+
+		$this->lifetime = $lifetime;
 
 	}
 
@@ -124,16 +147,28 @@ class View extends \Architect\Renderers\Views\ViewAbstract {
 		// Set previous view file
 		$this->previous_view_file = $this->view_file;
 
-		// Capture output buffer
-		@ob_start();
+		// Get Architect
+		$arch = \Architect::getInstance();
 
-		// Import view file
-		$this->import($this->view_file);
+		if($arch->hasInstance('cache') === true && $arch->cache->has($this->view_file)) {
 
-		// Get and clear buffer
-		$rendered_view = ob_get_clean();
+			$rendered_view = $arch->cache->read($this->view_file);
 
-		// Return rendered view
+		} else {
+
+			// Capture output buffer
+			@ob_start();
+
+			// Import view file
+			$this->import($this->view_file);
+
+			// Get and clear buffer
+			$rendered_view = ob_get_clean();
+
+			$arch->cache->write($this->view_file, $rendered_view, $this->lifetime);
+
+		}
+
 		return $rendered_view;
 
 	}

@@ -20,9 +20,11 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Request
  *
- *	Class used to create HTTP request via cURL.
+ *	Class used to create HTTP requests via cURL.
  *
  *	@package HTTP
+ *
+ *	@dependencies \Architect\URI\URI, \Architect\HTTP\Response
  *
  *	@version 1.0.0
  *

@@ -48,9 +48,13 @@ class Object {
 	 *
 	 *	@param array|object|string $data Source data.
 	 *
+	 *	@throws Exceptions\ObjectException
+	 *
 	 *	@return void
 	 */
 	public function __construct($data) {
+
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
 
 		// Get data type
 		$data_type = gettype($data);
@@ -70,10 +74,10 @@ class Object {
 		// Throw exception if type data is invalid
 		if(is_null($this->type) === true) {
 
-			throw new Exceptions\DocumentException(
+			throw new Exceptions\ObjectException(
 				"Could not create a new JSON Object.",
 				'Input type must be either of "array", "object" or "string".',
-				__METHOD__, Exceptions\DocumentException::DOMAIN_EXCEPTION
+				__METHOD__, Exceptions\ObjectException::DOMAIN_EXCEPTION
 			);
 
 		}

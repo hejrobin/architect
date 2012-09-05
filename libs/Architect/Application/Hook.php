@@ -18,9 +18,9 @@ namespace Architect\Application;
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Controller
+ *	Hook
  *
- *	Controllers are building blocks for the Model-View-Controller pattern. Each controller must contain declared method {@see Controller::index} and {@see Controller::error}.
+ *	Hooks are classes that are registered to a triggerpoint throughout Architect.
  *
  *	@package Application
  *
@@ -28,25 +28,25 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-interface Controller {
+interface Hook {
 
 	/**
-	 *	index
+	 *	register
 	 *
-	 *	Default method called by a router, see {@see Architect\Delegation\Router} for more info.
+	 *	Should contain logic which are called when a Hook is registered.
 	 *
 	 *	@return void
 	 */
-	public function index();
+	public function register();
 
 	/**
-	 *	error
+	 *	invoke
 	 *
-	 *	Error callback called when route does not exist, or Controller method does not exist.
+	 *	Called whenever registered Hook reaches it's registered triggerpoint. May return "true" on success, or "false" on failure.
 	 *
-	 *	@return void
+	 *	@return bool
 	 */
-	public function error();
+	public function invoke();
 
 }
 ?>

@@ -8,13 +8,13 @@
 	</arch:license>
 
 	<arch:version>
-		<arch:major>1.5</arch:major>
+		<arch:major>2.0</arch:major>
 		<arch:minor>0</arch:minor>
 	</arch:version>
 
 	<arch:release>
-		<arch:build date="Mon, Sep 3 2012 22:37:13 +0100">
-			<![CDATA[97edd27fbecb2d502c0d702b53e04ca06812f744]]>
+		<arch:build date="Wed, Sep 5 2012 21:11:34 +0100">
+			<![CDATA[2090bcaecfeab53d3f032c97dc363a93c18ef63f]]>
 		</arch:build>
 		<arch:type>dev</arch:type>
 		<arch:name>Woodstock</arch:name>

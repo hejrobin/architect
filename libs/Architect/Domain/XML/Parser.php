@@ -25,6 +25,8 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *	@package Domain
  *	@subpackage XML
  *
+ *	@dependencies \Architect\Domain\XML\Document
+ *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
@@ -32,7 +34,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 class Parser {
 
 	/**
-	 *	@var Document $document Instance of {@see \Architect\Domain\Type\File}.
+	 *	@var Document $document Instance of {@see Document}.
 	 */
 	protected $document;
 
@@ -56,6 +58,8 @@ class Parser {
 	 *	@return void
 	 */
 	public function __construct(\Architect\Domain\File\Object $file) {
+
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
 
 		// Pass \Architect\Domain\Type\File instance to a new Document object
 		$this->document = new Document($file);

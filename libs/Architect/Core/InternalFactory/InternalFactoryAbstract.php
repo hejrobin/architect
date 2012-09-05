@@ -221,6 +221,21 @@ abstract class InternalFactoryAbstract {
 	}
 
 	/**
+	 *	hasInstance
+	 *
+	 *	Checks whether a class exists in store.
+	 *
+	 *	@param string $identifier
+	 *
+	 *	@return bool
+	 */
+	public function hasInstance($name) {
+
+		return is_object($this->get($name));
+
+	}
+
+	/**
 	 *	initialize
 	 *
 	 *	Creates a new instance of input class via a ReflectionClass, throw exception if initialization failed.

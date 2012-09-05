@@ -20,10 +20,12 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	PackageConstantParser
  *
- *	Parses package.xml for data.
+ *	Parses through all nodes in package.xml and defines them as constants.
  *
  *	@package Core
  *	@subpackage Config
+ *
+ *	@dependencies \Architect\Domain\File\Object, \Architect\Domain\XML\Parser
  *
  *	@version 1.0.0
  *

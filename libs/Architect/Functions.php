@@ -15,6 +15,23 @@
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
+ *	af_dump
+ *
+ *	Wraps a var_dump within <pre>-elements.
+ *
+ *	@return string
+ */
+function af_dump() {
+
+	echo '<pre style="font:14px monaco;">';
+
+	var_dump(func_get_args());
+
+	echo '</pre>';
+
+}
+
+/**
  *	af_randstr
  *
  *	Creates a random string based on character pool and length.

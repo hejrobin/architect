@@ -34,22 +34,22 @@ class Client {
 	 *	@var string $http_protocol HTTP protocol.
 	 */
 	protected $http_protocol = "HTTP/1.1";
-	
+
 	/**
-	 *	@var int $http_status_code HTTP status code, see {@see $http_status_codes}.
+	 *	@var int $http_status_code HTTP status code, see {@see Client::$http_status_codes}.
 	 */
 	protected $http_status_code;
-	
+
 	/**
-	 *	@var string $http_status_type HTTP status type, see {@see $http_status_types}.
+	 *	@var string $http_status_type HTTP status type, see {@see Client::$http_status_types}.
 	 */
 	protected $http_status_type;
-	
+
 	/**
 	 *	@var array $http_headers Registered HTTP headers.
 	 */
 	protected $http_headers = array();
-	
+
 	/**
 	 *	@var array $http_status_codes HTTP status codes and names.
 	 */
@@ -97,7 +97,7 @@ class Client {
 		505 => 'HTTP Version Not Supported',
 		509 => 'Bandwidth Limit Exceeded'
 	);
-	
+
 	/**
 	 *	@var array $http_status_types HTTP status code types.
 	 */
@@ -132,11 +132,11 @@ class Client {
 	 *	@return void
 	 */
 	public function __construct() {
-	
+
 		$this->prepareParams();
-	
+
 		$this->setDefaultHeaders();
-	
+
 	}
 
 	/**
@@ -151,7 +151,7 @@ class Client {
 		return $this->http_protocol;
 
 	}
-	
+
 	/**
 	 *	setStatusCode
 	 *
@@ -166,7 +166,7 @@ class Client {
 		$this->http_status_code = $status_code;
 
 	}
-	
+
 	/**
 	 *	getStatusCode
 	 *
@@ -179,7 +179,7 @@ class Client {
 		return $this->http_status_code;
 
 	}
-	
+
 	/**
 	 *	getStatusMessage
 	 *
@@ -191,22 +191,22 @@ class Client {
 
 		// Get status code
 		$status_code = $this->getStatusCode();
-		
+
 		// Get status codes
 		$status_codes = $this->http_status_codes;
-		
+
 		// Return status message if exists
 		if(array_key_exists($status_code, $status_codes) === true) {
-		
+
 			return $status_codes[$status_code];
-		
+
 		}
 
 		// Return null
 		return null;
 
 	}
-	
+
 	/**
 	 *	getStatusType
 	 *
@@ -218,7 +218,7 @@ class Client {
 
 		// Only continue if status type is not set
 		if(is_string($this->http_status_type) === false) {
-		
+
 			// Set status type
 			$status_type = null;
 
@@ -227,20 +227,20 @@ class Client {
 
 				// Return status type code
 				if(in_array($this->http_status_code, $status_codes)) {
-				
+
 					$this->http_status_type = $status_type;
-				
+
 				}
 
 			}
 
 		}
-		
+
 		// Return HTTP status type
 		return $this->http_status_type;
 
 	}
-	
+
 	/**
 	 *	getStatus
 	 *
@@ -264,7 +264,7 @@ class Client {
 	 *	@return void
 	 */
 	public function setMethod($request_method) {
-	
+
 		if(in_array(strtoupper($request_method), $this->request_methods) === true) {
 
 			$this->request_method = $request_method;
@@ -275,7 +275,7 @@ class Client {
 
 		}
 	}
-	
+
 	/**
 	 *	getMethod
 	 *
@@ -286,22 +286,22 @@ class Client {
 	public function getMethod() {
 
 		if(isset($this->request_method)) {
-		
+
 			return $this->request_method;
-		
+
 		} else {
-		
+
 			$this->setMethod($_SERVER['REQUEST_METHOD']);
-			
+
 			if($this->request_method === false) {
-			
+
 				$this->request_method = 'GET';
-			
+
 			}
 
 		}
 
-		// Return request type	
+		// Return request type
 		return strtoupper($this->request_method);
 
 	}
@@ -318,15 +318,15 @@ class Client {
 		$status_int = floor($this->http_status_code / 100);
 
 		if($status_int === 1 || $status_int === 2) {
-		
+
 			return true;
-		
+
 		}
-			
+
 		return false;
 
 	}
-	
+
 	/**
 	 *	isRedirect
 	 *
@@ -339,15 +339,15 @@ class Client {
 		$status_int = floor($this->http_status_code / 100);
 
 		if($status_int === 3) {
-		
+
 			return true;
-		
+
 		}
-			
+
 		return false;
 
 	}
-	
+
 	/**
 	 *	isError
 	 *
@@ -360,14 +360,14 @@ class Client {
 		$status_int = floor($this->http_status_code / 100);
 
 		if($status_int === 4 || $status_int === 5) {
-		
+
 			return true;
-		
+
 		}
 
 		return false;
 	}
-	
+
 	/**
 	 *	isGet
 	 *
@@ -380,7 +380,7 @@ class Client {
 		return !!($this->getMethod() === 'GET');
 
 	}
-	
+
 	/**
 	 *	isPost
 	 *
@@ -393,7 +393,7 @@ class Client {
 		return !!($this->getMethod() === 'POST');
 
 	}
-	
+
 	/**
 	 *	isPut
 	 *
@@ -406,7 +406,7 @@ class Client {
 		return !!($this->getMethod() === 'PUT');
 
 	}
-	
+
 	/**
 	 *	isDelete
 	 *
@@ -419,7 +419,7 @@ class Client {
 		return !!($this->getMethod() === 'DELETE');
 
 	}
-	
+
 	/**
 	 *	isAjax
 	 *
@@ -430,9 +430,9 @@ class Client {
 	public function isAjax() {
 
 		if(!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-		
+
 			return true;
-		
+
 		}
 
 		return false;
@@ -464,7 +464,7 @@ class Client {
 
 			break;
 			default :
-			
+
 				return false;
 
 			break;
@@ -489,12 +489,12 @@ class Client {
 			'put' => array_merge((isset($this->request_data->put) ? $this->request_data->put : array()), array()),
 			'delete' => array_merge((isset($this->request_data->delete) ? $this->request_data->delete : array()), array())
 		);
-		
+
 		// Clean parameters
 		$this->cleanParams();
 
 	}
-	
+
 	/**
 	 *	cleanParam
 	 *
@@ -505,22 +505,22 @@ class Client {
 	 *	$return string
 	 */
 	protected function cleanParam($param) {
-	
+
 		// Accept input parameter as an array
 		if(is_array($param) === true) {
-		
+
 			// Map each element in array to this method
 			return array_map(array($this, 'cleanParam'), $param);
-		
+
 		} else {
-		
+
 			// Strip slashes from param
 			return stripslashes($param);
-		
+
 		}
 
 	}
-	
+
 	/**
 	 *	cleanParams
 	 *
@@ -532,18 +532,18 @@ class Client {
 
 		// Continue if magic quotes is active
 		if(get_magic_quotes_gpc() === 1) {
-	
+
 			// Iterate through each request group parameters
 			foreach($this->request_data as $group => $params) {
-			
+
 				$this->cleanParam($params);
-			
+
 			}
-				
+
 		}
 
 	}
-	
+
 	/**
 	 *	setParam
 	 *
@@ -562,19 +562,19 @@ class Client {
 
 		// Get request group
 		$group = $this->request_data[$request_method];
-		
+
 		// Set group data parameter if set
 		if(is_array($group) === true && isset($data) === true ) {
-		
+
 			$group[$param] = $data;
-		
+
 		}
-		
+
 		// Set request data
-		$this->request_data[$request_method] = $group; 
+		$this->request_data[$request_method] = $group;
 
 	}
-	
+
 	/**
 	 *	getParam
 	 *
@@ -595,15 +595,15 @@ class Client {
 
 		// Only continue if group exists
 		if(is_array($group) === true) {
-		
+
 			// Return parameter, or false if it does not exists
 			return (isset($group[$param]) === true) ? $group[$param] : false;
-		
+
 		}
-	
+
 		return false;
 	}
-	
+
 	/**
 	 *	setParams
 	 *
@@ -621,13 +621,13 @@ class Client {
 
 		// Iterate through each param and set them
 		foreach($params as $param => $data) {
-		
+
 			$this->setParam($param, $data, $request_method);
-		
+
 		}
-	
+
 	}
-	
+
 	/**
 	 *	getParams
 	 *
@@ -644,9 +644,9 @@ class Client {
 
 		// Return request parameters to current request method
 		if(array_key_exists($request_method, $this->request_data)) {
-		
+
 			return $this->request_data[$request_method];
-		
+
 		}
 
 		// No parameters exist, returns an empty array
@@ -686,9 +686,9 @@ class Client {
 	public function setHeader($header, $parameter) {
 
 		if(preg_match("/^[a-zA-Z0-9-]+$/", $header)) {
-		
+
 			$this->http_headers[$header] = $parameter;
-		
+
 		}
 
 	}
@@ -703,11 +703,11 @@ class Client {
 	 *	@return string|bool
 	 */
 	public function getHeader($header) {
-	
+
 		if(array_key_exists($header, $this->http_headers)) {
-		
+
 			return $this->http_headers[$header];
-		
+
 		}
 
 		return false;
@@ -728,9 +728,9 @@ class Client {
 		if(is_array($headers) === true) {
 
 			foreach($headers as $header => $parameter) {
-			
+
 				$this->setHeader($header, $parameter);
-			
+
 			}
 
 		}
@@ -788,19 +788,19 @@ class Client {
 
 		// Output HTTP status
 		$output = $this->getStatus() . "\n";
-		
+
 		// Output HTTP headers
 		foreach($this->getHeaders() as $header => $parameter) {
-		
+
 			$output .= "{$header}: {$parameter}\n";
-		
+
 		}
-		
+
 		// Return headers as string
 		return $output;
 
 	}
-	
+
 	/**
 	 *	sendHeaders
 	 *
@@ -810,12 +810,12 @@ class Client {
 
 		// Send HTTP status
 		header($this->getStatus());
-		
+
 		// Send HTTP headers
 		foreach($this->getHeaders() as $header => $parameter) {
-		
+
 			header("{$header}: {$parameter}");
-		
+
 		}
 
 	}

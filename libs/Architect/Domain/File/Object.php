@@ -77,6 +77,8 @@ class Object {
 	 */
 	public function __construct($file_path) {
 
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
+
 		// Get file information
 		$info = pathinfo($file_path);
 
@@ -204,6 +206,8 @@ class Object {
 	 *	Opens a new file resource.
 	 *
 	 *	@param string $mode File open mode.
+	 *
+	 *	@throws Exceptions\FileException
 	 *
 	 *	@return void
 	 */

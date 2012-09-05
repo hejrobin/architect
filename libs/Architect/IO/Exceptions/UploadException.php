@@ -11,22 +11,23 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace Application */
-namespace Architect\Application;
+/* @namespace Exceptions */
+namespace Architect\IO\Exceptions;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Model
+ *	UploadException
  *
- *	Models may, or rather should contain logic to fetch data which is then delegated by a Controller. Models can contain any method definition.
+ *	Upload exception, inherits from {@see \Architect\Exceptions\Exception}.
  *
- *	@package Application
+ *	@package IO
+ *	@subpackage Exceptions
  *
- *	@version 1.0.0
+ *	@version 1.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-interface Model {}
+class UploadException extends \Architect\Exceptions\Exception {}
 ?>

@@ -24,6 +24,8 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@package I/O
  *
+ *	@dependencies Architect\IO\UploadAdapters\Adapter
+ *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
@@ -62,6 +64,8 @@ class Upload {
 	 *
 	 *	@param array $files Array containing files, should be $_FILES.
 	 *	@param UploadAdapters\Adapter $adapter Upload adapter.
+	 *
+	 *	@throws Exceptions\UploadException
 	 *
 	 *	@return void
 	 */
@@ -180,6 +184,8 @@ class Upload {
 	 *	validateFiles
 	 *
 	 *	Validates files array.
+	 *
+	 *	@throws Exceptions\UploadException
 	 *
 	 *	@return bool
 	 */

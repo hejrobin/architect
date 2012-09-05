@@ -128,7 +128,7 @@ abstract class Object {
 	 *
 	 *	@return bool
 	 */
-	public abstract function write($key, $data);
+	public abstract function write($key, $data, $lifetime = null);
 
 	/**
 	 *	touch

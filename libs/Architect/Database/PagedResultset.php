@@ -18,17 +18,19 @@ namespace Architect\Database;
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	FragmentedResultset
+ *	PagedResultset
  *
- *	Class used to create and handle fragmented resultsets, also known as "paged resultsets".
+ *	Class used to create and handle "paged" resultsets.
  *
  *	@package Database
+ *
+ *	@dependencies \Architect\Data\Collection, \Architect\Data\FragmentCoordinates
  *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-class FragmentedResultset extends \Architect\Data\Fragment {
+class PagedResultset extends \Architect\Data\Fragment {
 
 	/**
 	 *	@var resource $db Instance of {@see Connection}.
@@ -84,7 +86,7 @@ class FragmentedResultset extends \Architect\Data\Fragment {
 	 */
 	public function register() {
 
-		$this->registerObjects(new \Architect\Data\Collection(array()), new \Architect\Data\Segment($this->count, $this->limit));
+		$this->registerObjects(new \Architect\Data\Collection(array()), new \Architect\Data\FragmentCoordinates($this->count, $this->limit));
 
 	}
 

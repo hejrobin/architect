@@ -160,41 +160,13 @@ abstract class ViewAbstract {
 	/**
 	 *	render
 	 *
-	 *	Renders output from view file.
+	 *	Should render view data and return it.
 	 *
 	 *	@throws Exceptions\ViewException
 	 *
 	 *	@return string
 	 */
-	public function render() {
-
-		// Throw exception if view tries to render itself within a loop
-		if($this->view_file === $this->previous_view_file) {
-
-			throw new Exceptions\ViewException(
-				"Could not render view file.",
-				"File \"{$this->view_file}\" is already rendered.",
-				__METHOD__, Exceptions\ViewException::INVALID_ARGUMENT_EXCEPTION
-			);
-
-		}
-
-		// Set previous view file
-		$this->previous_view_file = $this->view_file;
-
-		// Capture output buffer
-		@ob_start();
-
-		// Import view file
-		$this->import($this->view_file);
-
-		// Get and clear buffer
-		$rendered_view = ob_get_clean();
-
-		// Return rendered view
-		return $rendered_view;
-
-	}
+	public abstract function render();
 
 	/**
 	 *	String Mutator

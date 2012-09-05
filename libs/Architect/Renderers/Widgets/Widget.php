@@ -11,42 +11,34 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace Application */
-namespace Architect\Application;
+/* @namespace idgets */
+namespace Architect\Renderers\Widgets;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Controller
+ *	Widget
  *
- *	Controllers are building blocks for the Model-View-Controller pattern. Each controller must contain declared method {@see Controller::index} and {@see Controller::error}.
+ *	Widget interface.
  *
- *	@package Application
+ *	@package Renderers
+ *	@subpackage Widgets
  *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-interface Controller {
+interface Widget {
 
 	/**
-	 *	index
+	 *	render
 	 *
-	 *	Default method called by a router, see {@see Architect\Delegation\Router} for more info.
+	 *	Should render widget data and return it.
 	 *
-	 *	@return void
+	 *	@return mixed
 	 */
-	public function index();
-
-	/**
-	 *	error
-	 *
-	 *	Error callback called when route does not exist, or Controller method does not exist.
-	 *
-	 *	@return void
-	 */
-	public function error();
+	public function render();
 
 }
 ?>

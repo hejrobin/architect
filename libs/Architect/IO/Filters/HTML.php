@@ -18,9 +18,9 @@ namespace Architect\IO\Filters;
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	String
+ *	HTML
  *
- *	Filters strings from unsafe characters.
+ *	Filters HTML from unsafe attributes.
  *
  *	@package IO
  *	@subpackage Filters
@@ -29,7 +29,45 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-class String implements \Architect\IO\Filter {
+class HTML implements \Architect\IO\Filter {
+
+	/**
+	 *	@var array $allowed_tags Array containing allowed tag names.
+	 */
+	protected $allowed_tags = array(
+		'div', 'span', 'p', 'a', 'img',
+		'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+		'ul', 'ol', 'li', 'dl', 'dt', 'dd', 'sub', 'sup',
+		'strong', 'em', 'abbr', 'acronym', 'address',
+		'blockquote', 'cite', 'q', 'code', 'ins', 'del', 'dfn', 'kbd', 'pre', 'samp', 'var',
+		'table', 'thead', 'tbody', 'tfoot', 'th', 'tr', 'td', 'col', 'colgroup', 'caption'
+	);
+
+	/**
+	 *	@var array $invalid_attributes Array containing invalid tag attributes.
+	 */
+	protected $invalid_attributes = array(
+		'style',
+		'onload',
+		'onunload',
+		'onblur',
+		'onchange',
+		'onfocus',
+		'onreset',
+		'onselect',
+		'onsubmit',
+		'onabort',
+		'onkeydown',
+		'onkeypress',
+		'onkeyup',
+		'onclick',
+		'ondblclick',
+		'onmousedown',
+		'onmousemove',
+		'onmouseout',
+		'onmouseover',
+		'onmouseup'
+	);
 
 	/**
 	 *	filter
@@ -45,12 +83,15 @@ class String implements \Architect\IO\Filter {
 		// Strip out any existing JavaScript
 		$string = preg_replace('~<\s*\bscript\b[^>]*>(.*?)<\s*\/\s*script\s*>~is', '', $string);
 
-		// Unallowed attributes for HTML
-		$attributes = array('style', 'onload', 'onunload', 'onblur', 'onchange', 'onfocus', 'onreset', 'onselect', 'onsubmit', 'onabort', 'onkeydown', 'onkeypress', 'onkeyup', 'onclick', 'ondblclick', 'onmousedown', 'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup');
+		$array_map_callback = function($item) {
+			return '<' . $item . '>'
+		};
 
-		foreach($attributes as $attribute) {
+		$string = strip_tags($string, implode('', array_map($array_map_callback, $this->allowed_tags)));
 
-			$string = preg_replace('/(<[^>]+) ' . $attribute . '=".*?"/i', '$1', $string);
+		foreach($this->invalid_attributes as $attribute) {
+
+			$string = preg_replace('/(<[^>]+) ' . $attribute . '(?:\s+)?=(?:\s+)?["|\'].*?["|\']/i', '$1', $string);
 
 		}
 

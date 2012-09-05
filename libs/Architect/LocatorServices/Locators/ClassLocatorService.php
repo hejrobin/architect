@@ -25,12 +25,14 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *	@package LocatorServices
  *	@subpackage Locators
  *
+ *	@dependencies \Architect\LocatorServices\LocatorService
+ *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
 class ClassLocatorService extends \Architect\LocatorServices\LocatorService {
-	
+
 	/**
 	 *	Constructor
 	 *
@@ -47,7 +49,7 @@ class ClassLocatorService extends \Architect\LocatorServices\LocatorService {
 		parent::__construct($include_path, $file_extension);
 
 	}
-	
+
 	/**
 	 *	resolveFilePath
 	 *
@@ -55,7 +57,7 @@ class ClassLocatorService extends \Architect\LocatorServices\LocatorService {
 	 *
 	 *	@param string $file_name Class file name including namespace, without file extension.
 	 *
-	 *	@throws Exceptions\LocatorServiceException
+	 *	@throws Exceptions\ClassLocatorServiceException
 	 *
 	 *	@return string
 	 */
@@ -63,7 +65,7 @@ class ClassLocatorService extends \Architect\LocatorServices\LocatorService {
 
 		// Resolve class directory path
 		$class_directory_path = str_ireplace(NAMESPACE_SEPARATOR, DIRECTORY_SEPARATOR, $class_name);
-		
+
 		// Set class file include path
 		$include_path = $this->include_path . $class_directory_path . $this->file_extension;
 
@@ -78,13 +80,13 @@ class ClassLocatorService extends \Architect\LocatorServices\LocatorService {
 			);
 
 		}
-		
+
 		// Close file handle
 		@fclose($handle);
 
 		// Unset handle variable
 		unset($handle);
-		
+
 		// Return resolved path
 		return $include_path;
 
@@ -103,7 +105,7 @@ class ClassLocatorService extends \Architect\LocatorServices\LocatorService {
 
 		// Resolve file path
 		$include_path = $this->resolveFilePath($file_name);
-		
+
 		// Import file
 		require_once $include_path;
 

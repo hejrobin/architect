@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Router
  *
- *	Generic router class.
+ *	Abstract router class. A router takes information from input request path, parsed route maps from {@see \Architect\Core\Config\RouteMapsParser} and imports required resources ({@see Resource}) based on {@see Request}.
  *
  *	@package Delegation
  *

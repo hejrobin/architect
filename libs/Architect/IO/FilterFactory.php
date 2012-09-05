@@ -43,6 +43,8 @@ class FilterFactory {
 	 *	@param string $identifier Filter identifier.
 	 *	@param object $filter Instance of {@see Filter}.
 	 *
+	 *	@throws Exceptions\IOException
+	 *
 	 *	@return void
 	 */
 	public function registerFilter($identifier, Filter $filter) {
@@ -72,6 +74,8 @@ class FilterFactory {
 	 *
 	 *	@param string $identifier Filter identifier.
 	 *
+	 *	@throws Exceptions\IOException
+	 *
 	 *	@return void
 	 */
 	public function unregisterFilter($identifier) {
@@ -100,6 +104,8 @@ class FilterFactory {
 	 *	Returns a registered filter object.
 	 *
 	 *	@param string $identifier Filter identifier.
+	 *
+	 *	@throws Exceptions\IOException
 	 *
 	 *	@return object
 	 */

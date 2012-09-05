@@ -77,13 +77,29 @@ function af_render_internal_http_status_view($http_status_code) {
  *	@param string $view_file View file name.
  *	@param array $variables Optional parameter, template variables.
  *	@param string $include_path Optional parameter, include path.
+ *	@param int $lifetime Optional parameter, if specified, view is cached.
  *
  *	@return string
  */
-function af_render_view($view_file, $variables = array(), $include_path = null) {
+function af_render_view($view_file, $variables = array(), $include_path = null, $lifetime = null) {
+
+	$rendrer = 'View';
+
+	if(is_int($lifetime) === true) {
+
+		$rendrer = "CachedView";
+
+	}
 
 	// Create view object
-	$view = new \Architect\Renderers\Views\PHP\View();
+	$view = call_user_func_array(array(new \ReflectionClass('\Architect\Renderers\Views\PHP\\' . $rendrer), 'newInstance'), array());
+
+	// Set cache lifetime
+	if(is_int($lifetime) === true) {
+
+		$view->setLifetime($lifetime);
+
+	}
 
 	// Set include path
 	if(is_string($include_path) === true) {

@@ -18,9 +18,9 @@ namespace Architect\Data;
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Segment
+ *	FragmentCoordinates
  *
- *	Class containing information about data collection segment.
+ *	Class containing information about data collection fragment. May be used to create paged collections.
  *
  *	@package Data
  *
@@ -28,7 +28,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-class Segment {
+class FragmentCoordinates {
 
 	/**
 	 *	@var int $length Collection length.

@@ -74,6 +74,8 @@ class Resource {
 	 */
 	public function __construct($type, $name, $include_path = null, $namespace = null) {
 
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
+
 		$this->setType($type);
 
 		$this->setName($name);
@@ -318,6 +320,8 @@ class Resource {
 	 *
 	 *	@param string $separator Path separator or namespace separator.
 	 *	@param string $property Property name, may be 'namespace' or 'include_path'.
+	 *
+	 *	@throws Exceptions\ResourceException
 	 *
 	 *	@return string
 	 */

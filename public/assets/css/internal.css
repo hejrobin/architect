@@ -326,7 +326,7 @@ section.data table thead th {
 section.data table tbody td {
 	padding: 12px;
 	padding-bottom: 10px;
-	font: 14px helvetica,arial,sans-serif;
+	font: 14px helvetica, arial, sans-serif;
 	color: #666;}
 
 section.data table tbody td:first-child {
@@ -347,7 +347,7 @@ section.backtrace pre {
 	margin-top: -4px;
 	padding: 10px;
 	background: #fff;
-	font: 12px monaco,"courier new",serif;
+	font: 12px monaco,"courier new", monospace;
 	color: #666;
 	overflow: auto;
 	border: #e0e0e0 1px solid;}

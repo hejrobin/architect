@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Fragment
  *
- *	Abstract class containing logic to extract segment from a collection of data based on {@see Segment}.
+ *	Abstract class that should contain logic to extract fragments of data from a larger collection, may utilize {@see FragmentCoordinates}.
  *
  *	@package Data
  *
@@ -36,9 +36,9 @@ abstract class Fragment {
 	protected $collection;
 
 	/**
-	 *	@var SegmentObject $segment Instance of {@see Segment}.
+	 *	@var FragmentCoordinates $coordinates Instance of {@see FragmentCoordinates}.
 	 */
-	protected $segment;
+	protected $coordinates;
 
 	/**
 	 *	registerObjects
@@ -46,15 +46,15 @@ abstract class Fragment {
 	 *	Passes through {@see Collection} and {@see Segment} instances.
 	 *
 	 *	@param Collection $collection Instance of {@see Collection}.
-	 *	@param Segment $segment Instance of {@see Segment}.
+	 *	@param FragmentCoordinates $coordinates Instance of {@see FragmentCoordinates}.
 	 *
 	 *	@return void
 	 */
-	public function registerObjects(Collection $collection, Segment $segment) {
+	public function registerObjects(Collection $collection, FragmentCoordinates $coordinates) {
 
 		$this->collection = $collection;
 
-		$this->segment = $segment;
+		$this->coordinates = $coordinates;
 
 	}
 

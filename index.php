@@ -63,6 +63,13 @@ try {
 	// Delegate
 	$arch->navigator->delegate();
 
+	// Flush cache, if enabled
+	if(ARCH_CACHE_ENABLED === true && $arch->hasInstance('cache') === true) {
+
+		$arch->cache->flush();
+
+	}
+
 } catch(Architect\Delegation\Exceptions\DelegationException $exception) {
 
 	$arch = \Architect::getInstance();

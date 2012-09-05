@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	ExceptionAbstract
  *
- *	Skeleton exception class used to handle framework specific exceptions, inherits from native {@man Exception} class.
+ *	Abstract exception class used to handle framework specific exceptions, inherits from native {@man Exception} class and extends with more information, such as a reason associated with each exception.
  *
  *	@package Exceptions
  *	@subpackage Abstracts
@@ -65,7 +65,7 @@ abstract class ExceptionAbstract extends \Exception {
 	 *	@const int UNEXPECTED_RESULT_EXCEPTION Unexpected result exception.
 	 */
 	const UNEXPECTED_RESULT_EXCEPTION = 64;
-	
+
 	/**
 	 *	@const int UNEXPECTED_VALUE_EXCEPTION Unexpected value exception.
 	 */
@@ -137,9 +137,9 @@ abstract class ExceptionAbstract extends \Exception {
 	 *	@return string
 	 */
 	public function getExceptionName() {
-		
+
 		$segments = explode(NAMESPACE_SEPARATOR, get_class($this));
-		
+
 		return end($segments);
 
 	}
@@ -152,9 +152,9 @@ abstract class ExceptionAbstract extends \Exception {
 	 *	@return string
 	 */
 	public function getExceptionNamespace() {
-	
+
 		return get_class($this);
-	
+
 	}
 
 	/**

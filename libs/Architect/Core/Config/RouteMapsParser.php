@@ -20,10 +20,12 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	RouteMapsParser
  *
- *	Parses through each defined route nodes in config.xml.
+ *	Parses through each defined route node in config.xml.
  *
  *	@package Core
  *	@subpackage Config
+ *
+ *	@dependencies \Architect\Domain\File\Object, \Architect\Domain\XML\Parser
  *
  *	@version 1.0.0
  *

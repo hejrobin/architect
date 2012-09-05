@@ -11,22 +11,24 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace Application */
-namespace Architect\Application;
+/* @namespace Exceptions */
+namespace Architect\Renderers\Widgets\Exceptions;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Model
+ *	WidgetException
  *
- *	Models may, or rather should contain logic to fetch data which is then delegated by a Controller. Models can contain any method definition.
+ *	Widget exception, inherits from {@see \Architect\Exceptions\Exception}.
  *
- *	@package Application
+ *	@package Renderers
+ *	@subpackage Widgets
+ *	@subpackage Exceptions
  *
- *	@version 1.0.0
+ *	@version 1.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-interface Model {}
+class WidgetException extends \Architect\Exceptions\Exception {}
 ?>

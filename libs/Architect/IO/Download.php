@@ -20,9 +20,11 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Download
  *
- *	Handles file forced download.
+ *	Handles forced file downloads.
  *
  *	@package I/O
+ *
+ *	@dependencies \Architect\Domain\File\Object
  *
  *	@version 1.0.0
  *
@@ -41,6 +43,8 @@ class Download {
 	 *	Validates file for download.
 	 *
 	 *	@param \Architect\Domain\File\Object $file Instance of {@see \Architect\Domain\File\Object}.
+	 *
+	 *	@throws Exceptions\IOException
 	 *
 	 *	@return void
 	 */

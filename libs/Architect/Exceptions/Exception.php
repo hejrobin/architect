@@ -46,7 +46,7 @@ class Exception extends ExceptionAbstract {
 		// Get class constants
 		$constants = array_combine(array_values($self->getConstants()), array_keys($self->getConstants()));
 
-		// Return constant name
+		// Return constant name based on error code
 		return $constants[$this->getCode()];
 
 	}

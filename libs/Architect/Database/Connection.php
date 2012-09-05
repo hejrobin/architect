@@ -51,6 +51,11 @@ class Connection extends \PDO {
 	protected $database_driver_options = array();
 
 	/**
+	 *	@var bool $is_connected Returns boolean whether a database connection exists, or not.
+	 */
+	protected $is_connected = false;
+
+	/**
 	 *	Constructor
 	 *
 	 *	Validates database driver and sets DSN.
@@ -135,9 +140,21 @@ class Connection extends \PDO {
 	 *
 	 *	@param array $database_driver_options Array containing key value pairs of driver specific options.
 	 *
+	 *	@throws Exceptions\DatabaseException
+	 *
 	 *	@return void
 	 */
 	public function setDatabaseDriverOptions(array $database_driver_options) {
+
+		if($this->hasConnection() === true) {
+
+			throw new Exceptions\DatabaseException(
+				'Could not set database driver options.',
+				'A database connection with driver options has already been established.',
+				__METHOD__, Exceptions\DatabaseException::BAD_CALL_EXCEPTION
+			);
+
+		}
 
 		$this->database_driver_options = $database_driver_options;
 
@@ -156,11 +173,24 @@ class Connection extends \PDO {
 	public function connect($username, $password) {
 
 		// Invoke class parent
-		$is_success = parent::__construct($this->dsn, $username, $password, $this->database_driver_options);
+		parent::__construct($this->dsn, $username, $password, $this->database_driver_options);
+
+		$this->is_connected = true;
 
 		\Rae\Console::log("Established a new database connection.", __METHOD__, __FILE__, __LINE__);
 
-		return is_object($is_success);
+	}
+
+	/**
+	 *	hasConnection
+	 *
+	 *	Returns boolean whether a database connection exists, or not.
+	 *
+	 *	@return bool
+	 */
+	public function hasConnection() {
+
+		return $this->is_connected;
 
 	}
 

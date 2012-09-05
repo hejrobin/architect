@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Action
  *
- *	Application action interface.
+ *	Actions are automatically loaded before a Controller, if they exist, and with the same name as a Controller. Actions may contain at least one method named after their Controller counterpart, and must accept the same parameters.
  *
  *	@package Application
  *

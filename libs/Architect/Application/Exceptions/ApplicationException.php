@@ -11,22 +11,23 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace Application */
-namespace Architect\Application;
+/* @namespace Exceptions */
+namespace Architect\Application\Exceptions;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Model
+ *	ApplicationException
  *
- *	Models may, or rather should contain logic to fetch data which is then delegated by a Controller. Models can contain any method definition.
+ *	Application specific exception, inherits from {@see \Architect\Exceptions\Exception}.
  *
  *	@package Application
+ *	@subpackage Exceptions
  *
- *	@version 1.0.0
+ *	@version 1.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-interface Model {}
+class ApplicationException extends \Architect\Exceptions\Exception {}
 ?>

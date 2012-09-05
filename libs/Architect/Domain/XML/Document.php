@@ -25,6 +25,8 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *	@package Domain
  *	@subpackage XML
  *
+ *	@dependencies \Architect\Domain\File\Object
+ *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
@@ -60,6 +62,8 @@ class Document extends \DOMDocument {
 	 *	@return void
 	 */
 	public function __construct(\Architect\Domain\File\Object $file, $version = '1.0', $encoding = 'UTF-8') {
+
+		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
 
 		// Set file object
 		$this->file = $file;

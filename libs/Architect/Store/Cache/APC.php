@@ -41,9 +41,9 @@ class APC extends \Architect\Store\Object {
 	 *	@return string
 	 */
 	protected function generateKey($key) {
-	
+
 		return af_hash($key, $this->fingerprint) . ARCH_CACHE_FILE_EXTENSION;
-	
+
 	}
 
 	/**
@@ -56,17 +56,17 @@ class APC extends \Architect\Store\Object {
 	 *	@return bool
 	 */
 	public function has($key) {
-		
+
 		if(apc_exists($this->generateKey($key)) === true) {
-		
+
 			return true;
-		
+
 		}
-	
+
 		return false;
 
 	}
-	
+
 	/**
 	 *	read
 	 *
@@ -78,44 +78,42 @@ class APC extends \Architect\Store\Object {
 	 *	@return mixed
 	 */
 	public function read($key, $return_expire_time = false) {
-	
+
 		if($this->has($key) === true) {
-			
+
 			// Get entry
 			$entry = apc_fetch($this->generateKey($key));
-			
+
 			// Uncompress entry if compressed
-			if($this->useCompression() === true) {
-			
+			if($this->shouldCompress() === true) {
+
 				$entry = gzuncompress($entry);
-			
+
 			}
-		
+
 			// Unserialize entry
 			$entry = unserialize($entry);
-			
+
 			// Validate entry lifetime
-			if(time() > $entry->expires) {
-				
+			if(time() >= $entry->expires) {
+
 				// Delete entry
 				$this->delete($key);
-				
-				return null;
-			
+
 			}
-			
+
 			if($return_expire_time === true) {
-			
+
 				return $entry->expires;
-			
+
 			}
-			
+
 			return unserialize($entry->data);
-		
+
 		}
-		
+
 		return null;
-	
+
 	}
 
 	/**
@@ -125,42 +123,43 @@ class APC extends \Architect\Store\Object {
 	 *
 	 *	@param string $key Data entry key.
 	 *	@param mixed $data Data entry.
+	 *	@param int $lifetime Data entry lifetime.
 	 *
 	 *	@throws Exceptions\CacheException
 	 *
 	 *	@return void
 	 */
-	public function write($key, $data) {
-	
+	public function write($key, $data, $lifetime = null) {
+
 		$entry = (object) array(
 			'data' => serialize($data),
-			'expires' => time() + $this->lifetime
+			'expires' => time() + ((is_null($lifetime) === false) ? $lifetime : $this->lifetime)
 		);
-		
+
 		// Serialize entry
 		$entry = serialize($entry);
-		
+
 		// Compress entry if possible
-		if($this->useCompression() === true) {
-			
+		if($this->shouldCompress() === true) {
+
 			$entry = gzcompress($entry);
-			
+
 		}
-		
+
 		// Save key
 		$this->data[$this->generateKey($key)] = $key;
-		
+
 		// Throw exception is file write failed
 		if(apc_store($key, $entry) === false) {
-		
+
 			throw new Exceptions\CacheException(
 				'Could not write cache entry',
 				'File write failed.',
 				__METHOD__, Exceptions\CacheException::RUNTIME_EXCEPTION
 			);
-		
+
 		}
-	
+
 	}
 
 	/**
@@ -171,17 +170,17 @@ class APC extends \Architect\Store\Object {
 	 *	@return void
 	 */
 	public function touch($key) {
-	
+
 		if($this->has($key) === true) {
-		
+
 			// Get entry data
 			$data = $this->read($key);
-			
+
 			// Update expire time to current data
 			$this->write($key, $data);
-		
+
 		}
-	
+
 	}
 
 	/**
@@ -194,17 +193,17 @@ class APC extends \Architect\Store\Object {
 	 *	@return void
 	 */
 	public function delete($key) {
-	
+
 		if($this->has($key) === true) {
-			
+
 			// Remove entry
 			apc_delete($this->generateKey($key));
 
 			// Remove key from store
 			unset($this->data[$this->generateKey($key)]);
-		
+
 		}
-	
+
 	}
 
 	/**
@@ -215,19 +214,19 @@ class APC extends \Architect\Store\Object {
 	 *	@return void
 	 */
 	public function flush() {
-	
+
 		foreach(array_values($this->data) as $key) {
-		
+
 			$expires = $this->read($key, true);
-			
+
 			if(time() > $expires) {
-			
+
 				$this->delete($key);
-			
+
 			}
-		
+
 		}
-	
+
 	}
 
 }

@@ -89,7 +89,7 @@ class Navigator {
 
 		$this->router->setRequestPath($request_path);
 
-		\Rae\Console::log("Set route to \"{$request_path}\".", __METHOD__, __FILE__, __LINE__);
+		\Rae\Console::log("Route set to \"{$request_path}\".", __METHOD__, __FILE__, __LINE__);
 
 	}
 

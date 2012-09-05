@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Collection
  *
- *	Data collection object.
+ *	Data collection object, may be used to hold segments of data, represented as either an array or object.
  *
  *	@package Data
  *
@@ -33,18 +33,18 @@ class Collection {
 	/**
 	 *	@var array $collection Data collection.
 	 */
-	protected $collection;
+	protected $collection = null;
 
 	/**
 	 *	Constructor
 	 *
-	 *	Sets collection data.
+	 *	Invokes {@see Collection::setCollection}.
 	 *
-	 *	@param array $collection Data collection.
+	 *	@param array|object $collection Data collection.
 	 *
 	 *	@return void
 	 */
-	public function __construct(array $collection) {
+	public function __construct($collection) {
 
 		$this->setCollection($collection);
 
@@ -59,7 +59,7 @@ class Collection {
 	 *
 	 *	@return void
 	 */
-	public function setCollection(array $collection) {
+	public function setCollection($collection) {
 
 		$this->collection = $collection;
 
@@ -68,9 +68,9 @@ class Collection {
 	/**
 	 *	getCollection
 	 *
-	 *	Returns collection.
+	 *	Returns registered collection.
 	 *
-	 *	@return array
+	 *	@return array|object
 	 */
 	public function getCollection() {
 

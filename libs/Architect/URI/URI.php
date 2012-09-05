@@ -69,7 +69,7 @@ abstract class URI {
 	 *	@var string $script_file_path Script file path.
 	 */
 	protected $script_file_path;
-	
+
 	/**
 	 *	@var Parser $parser Instance of Parser.
 	 */
@@ -86,10 +86,10 @@ abstract class URI {
 
 		// Create instance of parser
 		$this->parser = new Parser();
-		
+
 		// Set script name
 		$this->script_file_name = trim(basename($_SERVER['SCRIPT_NAME']), '/');
-		
+
 		// Set script path
 		$this->script_file_path = trim(dirname($_SERVER['SCRIPT_NAME']), '/');
 
@@ -149,7 +149,7 @@ abstract class URI {
 			);
 
 		}
-		
+
 		// Return scheme
 		return $this->scheme;
 
@@ -309,14 +309,14 @@ abstract class URI {
 
 		// Allow port to be null
 		if($port === null) {
-		
+
 			return false;
 
 		}
 
 		// Throw exception if port is malformed
 		if(is_int(intval($port)) === false) {
-	
+
 			throw new Exceptions\URIException(
 				'Input parameter is not a valid port.',
 				"Port is malformed, expected numerical value, '" . gettype($port) . "' given.",
@@ -378,11 +378,11 @@ abstract class URI {
 
 		// Allow request path to be null
 		if($request_path === null || $request_path === '') {
-		
+
 			return false;
-		
+
 		}
-		
+
 		// Throw exception if request path is malformed
 		if($this->parser->isValidRequestPath($request_path) === false) {
 
@@ -447,11 +447,11 @@ abstract class URI {
 
 		// Allow query string to be null
 		if($query_string === null) {
-		
+
 			return false;
-		
+
 		}
-		
+
 		// Throw exception if query string is malformed
 		if($this->parser->isValidQueryString($query_string) === false) {
 
@@ -528,20 +528,20 @@ abstract class URI {
 	 *	@return string|null
 	 */
 	public function getSegment($offset) {
-		
+
 		// Get segments
 		$segments = explode('/', $this->getRequestPath());
-		
+
 		// Return existing offset
 		if($offset > 0 && $offset <= count($segments)) {
-		
+
 			return $segments[$offset - 1];
-		
+
 		}
-	
+
 		// No offset exists, return null
 		return null;
-	
+
 	}
 
 	/**
@@ -552,20 +552,20 @@ abstract class URI {
 	 *	@return string
 	 */
 	public function getBaseURI() {
-		
+
 		$base_uri = trim(implode('', array(
 			$this->getScheme(),
 			'://',
 			$this->getHost()
 		)), '/') . '/';
-		
+
 		// Append script path if present
 		if(is_string($this->getScriptPath()) === true && $this->getScriptPath() !== '') {
-		
+
 			$base_uri .= $this->getScriptPath() . '/';
-		
+
 		}
-		
+
 		return $base_uri;
 
 	}
@@ -584,22 +584,22 @@ abstract class URI {
 		// Get request URI
 		$uri = $this->getScriptLocation();
 		$uri .= $this->getRequestPath();
-		
+
 		// Remove script path
 		$uri = str_ireplace($this->getScriptPath(), '', $uri);
-		
+
 		// Normalize request URI
 		$uri = trim(preg_replace('/[\/]+/i', '/', $uri), '/');
 		$uri = $this->getBaseURI() . "{$uri}/";
 		$uri = trim($uri, '/') . '/';
-		
+
 		// Append query string if parameter is set to true
 		if($append_query_string === true && is_string($this->getQueryString()) === true) {
 
 			$uri .= '?' . $this->getQueryString();
 
 		}
-		
+
 		// Return request URI
 		return stripslashes($uri);
 
@@ -647,16 +647,16 @@ abstract class URI {
 
 		// Set URI scheme
 		$this->setScheme($parsed_uri->scheme);
-		
+
 		// Set URI host
 		$this->setHost($parsed_uri->host);
-		
+
 		// Set URI port
 		$this->setPort($parsed_uri->port);
-		
+
 		// Set URI request path
 		$this->setRequestPath($parsed_uri->path);
-		
+
 		// Set URI query string
 		$this->setQueryString($parsed_uri->query);
 

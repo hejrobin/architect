@@ -20,10 +20,12 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	ConstantParser
  *
- *	Parses through each defined constant nodes in config.xml.
+ *	Parses through each defined constant nodes, locale nodes and application nodes in config.xml.
  *
  *	@package Core
  *	@subpackage Config
+ *
+ *	@dependencies \Architect\Domain\File\Object, \Architect\Domain\XML\Parser
  *
  *	@version 1.0.0
  *
@@ -168,6 +170,9 @@ class ConstantParser {
 		// Parse locale constants
 		$this->parseLocaleConstants();
 
+		// Parse application constants
+		$this->parseApplicationConstants();
+
 		\Rae\Benchmark::assert("ConstantParser");
 
 	}
@@ -175,7 +180,7 @@ class ConstantParser {
 	/**
 	 *	parseLocaleConstants
 	 *
-	 *	Parses and defines locale constants.
+	 *	Parses and defines locale constants from config.xml
 	 *
 	 *	@return void
 	 */
@@ -212,6 +217,44 @@ class ConstantParser {
 
 		// Define charset constant
 		$this->defineConstant('locale_charset', $charset);
+
+	}
+
+	/**
+	 *	parseLocaleConstants
+	 *
+	 *	Parses and defines locale constants from config.xml
+	 *
+	 *	@return void
+	 */
+	private function parseApplicationConstants() {
+
+		// Get defined application name
+		$application_name = $this->parser->query('//arch:application/arch:name')->getValue();
+
+		// Get defined application version
+		$application_version = $this->parser->query('//arch:application/arch:version')->getValue();
+
+		// Get defined application description
+		$application_description = $this->parser->query('//arch:application/arch:description')->getValue();
+
+		// Get defined application keywords
+		$application_keywords = $this->parser->query('//arch:application/arch:keywords')->getValue();
+
+		// Set constant names
+		$constants = array(
+			'application_name' => $application_name,
+			'application_version' => $application_version,
+			'application_description' => $application_description,
+			'application_keywords' => $application_keywords
+		);
+
+		// Define constants
+		foreach($constants as $constant_name => $constant_value) {
+
+			$this->defineConstant($constant_name, $constant_value);
+
+		}
 
 	}
 

@@ -20,7 +20,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Architect
  *
- *	(Singleton) factory class used throughout the framework.
+ *	Singleton factory class used throughout the framework which allows invocation of classes and registers them onto itself.
  *
  *	@package Core
  *
@@ -34,7 +34,7 @@ class Architect {
 	 *	@staticvar object $_instance Instance variable to itself.
 	 */
 	protected static $_instance;
-	
+
 	/**
 	 *	@var InternalFactory\InternalFactory $factory Instance of {@see InternalFactory\InternalFactory}.
 	 */
@@ -43,7 +43,7 @@ class Architect {
 	/**
 	 *	Constructor
 	 *
-	 *	Creates a new instance of InternalFactory\InternalFactory, visibility is set to "private" since this is a singleton class.
+	 *	Creates a new instance of InternalFactory\InternalFactory, visibility is set to "private" since this is a singleton class. Utilizes {@see InternalFactory\InternalFactory}.
 	 *
 	 *	@return void
 	 */
@@ -111,7 +111,7 @@ class Architect {
 		$this->factory->set($name, $instance);
 
 	}
-	
+
 	/**
 	 *	Getter
 	 *
@@ -126,7 +126,7 @@ class Architect {
 		return $this->factory->get($name);
 
 	}
-	
+
 	/**
 	 *	hasInstance
 	 *

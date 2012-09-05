@@ -145,7 +145,10 @@ new \Architect\Core\Config\ConstantParser();
 // Define constants from package.xml
 new \Architect\Core\Config\PackageConstantParser();
 
-// Initialize URI object for HTTP
+// Set timezone
+date_default_timezone_set(ARCH_DATE_TIMEZONE);
+
+// Initialize URI object for the HTTP protocol
 $arch->initialize('Architect\URI\Schemes\HTTP', 'uri');
 $arch->uri->autodiscover();
 
@@ -155,6 +158,26 @@ $arch->initialize('Architect\HTTP\Client', 'http');
 // Initialize FilterFactory
 $arch->initialize('Architect\IO\FilterFactory', 'filter');
 
-// Set timezone
-date_default_timezone_set(ARCH_DATE_TIMEZONE);
+// Initialize Cookie Store
+if(ARCH_COOKIES_ENABLED === true) {
+
+	$arch->initialize('Architect\Store\Cookie', 'cookie');
+
+}
+
+// Initialize Session Store
+if(ARCH_SESSION_ENABLED === true) {
+
+	$arch->initialize('Architect\Store\Session', 'session');
+
+	$arch->session->activate();
+
+}
+
+// Initialize cache
+if(ARCH_CACHE_ENABLED === true) {
+
+	$arch->initialize('Architect\Store\Cache\\' . ARCH_CACHE_DRIVER, 'cache');
+
+}
 ?>
