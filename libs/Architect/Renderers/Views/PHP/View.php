@@ -26,6 +26,8 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *	@subpackage Views
  *	@subpackage PHP
  *
+ *	@dependencies \Architect\Renderers\Views\Renderer, \Architect\Renderers\Views\PHP\Stream, \Architect\Renderers\Views\PHP\Renderer, \Architect\Renderers\Views\CachedRenderer
+ *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
@@ -33,17 +35,52 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 class View extends \Architect\Renderers\Views\ViewAbstract {
 
 	/**
+	 *	@var bool $is_cached_view If set to true, this class uses {@see \Architect\Renderers\Views\CachedRenderer} instead of {@see \Architect\Renderers\Views\Renderer}.
+	 */
+	protected $is_cached_view = false;
+
+	/**
+	 *	@var int $lifetime Cache lifetime, only applies if {@see View::$is_cached_view} is set to true.
+	 */
+	protected $lifetime;
+
+	/**
 	 *	__construct
 	 *
-	 *	Register stream handler and set default include path.
+	 *	Register stream handler and set default include path, and creates a renderer for this view.
 	 *
 	 *	@return void
 	 */
-	public function __construct() {
+	public function __construct($is_cached_view = false) {
 
 		$this->setStreamWrapper('phpview', '\Architect\Renderers\Views\PHP\Stream');
 
 		$this->setIncludePath(ARCH_VIEWS_PATH);
+
+		$this->is_cached_view = (is_bool($is_cached_view)) ? $is_cached_view : false;
+
+		$this->setLifetime();
+
+	}
+
+	/**
+	 *	setLifetime
+	 *
+	 *	Sets cache lifetime for this view.
+	 *
+	 *	@param int $lifetime Cache lifetime.
+	 *
+	 *	@return void
+	 */
+	public function setLifetime($lifetime = null) {
+
+		if(is_int($lifetime) === false || is_null($lifetime) === true) {
+
+			$this->lifetime = 3600 * 24 * 30;
+
+		}
+
+		$this->lifetime = $lifetime;
 
 	}
 
@@ -69,6 +106,19 @@ class View extends \Architect\Renderers\Views\ViewAbstract {
 			}
 
 		}
+
+	}
+
+	/**
+	 *	getVariables
+	 *
+	 *	Returns registered view variables.
+	 *
+	 *	@return array
+	 */
+	public function getVariables() {
+
+		return $this->variables;
 
 	}
 
@@ -124,14 +174,17 @@ class View extends \Architect\Renderers\Views\ViewAbstract {
 		// Set previous view file
 		$this->previous_view_file = $this->view_file;
 
-		// Capture output buffer
-		@ob_start();
+		if($this->is_cached_view === true) {
 
-		// Import view file
-		$this->import($this->view_file);
+			$renderer = new \Architect\Renderers\Views\PHP\CachedRenderer($this, $this->view_file);
 
-		// Get and clear buffer
-		$rendered_view = ob_get_clean();
+		} else {
+
+			$renderer = new \Architect\Renderers\Views\PHP\Renderer($this, $this->view_file);
+
+		}
+
+		$rendered_view = $renderer->invoke();
 
 		// Return rendered view
 		return $rendered_view;

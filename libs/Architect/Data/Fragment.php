@@ -59,6 +59,32 @@ abstract class Fragment {
 	}
 
 	/**
+	 *	getCollectionObject
+	 *
+	 *	Returns registered colleciton object.
+	 *
+	 *	@return object
+	 */
+	public function getCollectionObject() {
+
+		return $this->collection;
+
+	}
+
+	/**
+	 *	getCoordinatesObject
+	 *
+	 *	Returns registered coordinates object.
+	 *
+	 *	@return object
+	 */
+	public function getCoordinatesObject() {
+
+		return $this->coordinates;
+
+	}
+
+	/**
 	 *	extract
 	 *
 	 *	Should contain logic to extract a segment form {@see Fragment::$collection} based on {@see Fragment::$segment}, may return a new {@see Collection} object.

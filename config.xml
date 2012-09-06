@@ -48,6 +48,8 @@
 		<arch:constant name="cache_enabled" type="bool">true</arch:constant>
 		<arch:constant name="cache_save_path" type="path">cache/</arch:constant>
 		<arch:constant name="cache_driver">File</arch:constant>
+		<arch:constant name="cache_lifetime_views" type="int">1209600</arch:constant> <!-- 14 days -->
+		<arch:constant name="cache_lifetime_queries" type="int">86400</arch:constant> <!-- 24 hours -->
 
 		<!-- File Extensions -->
 		<arch:constant name="file_extension">.php</arch:constant>

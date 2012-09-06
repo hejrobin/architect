@@ -24,13 +24,23 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@package Database
  *
- *	@dependencies \Architect\Data\Collection, \Architect\Data\FragmentCoordinates
+ *	@dependencies \Architect\Data\Collection, \Architect\Data\FragmentCoordinates, \Architect\Database\ResultsetAdapters\PagedResultset, \Architect\Database\ResultsetAdapters\CachedPagedResultset
  *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
 class PagedResultset extends \Architect\Data\Fragment {
+
+	/**
+	 *	@var bool $is_cached_resultset If set to true, this class uses {@see \Architect\Database\ResultsetAdapters\CachedPagedResultset} instead of {@see \Architect\Database\ResultsetAdapters\PagedResultset}.
+	 */
+	protected $is_cached_resultset = false;
+
+	/**
+	 *	@var int $lifetime Cache lifetime, only applies if {@see View::$is_cached_resultset} is set to true.
+	 */
+	protected $lifetime;
 
 	/**
 	 *	@var resource $db Instance of {@see Connection}.
@@ -64,16 +74,20 @@ class PagedResultset extends \Architect\Data\Fragment {
 	 *
 	 *	@param resource $db Instance of {@link Connection}.
 	 *	@param string $query SQL string, without limit and offset.
+	 *	@param int $limit SQL query limit.
+	 *	@param bool $is_cached_resultset Whether to use cache or not.
 	 *
 	 *	@return void
 	 */
-	public function __construct(Connection $db, $query, $limit = 20) {
+	public function __construct(Connection $db, $query, $limit = 20, $is_cached_resultset = false) {
 
 		$this->db = $db;
 
 		$this->query = $query;
 
 		$this->limit = $limit;
+
+		$this->is_cached_resultset = (is_bool($is_cached_resultset)) ? $is_cached_resultset : false;
 
 	}
 
@@ -109,6 +123,8 @@ class PagedResultset extends \Architect\Data\Fragment {
 
 			$this->count = $query->fetchColumn();
 
+			$this->register();
+
 		}
 
 	}
@@ -122,37 +138,33 @@ class PagedResultset extends \Architect\Data\Fragment {
 	 */
 	public function point($cursor) {
 
-		$this->segment->point($cursor);
+		$this->coordinates->point($cursor);
 
 	}
 
 	/**
 	 *	execute
 	 *
-	 *	Executes SQL query and returns results based on segment pointer.
+	 *	Executes SQL query and returns results based on fragment coordinates pointer.
 	 *
 	 *	@return array
 	 */
 	public function extract() {
 
-		$results = array();
+		$offset = $this->coordinates->getOffset();
+		$limit = $this->coordinates->getLimit();
 
-		$sql = "{$this->query} LIMIT :offset, :limit";
+		if($this->is_cached_resultset === true) {
 
-		$query = $this->db->prepare($sql);
+			$adapter = new \Architect\Database\ResultsetAdapters\CachedPagedResultset($this->db, $this->query, $offset, $limit);
 
-		$query->bindValue(':offset', intval($this->segment->getOffset()), \PDO::PARAM_INT);
-		$query->bindValue(':limit', intval($this->segment->getLimit()), \PDO::PARAM_INT);
+		} else {
 
-		$is_success = $query->execute();
-
-		if($is_success === true) {
-
-			$results = $query->fetchAll();
+			$adapter = new \Architect\Database\ResultsetAdapters\PagedResultset($this->db, $this->query, $offset, $limit);
 
 		}
 
-		return $results;
+		return $adapter->getResultset();
 
 	}
 
