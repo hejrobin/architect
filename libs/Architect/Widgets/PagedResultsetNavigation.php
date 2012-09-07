@@ -11,8 +11,8 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace idgets */
-namespace Architect\Renderers\Widgets;
+/* @namespace Widgets */
+namespace Architect\Widgets;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
@@ -22,8 +22,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	Renderes a navigation object for a paged resultset.
  *
- *	@package Renderers
- *	@subpackage Widgets
+ *	@package Widgets
  *
  *	@dependencies \Architect\Data\FragmentCoordinates
  *

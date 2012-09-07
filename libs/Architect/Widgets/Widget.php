@@ -11,8 +11,8 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace idgets */
-namespace Architect\Renderers\Widgets;
+/* @namespace Widgets */
+namespace Architect\Widgets;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
@@ -20,25 +20,13 @@ if(!defined('ARCH_ROOT_PATH')) exit;
 /**
  *	Widget
  *
- *	Widget interface.
+ *	Interface used to create custom Widgets.
  *
- *	@package Renderers
- *	@subpackage Widgets
+ *	@package Widgets
  *
  *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-interface Widget {
-
-	/**
-	 *	render
-	 *
-	 *	Should render widget data and return it.
-	 *
-	 *	@return mixed
-	 */
-	public function render();
-
-}
+interface Widget {}
 ?>

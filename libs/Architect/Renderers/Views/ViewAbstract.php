@@ -103,7 +103,7 @@ abstract class ViewAbstract {
 
 				throw new Exceptions\ViewException(
 					"Could not register stream wrapper \"" . get_class($stream_handler) . "\" to protocol \"{$protocol}\".",
-					"Could not register stream wrapper \"" . get_class($stream_handler) . "\" to protocol \"{$protocol}\".",
+					"Stream wrapper failed.",
 					__METHOD__, Exceptions\ViewException::INVALID_ARGUMENT_EXCEPTION
 				);
 

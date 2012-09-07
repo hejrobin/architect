@@ -184,7 +184,7 @@ class View extends \Architect\Renderers\Views\ViewAbstract {
 
 		}
 
-		$rendered_view = $renderer->invoke();
+		$rendered_view = $renderer->render();
 
 		// Return rendered view
 		return $rendered_view;

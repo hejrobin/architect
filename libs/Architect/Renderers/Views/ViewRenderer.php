@@ -31,7 +31,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-abstract class Renderer {
+abstract class ViewRenderer implements \Architect\Renderers\Renderer {
 
 	/**
 	 *	@var \Architect\Renderers\Views\ViewAbstract $view View object.
@@ -62,13 +62,13 @@ abstract class Renderer {
 	}
 
 	/**
-	 *	invoke
+	 *	render
 	 *
 	 *	Must contain logic which fetches, or renderes data for views.
 	 *
 	 *	@return string
 	 */
-	public abstract function invoke();
+	public abstract function render();
 
 }
 ?>

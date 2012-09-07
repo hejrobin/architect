@@ -11,46 +11,24 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace PHP */
-namespace Architect\Renderers\Views\PHP;
+/* @namespace Exceptions */
+namespace Architect\Widgets\Exceptions;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Renderer
+ *	WidgetException
  *
- *	Simple PHP view renderer.
+ *	Widget exception, inherits from {@see \Architect\Exceptions\Exception}.
  *
  *	@package Renderers
- *	@subpackage Views
- *	@subpackage PHP
+ *	@subpackage Widgets
+ *	@subpackage Exceptions
  *
- *	@version 1.0.0
+ *	@version 1.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-class Renderer extends \Architect\Renderers\Views\ViewRenderer {
-
-	/**
-	 *	invoke
-	 *
-	 *	Fetches output buffer and returns it.
-	 *
-	 *	@return string
-	 */
-	public function render() {
-
-		// Capture output buffer
-		@ob_start();
-
-		// Import view file
-		$this->view->import($this->view_file);
-
-		// Return and clean buffer
-		return ob_get_clean();
-
-	}
-
-}
+class WidgetException extends \Architect\Exceptions\Exception {}
 ?>

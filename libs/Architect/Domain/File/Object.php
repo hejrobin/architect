@@ -79,6 +79,21 @@ class Object {
 
 		\Rae\Console::log("Invoked \"" . __CLASS__ . "\".", __METHOD__, __FILE__, __LINE__);
 
+		$this->register($file_path);
+
+	}
+
+	/**
+	 *	register
+	 *
+	 *	Register file info to current object.
+	 *
+	 *	@param string $file_path File path.
+	 *
+	 *	@return void
+	 */
+	protected function register($file_path) {
+
 		// Get file information
 		$info = pathinfo($file_path);
 
@@ -296,6 +311,59 @@ class Object {
 		if($this->is_open === true && is_resource($this->handle) === true) {
 
 			return touch($this->path);
+
+		}
+
+		return false;
+
+	}
+
+	/**
+	 *	rename
+	 *
+	 *	Renames a file, or directory.
+	 *
+	 *	@param string $file_name New file, or directory name.
+	 *
+	 *	@return bool
+	 */
+	public function rename($file_name) {
+
+		if(is_string($file_name) === false) {
+
+			throw new Exceptions\FileException(
+				'Could not rename file.',
+				'Input file name must be of type "string", "' . gettype($name) . '" given.',
+				__METHOD__, Exceptions\FileException::INVALID_ARGUMENT_EXCEPTION
+			);
+
+		}
+
+		$open_on_complete = false;
+
+		if($this->is_open === true) {
+
+			$open_on_complete = true;
+
+			$this->close();
+
+		}
+
+		$file_path = $this->getPathName() . DIRECTORY_SEPARATOR . $file_name;
+
+		$is_success = rename($this->getPath(), $file_path);
+
+		if($is_success === true) {
+
+			$this->register($file_path);
+
+			if($open_on_complete === true) {
+
+				$this->open();
+
+			}
+
+			return true;
 
 		}
 

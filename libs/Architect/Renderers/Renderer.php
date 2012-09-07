@@ -11,24 +11,22 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace Exceptions */
-namespace Architect\Renderers\Widgets\Exceptions;
+/* @namespace Renderers */
+namespace Architect\Renderers;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	WidgetException
+ *	Renderer
  *
- *	Widget exception, inherits from {@see \Architect\Exceptions\Exception}.
+ *	Interface used to create renderers.
  *
  *	@package Renderers
- *	@subpackage Widgets
- *	@subpackage Exceptions
  *
- *	@version 1.0
+ *	@version 1.0.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-class WidgetException extends \Architect\Exceptions\Exception {}
+interface Renderer {}
 ?>
