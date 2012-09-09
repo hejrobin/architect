@@ -1,0 +1,12 @@
+{
+	"number_format_decimal_point": ".",
+	"number_format_thousand_point": ", ",
+
+	"readable_number_separator": " ",
+	"readable_number_negative": "- ",
+	"readable_number_zero": "zero",
+	"readable_number_hundreds": "hundred",
+	"readable_number_lows": ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen"],
+	"readable_number_mids": ["ten", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety"],
+	"readable_number_high": ["thousand", "million", "billion"]
+}

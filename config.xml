@@ -69,6 +69,7 @@
 		<arch:constant name="views_path" type="path">app/Views/</arch:constant>
 		<arch:constant name="actions_path" type="path">app/Actions/</arch:constant>
 		<arch:constant name="components_path" type="path">app/Components/</arch:constant>
+		<arch:constant name="localizations_path" type="path">app/Localizations/</arch:constant>
 		<arch:constant name="internal_path" type="path">app/Components/Internal/</arch:constant>
 
 		<!-- Public Paths -->

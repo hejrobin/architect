@@ -22,8 +22,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  *
  *	Widget exception, inherits from {@see \Architect\Exceptions\Exception}.
  *
- *	@package Renderers
- *	@subpackage Widgets
+ *	@package Widgets
  *	@subpackage Exceptions
  *
  *	@version 1.0

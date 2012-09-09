@@ -57,7 +57,7 @@ class ConstantParser {
 		// Get config.xml file path
 		$file_path = ARCH_ROOT_PATH . 'config.xml';
 
-		// Create instance of FileInfo
+		// Create instance of File\Object
 		$file = new \Architect\Domain\File\Object($file_path);
 
 		// Create instance of Parser
@@ -198,9 +198,9 @@ class ConstantParser {
 		// Constants array
 		$constants = array(
 
-			'locale_language_code' => $locale_language_code,
+			'locale_code' => $locale_language_code,
 
-			'locale_language_iso_code' => $locale_iso_code
+			'locale_iso_code' => $locale_iso_code
 
 		);
 

@@ -148,6 +148,9 @@ new \Architect\Core\Config\PackageConstantParser();
 // Set timezone
 date_default_timezone_set(ARCH_DATE_TIMEZONE);
 
+// Intitalize Hooks API
+$arch->initialize('Architect\Core\Hooks', 'hooks');
+
 // Initialize URI object for the HTTP protocol
 $arch->initialize('Architect\URI\Schemes\HTTP', 'uri');
 $arch->uri->autodiscover();
@@ -157,6 +160,10 @@ $arch->initialize('Architect\HTTP\Client', 'http');
 
 // Initialize FilterFactory
 $arch->initialize('Architect\IO\FilterFactory', 'filter');
+
+// Intitalize locale classes
+$arch->initialize('Architect\Localization\Locale', 'locale');
+$arch->locale->setLocale(ARCH_LOCALE_ISO_CODE);
 
 // Initialize Cookie Store
 if(ARCH_COOKIES_ENABLED === true) {

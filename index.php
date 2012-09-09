@@ -27,6 +27,9 @@ try {
 	// Include framework bootstrap
 	$import('libs/Architect/Bootstrap.php');
 
+	// Invoke pre application flow hooks
+	af_hooks_invoke('before:applicationflow');
+
 	// Get instance of Architect
 	$arch = Architect::getInstance();
 
@@ -60,8 +63,14 @@ try {
 	\Rae\Memory::analyze();
 	\Rae\File::analyze();
 
+	// Invoke pre delegation hooks
+	af_hooks_invoke('before:delegation');
+
 	// Delegate
 	$arch->navigator->delegate();
+
+	// Invoke post delegation hooks
+	af_hooks_invoke('after:delegation');
 
 	// Flush cache, if enabled
 	if(ARCH_CACHE_ENABLED === true && $arch->hasInstance('cache') === true) {
@@ -70,7 +79,13 @@ try {
 
 	}
 
+	// Invoke post application flow hooks
+	af_hooks_invoke('after:applicationflow');
+
 } catch(Architect\Delegation\Exceptions\DelegationException $exception) {
+
+	// Invoke exception hooks
+	af_hooks_invoke('exception');
 
 	$arch = \Architect::getInstance();
 
@@ -91,6 +106,9 @@ try {
 
 } catch(Architect\Exceptions\ErrorException $exception) {
 
+	// Invoke exception hooks
+	af_hooks_invoke('exception');
+
 	echo af_render_internal_view('ErrorException.php', array(
 		'name' => ucfirst(strtolower($exception->getCodeAsString())),
 		'type' => 'PHP Error',
@@ -103,6 +121,9 @@ try {
 	));
 
 } catch(Architect\Exceptions\ExceptionAbstract $exception) {
+
+	// Invoke exception hooks
+	af_hooks_invoke('exception');
 
 	echo af_render_internal_view('Exception.php', array(
 		'name' => $exception->getExceptionName(),
@@ -119,6 +140,9 @@ try {
 	));
 
 } catch(\PDOException $database_exception) {
+
+	// Invoke exception hooks
+	af_hooks_invoke('exception');
 
 	$message = $database_exception->getMessage();
 

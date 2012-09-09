@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<arch:locale xmlns:arch="http://architect.kodlabbet.net/xmlns">
+
+	<arch:definitionFiles>
+
+		<arch:definition identifier="numbers" />
+
+	</arch:definitionFiles>
+
+</arch:locale>

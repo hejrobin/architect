@@ -145,4 +145,102 @@ function af_load_model($model_name) {
 	}
 
 }
+
+/**
+ *	af_number_format
+ *
+ *	Formats numbers based on current locale settings,
+ *
+ *	@param int $number Number to format.
+ *	@param int $decimal Number of decimals to format.
+ *
+ *	@return string
+ */
+function af_number_format($number, $decimal = 0) {
+
+	$arch = \Architect::getInstance();
+
+	$decimal_point = $arch->locale->numbers->number_format_decimal_point;
+	$thousand_point = $arch->locale->numbers->number_format_thousand_point;
+
+	return number_format($number, $decimal, ($decimal_point) ? $decimal_point : '.', ($thousand_point) ? $thousand_point : ',');
+
+}
+
+/**
+ *	af_readable_number
+ *
+ *	This function returns a human readable number.
+ *
+ *	@param int $number Number to convert into a readable number.
+ *	@param bool $trim If set to true, trims output string.
+ *
+ *	@return string
+ */
+function af_readable_number($number, $trim = true) {
+
+	$arch = \Architect::getInstance();
+
+	$readable_separator = $arch->locale->numbers->readable_number_separator;
+	$readable_neg = $arch->locale->numbers->readable_number_negative;
+	$readable_zero = $arch->locale->numbers->readable_number_zero;
+	$readable_hundreds = $arch->locale->numbers->readable_number_hundreds;
+	$readable_lows = $arch->locale->numbers->readable_number_lows;
+	$readable_mids = $arch->locale->numbers->readable_number_mids;
+	$readable_high = $arch->locale->numbers->readable_number_high;
+
+	if($number == 0) {
+
+		return $readable_zero;
+
+	}
+
+	$readable_number = ($number < 0) ? $readable_neg : '';
+	$number = abs($number);
+
+	for($i = count($readable_high); $i > 0; $i--) {
+
+		$pow = pow(1000, $i);
+
+		if($number > $pow) {
+
+			$tmp = floor($number / $pow);
+			$number -= $pow * $tmp;
+			$readable_number .= af_readable_number($tmp, false) . $readable_separator . $readable_high[$i - 1];
+
+		}
+
+	}
+
+	if($number > 100) {
+
+		$tmp = floor($number / 100);
+		$number -= 100 * $tmp;
+		$readable_number .= af_readable_number($tmp, false) . $readable_separator . $readable_hundreds . $readable_separator;
+
+	}
+
+	if($number >= 20) {
+
+		$tmp = floor($number / 10);
+		$number -= 10 * $tmp;
+		$readable_number .= $readable_separator . $readable_mids[$tmp - 1];
+
+	}
+
+	if($number) {
+
+		$readable_number .= $readable_separator . $readable_lows[$number - 1];
+
+	}
+
+	if($trim === true) {
+
+		return preg_replace('/\s+/', ' ', $readable_number);
+
+	}
+
+	return $readable_number;
+
+}
 ?>

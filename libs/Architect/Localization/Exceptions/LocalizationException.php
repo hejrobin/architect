@@ -11,33 +11,23 @@
  *	@license http://www.opensource.org/licenses/lgpl-2.1.php LGPL
  */
 
-/* @namespace Application */
-namespace Architect\Application;
+/* @namespace Exceptions */
+namespace Architect\Localization\Exceptions;
 
 /* Deny direct file access */
 if(!defined('ARCH_ROOT_PATH')) exit;
 
 /**
- *	Hook
+ *	LocalizationException
  *
- *	Hooks are classes that are registered to a triggerpoint throughout Architect.
+ *	Localization exception, inherits from {@see \Architect\Exceptions\Exception}.
  *
- *	@package Application
+ *	@package Localization
+ *	@subpackage Exceptions
  *
- *	@version 1.0.0
+ *	@version 1.0
  *
  *	@author Robin Grass <robin@kodlabbet.net>
  */
-interface Hook {
-
-	/**
-	 *	invoke
-	 *
-	 *	Called whenever registered Hook reaches it's registered triggerpoint. May return "true" on success, or "false" on failure.
-	 *
-	 *	@return bool
-	 */
-	public function invoke();
-
-}
+class LocalizationException extends \Architect\Exceptions\Exception {}
 ?>

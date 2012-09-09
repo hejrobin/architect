@@ -23,7 +23,7 @@ if(!defined('ARCH_ROOT_PATH')) exit;
  */
 function af_dump() {
 
-	echo '<pre style="font:14px monaco;">';
+	echo '<pre style="font: 14px monaco, monospace;">';
 
 	var_dump(func_get_args());
 
@@ -262,6 +262,53 @@ function af_redirect($uri, $method = 'location', $params = array()) {
 			echo '<script type="text/javascript">setTimeout(function() { window.location = \'' . $uri . '\'; }, ' . $delay . ');</script>';
 
 		break;
+
+	}
+
+}
+
+/**
+ *	af_hooks_register
+ *
+ *	Helper function to register a hook to a trigger.
+ *
+ *	@param \Architect\Application\Hook $hook Hook instance.
+ *	@param string $trigger Hook trigger.
+ *
+ *	@retun void
+ */
+function af_hooks_register(\Architect\Application\Hook $hook, $trigger) {
+
+	$arch = \Architect::getInstance();
+
+	if($arch->hasInstance('hooks') === true) {
+
+		$identifier = get_class($hook);
+
+		$arch->hooks->registerHook($identifier, $hook);
+
+		$arch->hooks->register($identifier, $trigger);
+
+	}
+
+}
+
+/**
+ *	af_hooks_invoke
+ *
+ *	Invokes hooks by trigger.
+ *
+ *	@param string $trigger Hook trigger.
+ *
+ *	@return void
+ */
+function af_hooks_invoke($trigger) {
+
+	$arch = \Architect::getInstance();
+
+	if($arch->hasInstance('hooks') === true) {
+
+		$arch->hooks->invokeHooksByTrigger($trigger);
 
 	}
 
