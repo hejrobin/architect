@@ -126,13 +126,19 @@ function af_render_view($view_file, $variables = array(), $include_path = null, 
  *
  *	@param string $model_name Name of model, without namespace (\app\Model\) and file extension (.php).
  *
- *	@return void
+ *	@throws \Architect\Application\Exceptions\ApplicationException
+ *
+ *	@return null|object
  */
-function af_load_model($model_name) {
+function af_load_model($model_name = null) {
+
+	$instance = null;
 
 	if(defined('ARCH_COMPONENT_PATH') === true) {
 
 		$include_path = preg_replace('~(.*)' . preg_quote('Controllers', '~') . '~', '$1' . 'Models', ARCH_CONTROLLER_PATH, 1);
+
+		$model_name = (is_null($model_name) === true) ? ARCH_CONTROLLER_NAME : $model_name;
 
 		$model_include_path = $include_path . $model_name . ARCH_FILE_EXTENSION;
 
@@ -140,9 +146,23 @@ function af_load_model($model_name) {
 
 			require_once $model_include_path;
 
+			$class_name = "\app\Model\\" . $model_name;
+
+			$instance = call_user_func_array(array(new \ReflectionClass($class_name), 'newInstance'), array());
+
+		} else {
+
+			throw new \Architect\Application\Exceptions\ApplicationException(
+					'Could not import module resource.',
+					'Input file for this module does not exist.',
+					__FUNCTION__, \Architect\Application\Exceptions\ApplicationException::UNEXPECTED_RESULT_EXCEPTION
+				);
+
 		}
 
 	}
+
+	return $instance;
 
 }
 

@@ -27,4 +27,21 @@
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js" type="text/javascript"></script>
 	<![endif]-->
 
+	<script type="text/javascript">
+	var WebFontConfig = {
+	  google: {
+	    families: ['Rokkitt:400,700:latin']
+	  }
+	};
+
+	(function() {
+	  var node = document.createElement('script');
+	  node.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+	  node.type = 'text/javascript';
+	  node.async = 'true';
+	  var s = document.getElementsByTagName('script')[0];
+	  s.parentNode.insertBefore(node, s);
+	})();
+	</script>
+
 </head>

@@ -191,7 +191,7 @@ function af_uri_rewritable() {
  *
  *	@return string
  */
-function af_get_uri_route($uri_route) {
+function af_get_uri_route($uri_route = null) {
 
 	// Normalize route
 	$uri_route = trim(stripslashes($uri_route), '/');
