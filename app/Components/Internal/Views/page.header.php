@@ -30,7 +30,7 @@
 	<script type="text/javascript">
 	var WebFontConfig = {
 	  google: {
-	    families: ['Rokkitt:400,700:latin']
+	    families: ['Rokkitt:400,700:latin', 'Source+Sans+Pro:600,900:latin']
 	  }
 	};
 

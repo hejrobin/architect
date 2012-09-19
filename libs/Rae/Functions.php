@@ -56,25 +56,27 @@ function getRecordID($class_name) {
  */
 function getReadableExecutionTime($microtime, $precision = 3) {
 
+	$microtime = $microtime * 10000;
+
 	$time_formats = array('ms', 's', 'm');
 
 	$time_format_index = 0;
 
-	$time_diff = $time;
+	$time_diff = $microtime;
 
-	if($time >= 1000 && $time < 60000) {
+	if($microtime >= 1000 && $microtime < 60000) {
 
 		$time_format_index = 1;
 
-		$time_diff = ($time / 1000);
+		$time_diff = ($microtime / 1000);
 
 	}
 
-	if($time >= 60000) {
+	if($microtime >= 60000) {
 
 		$time_format_index = 2;
 
-		$time_diff = ($time / 1000) / 60;
+		$time_diff = ($microtime / 1000) / 60;
 
 	}
 

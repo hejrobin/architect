@@ -25,7 +25,7 @@ function af_dump() {
 
 	echo '<pre style="font: 14px monaco, monospace;">';
 
-	var_dump(func_get_args());
+	return call_user_func_array('var_dump', func_get_args());
 
 	echo '</pre>';
 
