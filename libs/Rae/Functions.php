@@ -17,6 +17,23 @@ namespace Rae;
 if(!defined('RAE_ROOT_PATH')) exit;
 
 /**
+ *	renderOutput
+ *
+ *	Echoes RAE output console.
+ *
+ *	@return void
+ */
+function renderOutput() {
+
+	if(RAE_ENABLED === true) {
+
+		require_once RAE_ROOT_PATH . 'Output.php';
+
+	}
+
+}
+
+/**
  *	getRecords
  *
  *	Returns array containing all stored records.
@@ -56,7 +73,7 @@ function getRecordID($class_name) {
  */
 function getReadableExecutionTime($microtime, $precision = 3) {
 
-	$microtime = $microtime * 10000;
+	$microtime = $microtime;
 
 	$time_formats = array('ms', 's', 'm');
 

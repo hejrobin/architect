@@ -23,7 +23,30 @@ div#rae-ui {
 	left: 0;
 	z-index: 99999;}
 
-div#rae-ui h4 {
+div#rae-ui[data-collapsed] {
+	margin-top: 35px;
+	bottom: -282px;
+	opacity: .6;}
+
+div#rae-overview-wrapper,
+div#rae-console-wrapper,
+div#rae-constants-wrapper,
+div#rae-benchmarks-wrapper,
+div#rae-memory-wrapper,
+div#rae-environment-wrapper,
+div#rae-files-wrapper {
+	display: none;}
+
+div#rae-ui[data-active-tab="overview"] div#rae-overview-wrapper,
+div#rae-ui[data-active-tab="console"] div#rae-console-wrapper,
+div#rae-ui[data-active-tab="constants"] div#rae-constants-wrapper,
+div#rae-ui[data-active-tab="benchmarks"] div#rae-benchmarks-wrapper,
+div#rae-ui[data-active-tab="memory"] div#rae-memory-wrapper,
+div#rae-ui[data-active-tab="environment"] div#rae-environment-wrapper,
+div#rae-ui[data-active-tab="files"] div#rae-files-wrapper {
+	display: block!important;}
+
+div#rae-ui h4 a {
 	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .35) 100%);
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, 0)), color-stop(100%, rgba(0, 0, 0, .35)));
 	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, .35) 100%);
@@ -32,12 +55,39 @@ div#rae-ui h4 {
 	font: 900 14px "Source Sans Pro", helvetica, arial, sans-serif;
 	text-shadow: rgba(0, 0, 0, .4) 1px 1px 1px;
 	text-transform: uppercase;
+	text-decoration: none;
 	text-indent: 10px;
 	line-height: 34px;
 	color: #fff;
 	border-top: rgba(255, 255, 255, .25) 1px solid;
 	border-bottom: rgba(0, 0, 0, .45) 1px solid;
 	display: block;}
+
+div#rae-ui h5 {
+	padding: 20px;
+	padding-bottom: 10px;
+	font: 700 12px "Source Sans Pro", helvetica, arial, sans-serif;
+	text-shadow: rgba(0, 0, 0, .4) 1px 1px 1px;
+	text-transform: uppercase;
+	color: #b3e691;}
+
+div#rae-ui div.column {
+	width: 25%;
+	float: left;}
+
+div#rae-ui div.column p {
+	padding: 20px;
+	padding-top: 0px;
+	font: 400 16px "Source Sans Pro", helvetica, arial, sans-serif;
+	line-height: 140%;
+	color: #999;}
+
+div#rae-ui div.column p strong {
+	font-weight: 400;
+	color: #ccc;}
+
+div#rae-ui div.column p span {
+	color: #b0dee7;}
 
 div#rae-ui nav {
 	height: 36px;
@@ -73,14 +123,26 @@ div#rae-ui nav li a:hover {
 	color: #fff;
 	border-top: rgba(255, 255, 255, .25) 1px solid;}
 
-div#rae-ui nav li.active a {
+div#rae-ui[data-active-tab="overview"] nav li a[href="#rae-overview"],
+div#rae-ui[data-active-tab="console"] nav li a[href="#rae-console"],
+div#rae-ui[data-active-tab="constants"] nav li a[href="#rae-constants"],
+div#rae-ui[data-active-tab="benchmarks"] nav li a[href="#rae-benchmarks"],
+div#rae-ui[data-active-tab="memory"] nav li a[href="#rae-memory"],
+div#rae-ui[data-active-tab="environment"] nav li a[href="#rae-environment"],
+div#rae-ui[data-active-tab="files"] nav li a[href="#rae-files"] {
 	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, .7) 0, rgba(0, 0, 0, .5) 100%);
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, .7)), color-stop(100%, rgba(0, 0, 0, .5)));
 	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .7) 0, rgba(0, 0, 0, .5) 100%);
 	background-color: #4f4f4f;
 	color: #fff;}
 
-div#rae-ui nav li.active a:hover {
+div#rae-ui[data-active-tab="overview"] nav li a[href="#rae-overview"]:hover,
+div#rae-ui[data-active-tab="console"] nav li a[href="#rae-console"]:hover,
+div#rae-ui[data-active-tab="constants"] nav li a[href="#rae-constants"]:hover,
+div#rae-ui[data-active-tab="benchmarks"] nav li a[href="#rae-benchmarks"]:hover,
+div#rae-ui[data-active-tab="memory"] nav li a[href="#rae-memory"]:hover,
+div#rae-ui[data-active-tab="environment"] nav li a[href="#rae-environment"]:hover,
+div#rae-ui[data-active-tab="files"] nav li a[href="#rae-files"]:hover {
 	border-top: none;
 	height: 36px;
 	line-height: 35px}
@@ -102,7 +164,13 @@ div#rae-ui nav li a span {
 	-moz-box-shadow: rgba(255, 255, 255, .2) 0 0 2px;
 	-webkit-box-shadow: rgba(255, 255, 255, .2) 0 0 2px;}
 
-div#rae-ui nav li.active a span {
+div#rae-ui[data-active-tab="overview"] nav li a[href="#rae-overview"] span,
+div#rae-ui[data-active-tab="console"] nav li a[href="#rae-console"] span,
+div#rae-ui[data-active-tab="constants"] nav li a[href="#rae-constants"] span,
+div#rae-ui[data-active-tab="benchmarks"] nav li a[href="#rae-benchmarks"] span,
+div#rae-ui[data-active-tab="memory"] nav li a[href="#rae-memory"] span,
+div#rae-ui[data-active-tab="environment"] nav li a[href="#rae-environment"] span,
+div#rae-ui[data-active-tab="files"] nav li a[href="#rae-files"] span {
 	background-image: -moz-linear-gradient(top, rgba(0, 0, 0, .3) 0, rgba(0, 0, 0, .6) 100%);
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(0, 0, 0, .3)), color-stop(100%, rgba(0, 0, 0, .6)));
 	background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, .3) 0, rgba(0, 0, 0, .6) 100%);
