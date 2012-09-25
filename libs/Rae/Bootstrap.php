@@ -26,15 +26,7 @@ define('RAE_LIBS_PATH', RAE_ROOT_PATH . 'libs' . DIRECTORY_SEPARATOR);
 /**
  *	@const string RAE_ROOT_PATH
  */
-if(ARCH_ENVIRONMENT !== 'PRODUCTION' && ARCH_DEBUG_MODE === true) {
-
-	define('RAE_ENABLED', true);
-
-} else {
-
-	define('RAE_ENABLED', false);
-
-}
+define('RAE_ENABLED', true);
 
 /**
  *	Bootstrap

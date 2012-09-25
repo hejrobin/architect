@@ -20,5 +20,6 @@
 	</article>
 
 </div>
+<?php \Rae\renderOutput(); ?>
 </body>
 <?php $view->import('page.footer.php'); ?>
