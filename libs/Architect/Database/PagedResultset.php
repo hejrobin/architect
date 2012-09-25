@@ -70,7 +70,7 @@ class PagedResultset extends \Architect\Data\Fragment {
 	/**
 	 *	Constructor
 	 *
-	 *	Sets class constructor.
+	 *	Sets class properties.
 	 *
 	 *	@param resource $db Instance of {@link Connection}.
 	 *	@param string $query SQL string, without limit and offset.
